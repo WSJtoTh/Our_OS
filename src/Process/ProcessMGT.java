@@ -1,3 +1,5 @@
+package Process;
+import Device.DevType;
 import java.util.*;
 
 public class ProcessMGT {
