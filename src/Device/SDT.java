@@ -3,6 +3,10 @@
  */
 package Device;
 
+import java.awt.List;
+import java.awt.print.Printable;
+import java.util.HashMap;
+
 /**
  * @author 45044
  *
@@ -10,29 +14,62 @@ package Device;
 public class SDT {
 	//private DevType devType;
 	//private int devID;
+	
+	
 	private final int MAX_SIZE = 20;
-	private int devCount = 0;	//系统当前的设备总数<=20
-	private DevTb[]	sysDevTable;
+	private int devCount = 0;	//绯荤粺褰撳墠鐨勮澶囨�绘暟<=20
+	private HashMap<DevType, DCT> sysDevTb;
 	
-	public SDT() {//初始化一个系统设备表
+	public SDT() {//鍒濆鍖栦竴涓郴缁熻澶囪〃
 		// TODO Auto-generated constructor stub
-		this.sysDevTable = new DevTb[MAX_SIZE];
+		this.sysDevTb = new HashMap<>();
 	}
 	
-	public void addDeviceIntoSystem(DevTb devTb) {
-		this.sysDevTable[devCount] = devTb;
-		this.devCount++;
+	public Boolean addDeviceIntoSystem(DevTb devTb) {
+		//DCT work = new DCT(devType);
+		DCT dct = sysDevTb.get(devTb.geDevType());	//鑾峰彇娣诲姞璁惧绫诲瀷鐨勮澶囨帶鍒惰〃
+		if(this.devCount < MAX_SIZE && dct.addDev(devTb)) {
+			this.devCount++;
+			return true;
+		}
+		else {
+			System.out.println("The system devices table is full!");
+			return false;
+		}
+		
 	}
 	
-	public  Boolean getFreeDev(DevType devType, int devID) {
-		for(int i = 0;i<this.devCount;i++) {
-			if(sysDevTable[i].getDevID() == devID && sysDevTable[i].getDevState() == DevState.FREE ) {
-				sysDevTable[i].setDevSate(DevState.BUSY);
-				return true;
-			}//如果找到了符合条件的设备就分配给它
+	public Boolean deleteDeviceFromSystem(int devID, DevType devType) {
+		DCT dct = sysDevTb.get(devType);	//鑾峰彇鍒犻櫎璁惧绫诲瀷鐨勮澶囨帶鍒惰〃
+		if(dct.delDev(devID)) {
+			System.out.println("The device"+devID+"was deleted");
+			this.devCount--;
+			return true;
+		}
+		//System.out.println("");
+		return false;
+	}
+	
+	public  HashMap<Integer, Integer> allocateFreeDevice(DevType devType, int needCount, int belongProID) {//鑾峰彇绌洪棽璁惧
+		//int availCount = 0;
+		DCT dct = this.sysDevTb.get(devType);
+		HashMap<Integer, Integer> allocateMap = dct.allocateFreeDevice(needCount, belongProID);
+		return allocateMap;
+	}
+	
+	public Boolean freeBusyDevice(DevType devType, int devCount, int belongProID) {
+		DCT dct = this.sysDevTb.get(devType);
+		if(dct.freeBusyDevice(belongProID)) {
+			return true;
 		}
 		return false;
 	}
 	
+	public int getMaxSize() {
+		return this.MAX_SIZE;
+	}
 	
+	public int getDevCount() {
+		return this.devCount;
+	}
 }
