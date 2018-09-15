@@ -8,7 +8,7 @@ public class ins {
 
 	private static InterHandler intrHandler=new InterHandler();
 	
-	public void ExeInstruction(String ins,Process PCB,int flag) {//传进来Process PCB，flag为0的时候为计算，1的时候为执行
+	public static void ExeInstruction(String ins,Process PCB,int flag) {//传进来Process PCB，flag为0的时候为计算，1的时候为执行
 		String []content=ins.split(" ");
 		int[] resource= {0};
 		for(int i=0;i<content.length;i++)
@@ -137,6 +137,11 @@ public class ins {
 			break;
 		case "Q"://结束运行
 			//调函数
+			if(flag == 1) {
+				System.out.println(PCB.toString() + "end!");
+				
+				ProcessMGT.terminateProcess(PCB);
+			}
 			break;
 		}
 		
