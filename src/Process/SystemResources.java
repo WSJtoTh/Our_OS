@@ -3,6 +3,19 @@ public class SystemResources {
 	private static int[] Resource_max;
 	private static int[] Resource_remain;
 	
+	//设置设备的最大数组
+	public static void setDevmax(int[] max) {
+		for(int i = 3,j = 0;j < max.length;i++,j++) {
+			Resource_max[i] = max[j];
+		}
+	}
+	//设置设备的余留数组
+	public static void setDevremain(int[] remain) {
+		for(int i = 3,j = 0;j < remain.length;i++,j++) {
+			Resource_max[i] = remain[j];
+		}
+	}
+	
 	//获得系统资源最大值数组
 	public int[] getResourcemax(){
 		return Resource_max;
