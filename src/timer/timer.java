@@ -8,7 +8,7 @@ public class timer extends Thread{
 	 private static int AllTime;
 	 private static int RRTime;
 	 private static int RRCount;
-	 private static int sleepFlag;//sleepFlag=1Ê±Ë¯Ãß
+	 private static int sleepFlag;//sleepFlag=1æ—¶ç¡çœ 
 	 
 	 private static InterHandler handler=new InterHandler();
 	 
@@ -52,10 +52,10 @@ public class timer extends Thread{
 			//01234 01234
 			if(RRTime%(Global.RRLength)==0&&RRTime!=0)
 			{
-				//´¥·¢ÖĞ¶Ï
+				//è§¦å‘ä¸­æ–­
 				handler.timeINTR(InterType.TIMEOUT);
 				RRCount++;
-				//ÖÃÁã
+				//ç½®é›¶
 				RRTime=0;
 				
 			}
@@ -66,7 +66,7 @@ public class timer extends Thread{
 				e.printStackTrace();
 			}
 			System.out.println(handler.output());
-			System.out.println("µ±Ç°Ê±¼ä"+AllTime+"  µ±Ç°Ê±¼äÆ¬¼ÆÊ±"+RRTime+"  µ±Ç°Ê±¼äÆ¬"+RRCount);
+			System.out.println("å½“å‰æ—¶é—´"+AllTime+"  å½“å‰æ—¶é—´ç‰‡è®¡æ—¶"+RRTime+"  å½“å‰æ—¶é—´ç‰‡"+RRCount);
 		 }
 	 }
 	

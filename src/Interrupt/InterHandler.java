@@ -1,62 +1,82 @@
 package Interrupt;
-//ºÍÆäÓàÄ£¿éµÄ½Ó¿Ú
+import Device.*;
+
+//å’Œå…¶ä½™æ¨¡å—çš„æ¥å£
 public class InterHandler {
 	
-		static private int INTRSwitch;//1Îª¿ªÖĞ¶Ï£¬¼´´ËÊ±¿ÉÒÔÊÕµ½ÖĞ¶ÏÇëÇó£¬0Îª¹ØÖĞ¶Ï£¬´ËÊ±²»ÄÜÊÕµ½ÈÎºÎÖĞ¶ÏÇëÇó
+		static private int INTRSwitch;//1ä¸ºå¼€ä¸­æ–­ï¼Œå³æ­¤æ—¶å¯ä»¥æ”¶åˆ°ä¸­æ–­è¯·æ±‚ï¼Œ0ä¸ºå…³ä¸­æ–­ï¼Œæ­¤æ—¶ä¸èƒ½æ”¶åˆ°ä»»ä½•ä¸­æ–­è¯·æ±‚
 		//static int interID;
 		private int devINTRID;
 		private static InterruptReg INTRreg=new InterruptReg();
 		private static String outString;
+		private static SignalType rOrw;
+		private static int virPage;//ç¼ºé¡µæ—¶ä½¿ç”¨çš„è™šæ‹Ÿé¡µå·
+		private static Process pcb=new Process(); // ä»è¿›ç¨‹è·å¾—
+		private static DevType devType;//ioä¸­æ–­æ—¶éœ€è¦è®°å½•çš„devType
 		
 		public InterHandler(){
 			INTRSwitch=1;
 			devINTRID=0;
 		}
 		
+		public Process getPCB() {
+			return pcb;
+		}
 		
-		//¿ªÖĞ¶Ï
+		public SignalType getSignal() {
+			return rOrw;
+		}
+		public DevType getDevType()
+		{
+			return 
+		}
+		//å¼€ä¸­æ–­
 		public void onSwitch() {
 			INTRSwitch=1;
 		}
-		//¹ØÖĞ¶Ï
+		//å…³ä¸­æ–­
 		public void offSwitch() {
 			INTRSwitch=0;
 		}
 		
 		
-		//¸ø½ø³ÌµÄIOÖĞ¶Ï 
-		public static void ioINTR(InterType type)
+		//ç»™è¿›ç¨‹çš„IOä¸­æ–­ 
+		public static void ioINTR(InterType type,Process PCB,SignalType signal,DevType devType)//ä¼ å…¥PCB
 		{
 			if(INTRSwitch==0) {
-				System.out.println("ÖĞ¶ÏÒÑ¹Ø±Õ£¬ÎŞ·¨ÊÕµ½ÖĞ¶ÏÇëÇó");
+				System.out.println("ä¸­æ–­å·²å…³é—­ï¼Œæ— æ³•æ”¶åˆ°ä¸­æ–­è¯·æ±‚");
 			}
 			boolean setType=false;
 			setType=INTRreg.SetInterType(type);
 			if (setType==true)
 			{
-				System.out.println("IOÖĞ¶Ï³É¹¦Ğ´ÈëÖĞ¶Ï¼Ä´æÆ÷£¡");
-				outString="IOÖĞ¶Ï£¡";
+				pcb=PCB;
+				rOrw=signal;
+				System.out.println("IOä¸­æ–­æˆåŠŸå†™å…¥ä¸­æ–­å¯„å­˜å™¨ï¼");
+				outString="IOä¸­æ–­ï¼";
 				
 			}
 			else {
-				System.out.println("IOÖĞ¶ÏÎ´³É¹¦Ğ´ÈëÖĞ¶Ï¼Ä´æÆ÷");
+				System.out.println("IOä¸­æ–­æœªæˆåŠŸå†™å…¥ä¸­æ–­å¯„å­˜å™¨");
 			}
 		}
-		//¸ø½ø³ÌµÄÈ±Ò³ÖĞ¶Ï
-		public static void pageINTR(InterType type)
+		//ç»™è¿›ç¨‹çš„ç¼ºé¡µä¸­æ–­
+		public static void pageINTR(InterType type,int virtualPage)//ä¼ å…¥è¿˜è¦åŠ ä¸ªPCB 
 		{
 			if(INTRSwitch==0) {
-				System.out.println("ÖĞ¶ÏÒÑ¹Ø±Õ£¬ÎŞ·¨ÊÕµ½ÖĞ¶ÏÇëÇó");
+				System.out.println("ä¸­æ–­å·²å…³é—­ï¼Œæ— æ³•æ”¶åˆ°ä¸­æ–­è¯·æ±‚");
 			}
 			boolean setType=false;
 			setType=INTRreg.SetInterType(type);
 			if (setType==true)
 			{
-				System.out.println("È±Ò³ÖĞ¶Ï³É¹¦Ğ´ÈëÖĞ¶Ï¼Ä´æÆ÷£¡");
-				outString="È±Ò³ÖĞ¶Ï£¡";
+				virPage=virtualPage;
+				
+				System.out.println("ç¼ºé¡µä¸­æ–­æˆåŠŸå†™å…¥ä¸­æ–­å¯„å­˜å™¨ï¼");
+				outString="ç¼ºé¡µä¸­æ–­ï¼";
 			}
 			else {
-				System.out.println("È±Ò³ÖĞ¶ÏÎ´³É¹¦Ğ´ÈëÖĞ¶Ï¼Ä´æÆ÷");
+				System.out.println("ç¼ºé¡µä¸­æ–­æœªæˆåŠŸå†™å…¥ä¸­æ–­å¯„å­˜å™¨");
 			}
 			
 		}
@@ -64,54 +84,55 @@ public class InterHandler {
 		
 		
 		
-		//¸øÊ±ÖÓµÄ
+		//ç»™æ—¶é’Ÿçš„
 		
 		public void timeINTR(InterType type) {
 			if(INTRSwitch==0) {
-				System.out.println("ÖĞ¶ÏÒÑ¹Ø±Õ£¬ÎŞ·¨ÊÕµ½ÖĞ¶ÏÇëÇó");
+				System.out.println("ä¸­æ–­å·²å…³é—­ï¼Œæ— æ³•æ”¶åˆ°ä¸­æ–­è¯·æ±‚");
 			}
 			boolean setType=false;
 			System.out.println(type);
 			setType=INTRreg.SetInterType(type);
 			if (setType==true)
 			{
-				System.out.println("Ê±ÖÓÖĞ¶Ï³É¹¦Ğ´ÈëÖĞ¶Ï¼Ä´æÆ÷£¡");
-				outString="Ê±ÖÓÖĞ¶Ï";
+				System.out.println("æ—¶é’Ÿä¸­æ–­æˆåŠŸå†™å…¥ä¸­æ–­å¯„å­˜å™¨ï¼");
+				outString="æ—¶é’Ÿä¸­æ–­";
 			}
 			else {
-				System.out.println("Ê±ÖÓÖĞ¶ÏÎ´³É¹¦Ğ´ÈëÖĞ¶Ï¼Ä´æÆ÷");
+				System.out.println("æ—¶é’Ÿä¸­æ–­æœªæˆåŠŸå†™å…¥ä¸­æ–­å¯„å­˜å™¨");
 			}
 		}
 		
-		//¸øÉè±¸µÄ
+		//ç»™è®¾å¤‡çš„
 		public void devINTR(InterType type,int INTRID) {
 			if(INTRSwitch==0) {
-				System.out.println("ÖĞ¶ÏÒÑ¹Ø±Õ£¬ÎŞ·¨ÊÕµ½ÖĞ¶ÏÇëÇó");
+				System.out.println("ä¸­æ–­å·²å…³é—­ï¼Œæ— æ³•æ”¶åˆ°ä¸­æ–­è¯·æ±‚");
 			}
 			devINTRID=INTRID;
 			boolean setType=false;
 			setType=INTRreg.SetInterType(type);
 			if (setType==true)
 			{
-				System.out.println("Éè±¸ÖĞ¶Ï³É¹¦Ğ´ÈëÖĞ¶Ï¼Ä´æÆ÷£¡");
-				//outString="Éè±¸ÖĞ¶Ï";
+				System.out.println("è®¾å¤‡ä¸­æ–­æˆåŠŸå†™å…¥ä¸­æ–­å¯„å­˜å™¨ï¼");
+				//outString="è®¾å¤‡ä¸­æ–­";
 				switch(type) {
 				case AUDIOINT:
-					outString="ÒôÏìÖĞ¶Ï";
+					
+					outString="éŸ³å“ä¸­æ–­";
 				case DISKINT:
-					outString="´ÅÅÌÖĞ¶Ï";
+					outString="ç£ç›˜ä¸­æ–­";
 				case IOINTR:
-					outString="IOÖĞ¶Ï";
+					outString="IOä¸­æ–­";
 				case KEYBOARDINT:
-					outString="¼üÅÌÖĞ¶Ï";
+					outString="é”®ç›˜ä¸­æ–­";
 				case MICROPHONEINT:
-					outString="Âó¿Ë·çÖĞ¶Ï";
+					outString="éº¦å…‹é£ä¸­æ–­";
 				case PRINTERINT:
-					outString="´òÓ¡»úÖĞ¶Ï";
+					outString="æ‰“å°æœºä¸­æ–­";
 				}
 			}
 			else {
-				System.out.println("Éè±¸ÖĞ¶ÏÎ´³É¹¦Ğ´ÈëÖĞ¶Ï¼Ä´æÆ÷");
+				System.out.println("è®¾å¤‡ä¸­æ–­æœªæˆåŠŸå†™å…¥ä¸­æ–­å¯„å­˜å™¨");
 			}
 			
 		}
@@ -120,11 +141,11 @@ public class InterHandler {
 			return devINTRID;
 		}
 		
-		/////////////////////´¦ÀíÊä³öĞÅÏ¢
+		/////////////////////å¤„ç†è¾“å‡ºä¿¡æ¯
 
 		public String output() {
 			String Tips=outString;
-			outString="";//ÏûÏ¢ÒÑ±»È¡×ßºó¾Í»áÇå¿Õ
+			outString="";//æ¶ˆæ¯å·²è¢«å–èµ°åå°±ä¼šæ¸…ç©º
 			return Tips;
 		}
 }

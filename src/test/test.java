@@ -7,7 +7,7 @@ public class test {
 		static timer time=new timer();
 		
 		public static void main(String []args) {
-			System.out.println("ÔËĞĞgithubµÄ");
+			System.out.println("è¿è¡Œgithubçš„");
 			time.start();
 		}
 }

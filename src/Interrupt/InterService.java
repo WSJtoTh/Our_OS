@@ -1,31 +1,32 @@
 package Interrupt;
 import Device.*;
 import timer.*;
-//ÖĞ¶Ï·şÎñ³ÌĞò
+//ä¸­æ–­æœåŠ¡ç¨‹åº
 public class InterService {
 	
 	private static InterHandler IntrHandler;
-	//¸ø½ø³ÌÓÃµÄ´¦ÀíÖĞ¶ÏµÄº¯Êı
+	//ç»™è¿›ç¨‹ç”¨çš„å¤„ç†ä¸­æ–­çš„å‡½æ•°
+	//private static Process PCB;
 	
 	private static timer time=new timer();
 	
 	private static InterruptReg reg=new InterruptReg();
 	 
-	public int DealInterrupt() {
-		//¹ØÖĞ¶Ï ²»ÔÊĞíÏìÓ¦
+	public int DealInterrupt() {//ä¼ å…¥PCB
+		//å…³ä¸­æ–­ ä¸å…è®¸å“åº”
 		IntrHandler.offSwitch();
 	
-		//±£´æÏÖ³¡
-			//±£´æÒ»ÏÂPCB
-			//ÈÃÊ±¼äÆ¬Í£Ö¹£¬½«¿ØÖÆ¼ÆÊ±Æ÷µÄÄÇ¸öÈ«¾ÖÁ¿ÖÃÎ»£¬ÈÃ¼ÆÊ±Æ÷sleep£¬Ò²´æÒ»ÏÂ¼ÆÊ±Æ÷µ±Ç°µÄÖµ
+		//ä¿å­˜ç°åœº
+			//ä¿å­˜ä¸€ä¸‹PCB
+			//è®©æ—¶é—´ç‰‡åœæ­¢ï¼Œå°†æ§åˆ¶è®¡æ—¶å™¨çš„é‚£ä¸ªå…¨å±€é‡ç½®ä½ï¼Œè®©è®¡æ—¶å™¨sleepï¼Œä¹Ÿå­˜ä¸€ä¸‹è®¡æ—¶å™¨å½“å‰çš„å€¼
 		
 		InterType type;
 		type=reg.getInterType();
 		int OK=0;
-		//ÅĞ±ğÖĞ¶ÏÔ´£¬×ªÈëÖĞ¶Ï·şÎñ³ÌĞò
+		//åˆ¤åˆ«ä¸­æ–­æºï¼Œè½¬å…¥ä¸­æ–­æœåŠ¡ç¨‹åº
 		if (type==InterType.TIMEOUT)
 		{
-			OK=DealTimeOut();	
+			OK=DealTimeOut();	//ä¼ å…¥PCB
 		}
 		else if(type==InterType.AUDIOINT)
 		{
@@ -52,34 +53,34 @@ public class InterService {
 			OK=DealioInt();
 		}
 		
-		//¹ØÖĞ¶Ï
+		//å…³ä¸­æ–­
 		IntrHandler.offSwitch();
-		//»Ö¸´»·¾³
-			//ÖØĞÂ¿ªÆôÊ±¼äÆ¬£¿
-			//PCB£¿
-		//¿ªÖĞ¶Ï
+		//æ¢å¤ç¯å¢ƒ
+			//é‡æ–°å¼€å¯æ—¶é—´ç‰‡ï¼Ÿ
+			//PCBï¼Ÿ
+		//å¼€ä¸­æ–­
 		IntrHandler.onSwitch();
 		if(OK==1) {
-			System.out.print("ÒÑ¾­³É¹¦´¦Àí¸ÃÖĞ¶Ï£¡");
+			System.out.print("å·²ç»æˆåŠŸå¤„ç†è¯¥ä¸­æ–­ï¼");
 		}
 		else {
-			System.out.println("Î´³É¹¦´¦Àí¸ÃÖĞ¶Ï");
+			System.out.println("æœªæˆåŠŸå¤„ç†è¯¥ä¸­æ–­");
 		}
 		return OK;
 	}
-	///////////////////¼ÌĞøĞ´·şÎñº¯Êı
+	///////////////////ç»§ç»­å†™æœåŠ¡å‡½æ•°
 	public int DealTimeOut()
 	{	
-		//ÖĞ¶Ï¼Ä´æÆ÷ÖÃNULL
+		//ä¸­æ–­å¯„å­˜å™¨ç½®NULL
 		reg.SetInterType(InterType.NULL);
-		//¿ªÖĞ¶Ï ÔÊĞíÏìÓ¦
+		//å¼€ä¸­æ–­ å…è®¸å“åº”
 		IntrHandler.onSwitch();
 		
-		//Ö´ĞĞÖĞ¶Ï·şÎñ³ÌĞò
+		//æ‰§è¡Œä¸­æ–­æœåŠ¡ç¨‹åº
 			
 		
-			//ÖĞ¶Ï·şÎñ³ÌĞò
-				//µ÷¶Èº¯Êı£¨µ÷¶Èº¯ÊıÀïÓĞÒ»¸öÈÃÊ±¼äÆ¬ÇåÁãµÄ£©
+			//ä¸­æ–­æœåŠ¡ç¨‹åº
+				//è°ƒåº¦å‡½æ•°ï¼ˆè°ƒåº¦å‡½æ•°é‡Œæœ‰ä¸€ä¸ªè®©æ—¶é—´ç‰‡æ¸…é›¶çš„ï¼‰
 				time.setsleepFlag(1);
 				time.setRRTime(0);
 		
@@ -91,14 +92,14 @@ public class InterService {
 	public int DealNeedPage() {
 		
 		reg.SetInterType(InterType.NULL);
-		//¿ªÖĞ¶Ï ÔÊĞíÏìÓ¦
+		//å¼€ä¸­æ–­ å…è®¸å“åº”
 		IntrHandler.onSwitch();
 		
-		//Ö´ĞĞÖĞ¶Ï·şÎñ³ÌĞò
+		//æ‰§è¡Œä¸­æ–­æœåŠ¡ç¨‹åº
 			
 		
-			//ÖĞ¶Ï·şÎñ³ÌĞò
-				//ÄÚ´æÄÇ±ßµÄµ÷Ò³º¯Êı£¨´«ÈëPCBÀïµÄ½ø³Ìid£©
+			//ä¸­æ–­æœåŠ¡ç¨‹åº
+				//å†…å­˜é‚£è¾¹çš„è°ƒé¡µå‡½æ•°ï¼ˆä¼ å…¥PCBé‡Œçš„è¿›ç¨‹idï¼‰
 		return 1;
 		
 	}
@@ -106,16 +107,17 @@ public class InterService {
 	public int DealPrinterInt()
 	{
 		reg.SetInterType(InterType.NULL);
-		//¿ªÖĞ¶Ï ÔÊĞíÏìÓ¦
+		//å¼€ä¸­æ–­ å…è®¸å“åº”
 		IntrHandler.onSwitch();
 		DevType devType;
 		devType=DevType.PRINTER;
-		//Ö´ĞĞÖĞ¶Ï·şÎñ³ÌĞò
-			
-		
-			//ÖĞ¶Ï·şÎñ³ÌĞò
-				//´ÓÍâÉè responseINTR(IntrHandler.getdevINTRID())»ñÈ¡Éè±¸ÀàĞÍ£¬Éè±¸ÊıÁ¿£¬½ø³ÌID
-				//signal(DevType,DevCount,ProID)
+		//æ‰§è¡Œä¸­æ–­æœåŠ¡ç¨‹åº
+		Process PCB=IntrHandler.getPCB();	
+		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
+		signal(devType,PCB.getPID());
+			//ä¸­æ–­æœåŠ¡ç¨‹åº
+				//ä»å¤–è®¾ responseINTR(IntrHandler.getdevINTRID()) å›å¸ƒå°”å‹
+				//signal(DevType,ProID)
 				
 		
 		return 1;
@@ -124,16 +126,19 @@ public class InterService {
 	public int DealKeyboardInt()
 	{
 		reg.SetInterType(InterType.NULL);
-		//¿ªÖĞ¶Ï ÔÊĞíÏìÓ¦
+		//å¼€ä¸­æ–­ å…è®¸å“åº”
 		IntrHandler.onSwitch();
 		
-		//Ö´ĞĞÖĞ¶Ï·şÎñ³ÌĞò
+		//æ‰§è¡Œä¸­æ–­æœåŠ¡ç¨‹åº
 			
 		DevType devType;
 		devType=DevType.KEYBOARD;
-			//ÖĞ¶Ï·şÎñ³ÌĞò
-				//´ÓÍâÉè responseINTR(IntrHandler.getdevINTRID())»ñÈ¡Éè±¸ÊıÁ¿£¬½ø³ÌID,ÓÃhashmap
-				//signal(DevType,DevCount,ProID)
+			//ä¸­æ–­æœåŠ¡ç¨‹åº
+				//ä»å¤–è®¾ responseINTR(IntrHandler.getdevINTRID())è·å–è®¾å¤‡æ•°é‡ï¼Œè¿›ç¨‹ID,ç”¨hashmap
+				//signal(DevType,ProID)
+		Process PCB=IntrHandler.getPCB();	
+		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
+		signal(devType,PCB.getPID());
 				
 		
 		return 1;
@@ -143,17 +148,19 @@ public class InterService {
 	{
 		
 		reg.SetInterType(InterType.NULL);
-		//¿ªÖĞ¶Ï ÔÊĞíÏìÓ¦
+		//å¼€ä¸­æ–­ å…è®¸å“åº”
 		IntrHandler.onSwitch();
 		DevType devType;
 		devType=DevType.MICROPHONE;
-		//Ö´ĞĞÖĞ¶Ï·şÎñ³ÌĞò
+		//æ‰§è¡Œä¸­æ–­æœåŠ¡ç¨‹åº
 			
 		
-			//ÖĞ¶Ï·şÎñ³ÌĞò
-				//´ÓÍâÉè responseINTR(IntrHandler.getdevINTRID())»ñÈ¡Éè±¸ÀàĞÍ£¬Éè±¸ÊıÁ¿£¬½ø³ÌID
+			//ä¸­æ–­æœåŠ¡ç¨‹åº
+				//ä»å¤–è®¾ responseINTR(IntrHandler.getdevINTRID())è·å–è®¾å¤‡ç±»å‹ï¼Œè®¾å¤‡æ•°é‡ï¼Œè¿›ç¨‹ID
 				//signal(DevType,DevCount,ProID)
-				
+		Process PCB=IntrHandler.getPCB();	
+		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
+		signal(devType,PCB.getPID());		
 		
 		return 1;
 	}
@@ -162,17 +169,19 @@ public class InterService {
 	{
 		
 		reg.SetInterType(InterType.NULL);
-		//¿ªÖĞ¶Ï ÔÊĞíÏìÓ¦
+		//å¼€ä¸­æ–­ å…è®¸å“åº”
 		IntrHandler.onSwitch();
 		DevType devType;
 		devType=DevType.DISK;
-		//Ö´ĞĞÖĞ¶Ï·şÎñ³ÌĞò
+		//æ‰§è¡Œä¸­æ–­æœåŠ¡ç¨‹åº
 			
 		
-			//ÖĞ¶Ï·şÎñ³ÌĞò
-				//´ÓÍâÉè responseINTR(IntrHandler.getdevINTRID())»ñÈ¡Éè±¸ÀàĞÍ£¬Éè±¸ÊıÁ¿£¬½ø³ÌID
+			//ä¸­æ–­æœåŠ¡ç¨‹åº
+				//ä»å¤–è®¾ responseINTR(IntrHandler.getdevINTRID(),DevType type)
 				//signal(DevType,DevCount,ProID)
-				
+		Process PCB=IntrHandler.getPCB();	
+		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
+		signal(devType,PCB.getPID());		
 		
 		return 1;
 	}
@@ -184,36 +193,50 @@ public class InterService {
 		
 		
 		reg.SetInterType(InterType.NULL);
-		//¿ªÖĞ¶Ï ÔÊĞíÏìÓ¦
+		//å¼€ä¸­æ–­ å…è®¸å“åº”
 		IntrHandler.onSwitch();
 		DevType devType;
 		devType=DevType.AUDIO;
-		//Ö´ĞĞÖĞ¶Ï·şÎñ³ÌĞò
+		//æ‰§è¡Œä¸­æ–­æœåŠ¡ç¨‹åº
 			
 		
-			//ÖĞ¶Ï·şÎñ³ÌĞò
-				//´ÓÍâÉè responseINTR(IntrHandler.getdevINTRID())»ñÈ¡Éè±¸ÀàĞÍ£¬Éè±¸ÊıÁ¿£¬½ø³ÌID
+			//ä¸­æ–­æœåŠ¡ç¨‹åº
+				//ä»å¤–è®¾ responseINTR(IntrHandler.getdevINTRID())è·å–è®¾å¤‡ç±»å‹ï¼Œè®¾å¤‡æ•°é‡ï¼Œè¿›ç¨‹ID
 				//signal(DevType,DevCount,ProID)
-				
+		Process PCB=IntrHandler.getPCB();	
+		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
+		boolean flag1=signal(devType,PCB.getPID());		
+		if(flag==true&&flag1==true)
+		{
+			return 1;
+		}
 		
-		return 1;
 	}
 	
 	public int DealioInt()
 	{
 	
 		reg.SetInterType(InterType.NULL);
-		//¿ªÖĞ¶Ï ÔÊĞíÏìÓ¦
+		//å¼€ä¸­æ–­ å…è®¸å“åº”
 		IntrHandler.onSwitch();
 		
-		//Ö´ĞĞÖĞ¶Ï·şÎñ³ÌĞò
+		//æ‰§è¡Œä¸­æ–­æœåŠ¡ç¨‹åº
 			
 		
-			//ÖĞ¶Ï·şÎñ³ÌĞò
-				//µ÷¶Èº¯Êı
-				//sendCMD(CMD¶Á»òĞ´,DevType,proID)
+			//ä¸­æ–­æœåŠ¡ç¨‹åº
+				//è°ƒåº¦å‡½æ•°
+				//sendCMD(CMDè¯»æˆ–å†™,DevType,proID)
+		SignalType CMD=IntrHandler.getSignal();
+		boolean flag=sendCMD(CMD,IntrHandler.getDevType(),PCB.getPID());
+		if(flag==true)
+		{
+			System.out.println("æˆåŠŸå¤„ç†IOä¸­æ–­");
+			return 1;
+		}
+		else {
+			System.out.println("æœªæˆåŠŸå¤„ç†IOä¸­æ–­");
+			return 0;
+		}
 		
-		
-		return 1;
 	}
 }

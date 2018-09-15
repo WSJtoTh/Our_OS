@@ -1,5 +1,5 @@
 package Interrupt;
-//ÖĞ¶Ï¼Ä´æÆ÷ ÖĞ¶ÏÆÁ±Î±í
+//ä¸­æ–­å¯„å­˜å™¨ ä¸­æ–­å±è”½è¡¨
 public class InterruptReg {
 
 	private InterType NowInterType;
@@ -7,17 +7,17 @@ public class InterruptReg {
 	InterruptReg(){
 		NowInterType=InterType.NULL;
 	}
-	//ÓÃÓÚ»ñÈ¡µ±Ç°µÄÖĞ¶ÏÀàĞÍ
+	//ç”¨äºè·å–å½“å‰çš„ä¸­æ–­ç±»å‹
 	public InterType getInterType()
 	{
 		
 		return NowInterType;
 		
 	}
-	//ÉèÖÃ´ËÊ±µÄÖĞ¶ÏÀàĞÍ
+	//è®¾ç½®æ­¤æ—¶çš„ä¸­æ–­ç±»å‹
 	public boolean SetInterType(InterType type)
 	{
-		//µ÷ÓÃÆÁ±Î±í
+		//è°ƒç”¨å±è”½è¡¨
 		boolean admit=false;
 		admit=AdmitInter(type);
 		
@@ -28,7 +28,7 @@ public class InterruptReg {
 			return true;
 		}
 		else {
-			System.out.println("ÖĞ¶Ï±»ÆÁ±ÎµôÁË£¬ÓĞ¸ü¸ßÓÅÏÈ¼¶ÖĞ¶ÏÔÚ");
+			System.out.println("ä¸­æ–­è¢«å±è”½æ‰äº†ï¼Œæœ‰æ›´é«˜ä¼˜å…ˆçº§ä¸­æ–­åœ¨");
 			return false;
 		}
 		
@@ -38,11 +38,11 @@ public class InterruptReg {
 	{
 		switch(type) {
 		case NEEDPAGE:
-			return 1;//ÓÅÏÈ¼¶×î¸ß
+			return 1;//ä¼˜å…ˆçº§æœ€é«˜
 		case IOINTR:
 			return 2;
 		case TIMEOUT:
-			return 3;//ÓÅÏÈ¼¶µÚ¶ş
+			return 3;
 		case KEYBOARDINT:
 			return 4;
 		case MICROPHONEINT:
@@ -65,7 +65,7 @@ public class InterruptReg {
 		int thisPrior=getPrior(type);
 		int alreadyPrior=getPrior(NowInterType);
 		if (thisPrior<alreadyPrior) {
-			System.out.println("ĞÂ¼ÓÖĞ¶ÏÓÅÏÈ¼¶"+thisPrior+"  ÒÑ´æÔÚÖĞ¶ÏÓÅÏÈ¼¶"+alreadyPrior);
+			System.out.println("æ–°åŠ ä¸­æ–­ä¼˜å…ˆçº§"+thisPrior+" å·²å­˜åœ¨ä¸­æ–­ä¼˜å…ˆçº§"+alreadyPrior);
 			return true;
 		}
 		else {
