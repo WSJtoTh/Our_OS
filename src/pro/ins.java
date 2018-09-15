@@ -8,7 +8,7 @@ public class ins {
 
 	private static InterHandler intrHandler=new InterHandler();
 	
-	public int[] ExeInstruction(String ins,Process PCB,int flag) {//传进来Process PCB，flag为0的时候为计算，1的时候为执行
+	public void ExeInstruction(String ins,Process PCB,int flag) {//传进来Process PCB，flag为0的时候为计算，1的时候为执行
 		String []content=ins.split(" ");
 		int[] resource= {0};
 		for(int i=0;i<content.length;i++)
@@ -58,70 +58,88 @@ public class ins {
 					j=j+1;
 					
 				}
+				//置资源
+				PCB.addCommonResource(resource);
 				
 			}
-			int pagenumber=Integer.parseInt(content[1]);//逻辑页号
-			
-			
-			boolean isPage=Memory.seekPage(pagenumber,PCB.getPid());
-			if(isPage==false)//缺页
-			{
-				InterHandler.pageINTR(InterType.NEEDPAGE, pagenumber);
+			else {//执行代码
+				int pagenumber=Integer.parseInt(content[1]);//逻辑页号
+
+				boolean isPage=Memory.seekPage(pagenumber,PCB.getPid());
+				if(isPage==false)//缺页
+				{
+					InterHandler.pageINTR(InterType.NEEDPAGE, pagenumber);
+				}
+				//调李叶的转换函数，看看有没有，没有的话缺页中断
+				//使用函数
 			}
-			//调李叶的转换函数，看看有没有，没有的话缺页中断
-			//使用函数
+			
 			break;		
 		case "K"://键盘输入
-			
-			SignalType rOrwK=SignalType.READ;
-			//使用函数
-			//addResource(DevType.KEYBOARD);
-			intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwK,DevType.KEYBOARD);
-			
+			if(flag == 0) {//计算资源
+				PCB.addResource(DevType.KEYBOARD);
+			}
+			else {
+				SignalType rOrwK=SignalType.READ;
+				//使用函数
+				intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwK,DevType.KEYBOARD);
+			}
 			break;
 		case "P"://打印
-			int FileSizeP=Integer.parseInt(content[1]);
-			//addResource(DevType.PRINTER);
-			SignalType rOrwP=SignalType.WRITE;
-			intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwP,DevType.PRINTER);
-			//使用函数
+			if(flag == 0) {
+				PCB.addResource(DevType.PRINTER);
+			}
+			else {
+				int FileSizeP=Integer.parseInt(content[1]);
+				SignalType rOrwP=SignalType.WRITE;
+				intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwP,DevType.PRINTER);
+				//使用函数
+			}
 			break;
 		case "R"://读磁盘
-			int FileSizeR=Integer.parseInt(content[1]);
-			
-			//addResource(DevType.DISK);
-			SignalType rOrwR=SignalType.READ;
-			intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwR,DevType.DISK);
+			if(flag == 0) {
+				PCB.addResource(DevType.DISK);
+			}
+			else {
+				int FileSizeR=Integer.parseInt(content[1]);
+				SignalType rOrwR=SignalType.READ;
+				intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwR,DevType.DISK);
+			}
 			break;
-			
 		case "W"://写磁盘
-			int FileSizeW=Integer.parseInt(content[1]);
-			//addResource(DevType.DISK);
-			SignalType rOrwW=SignalType.WRITE;
-			intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwW,DevType.DISK);
+			if(flag == 0) {
+				PCB.addResource(DevType.DISK);
+			}
+			else {
+				int FileSizeW=Integer.parseInt(content[1]);
+				SignalType rOrwW=SignalType.WRITE;
+				intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwW,DevType.DISK);
+			}
 			break;
-			
 		case "M"://麦克风输入
-			
-			//addResource(DevType.MICROPHONE);
-			SignalType rOrwM=SignalType.READ;
-			intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwM,DevType.MICROPHONE);
+			if(flag == 0) {
+				PCB.addResource(DevType.MICROPHONE);
+			}
+			else {
+				SignalType rOrwM=SignalType.READ;
+				intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwM,DevType.MICROPHONE);
+			}
 			break;
-			
 		case "A"://音响输出
-			int FileSizeA=Integer.parseInt(content[1]);
-			//addResource(DevType.DISK);
-			SignalType rOrwA=SignalType.WRITE;
-			intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwA,DevType.AUDIO);
+			if(flag == 0) {
+				PCB.addResource(DevType.AUDIO);
+			}
+			else {
+				int FileSizeA=Integer.parseInt(content[1]);
+				SignalType rOrwA=SignalType.WRITE;
+				intrHandler.ioINTR(InterType.IOINTR,PCB,rOrwA,DevType.AUDIO);
+			}
 			break;
-			
 		case "Q"://结束运行
 			//调函数
 			break;
-			
 		}
 		
-		return resource;
 	}
 	
 	
