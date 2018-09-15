@@ -39,10 +39,6 @@ public class DevController implements Runnable{
 					this.sdt.freeBusyDevice(devType, devID);
 				}
 				
-				if(this.signalReg.testCMDReg()) {
-					
-				}
-				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -140,7 +136,22 @@ public class DevController implements Runnable{
 			Printer printer = new Printer(devID);
 			printer.start();
 			break;
-
+		case KEYBOARD://启动打印机
+			Keyboard keyboard = new Keyboard(devID);
+			keyboard.start();
+			break;
+		case DISK://启动打印机
+			Disk disk = new Disk(devID, signalType);
+			disk.start();
+			break;
+		case MICROPHONE://启动打印机
+			Microphone microphone = new Microphone(devID);
+			microphone.start();
+			break;
+		case AUDIO://启动打印机
+			Audio audio = new Audio(devID);
+			audio.start();
+			break;
 		default:
 			break;
 		}

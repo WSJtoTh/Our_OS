@@ -4,35 +4,39 @@
 package Device;
 
 import java.util.Random;
-import Interrupt.*;
+
+import Interrupt.InterHandler;
+import Interrupt.InterType;
 
 /**
  * @author 45044
  *
  */
-public class Printer implements Runnable {
-	private final int RANGE = 10;
+public class Disk implements Runnable{
+	private final int RANGE = 50;
 	private Random rand; 
 	private int runTime;
 	private Thread thread;
+	private SignalType signalType;
 	private int belongDevID;//线程所属的设备
-	public Printer(int devID) {
+	public Disk(int devID, SignalType signalType) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
+		this.signalType = signalType;
 		System.out.println("设备"+devID+"运行线程创建");
 	}
-//???
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		InterHandler interHandler = new InterHandler();
-		System.out.println(this.belongDevID+"is running.It will run for"+this.runTime+"seconds");
+		System.out.println("Keybord"+this.belongDevID+"is waiting for user's input.");
 		try {
 			Thread.sleep(this.runTime*1000);
-			System.out.println("The device"+this.belongDevID+"finished");
-			interHandler.devINTR(InterType.PRINTERINT, this.belongDevID);
+			System.out.println("The keybord"+this.belongDevID+"has get data from users");
+			interHandler.devINTR(InterType.DISKINT, this.belongDevID);
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {

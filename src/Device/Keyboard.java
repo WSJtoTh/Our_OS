@@ -4,7 +4,7 @@
 package Device;
 
 import java.util.Random;
-
+import Interrupt.*;
 /**
  * @author 45044
  *
@@ -26,11 +26,12 @@ public class Keyboard implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		InterHandler interHandler = new InterHandler();
 		System.out.println("Keybord"+this.belongDevID+"is waiting for user's input.");
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The keybord"+this.belongDevID+"has get data from users");
-			
+			interHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID);
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {

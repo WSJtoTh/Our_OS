@@ -4,19 +4,21 @@
 package Device;
 
 import java.util.Random;
-import Interrupt.*;
+
+import Interrupt.InterHandler;
+import Interrupt.InterType;
 
 /**
  * @author 45044
  *
  */
-public class Printer implements Runnable {
+public class Audio implements Runnable{
 	private final int RANGE = 10;
 	private Random rand; 
 	private int runTime;
 	private Thread thread;
 	private int belongDevID;//线程所属的设备
-	public Printer(int devID) {
+	public Audio(int devID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
 		this.rand = new Random();
@@ -28,11 +30,11 @@ public class Printer implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		InterHandler interHandler = new InterHandler();
-		System.out.println(this.belongDevID+"is running.It will run for"+this.runTime+"seconds");
+		System.out.println("Audio"+this.belongDevID+"is running.");
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The device"+this.belongDevID+"finished");
-			interHandler.devINTR(InterType.PRINTERINT, this.belongDevID);
+			interHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID);
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {
