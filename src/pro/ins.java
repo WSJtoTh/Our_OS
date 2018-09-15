@@ -2,12 +2,12 @@ package pro;
 import Device.*;
 import Interrupt.*;
 import Process.Process;
-
+import memory.*;
 public class ins {
 
 	private static InterHandler intrHandler=new InterHandler();
 	
-	private int[] ExeInstruction(String ins,Process PCB) {//传进来Process PCB
+	public int[] ExeInstruction(String ins,Process PCB) {//传进来Process PCB
 		String []content=ins.split(" ");
 		int[] resource= {0};
 		for(int i=0;i<content.length;i++)
@@ -17,6 +17,7 @@ public class ins {
 		switch(content[0]) {
 		case "C"://计算
 			int pagenumber=Integer.parseInt(content[1]);//逻辑页号
+			
 			int j=1;
 			while(j<content.length)
 			{	
@@ -54,7 +55,14 @@ public class ins {
 					
 				}
 				j=j+1;
+				
 			}
+			boolean isPage=Memory.seekPage(pagenumber,PCB.getPid());
+			if(isPage==false)//缺页
+			{
+				InterHandler.pageINTR(InterType.NEEDPAGE, pagenumber);
+			}
+			//调李叶的转换函数，看看有没有，没有的话缺页中断
 			//使用函数
 			break;		
 		case "K"://键盘输入

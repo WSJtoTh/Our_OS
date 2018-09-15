@@ -113,8 +113,8 @@ public class DevController implements Runnable{
 	 * 中断响应函数
 	 * 由中断处理机调用
 	 */
-	public static Boolean responseINTR(int INTRID, DevType devType) {
-		//this.signalReg.setResponseINTRIDReg(SignalType.INTR, INTRID, devType);
+	public  Boolean responseINTR(int INTRID, DevType devType) {
+		this.signalReg.setResponseINTRIDReg(SignalType.INTR, INTRID, devType);
 		System.out.println("Receive INTR response"+INTRID);
 		return true;
 	}
@@ -123,7 +123,7 @@ public class DevController implements Runnable{
 	 * 下达命令函数
 	 * 由CPU调用
 	 */
-	public static Boolean sendCMD(SignalType signalType, DevType devType, int proID) {
+	public  Boolean sendCMD(SignalType signalType, DevType devType, int proID) {
 		/*
 		 * 
 		 this.signalReg.setCMDReg(signalType, devType, proID);

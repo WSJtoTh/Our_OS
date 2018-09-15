@@ -7,36 +7,41 @@ public class InterHandler {
 	
 		static private int INTRSwitch;//1为开中断，即此时可以收到中断请求，0为关中断，此时不能收到任何中断请求
 		//static int interID;
-		private int devINTRID;
+		private static int devINTRID;
 		private static InterruptReg INTRreg=new InterruptReg();
 		private static String outString;
 		private static SignalType rOrw;
 		private static int virPage;//缺页时使用的虚拟页号
 		private static Process pcb=new Process(); // 从进程获得
 		private static DevType devType;//io中断时需要记录的devType
-		
+	
 		public InterHandler(){
 			INTRSwitch=1;
 			devINTRID=0;
 		}
 		
-		public Process getPCB() {
+		public static Process getPCB() {
 			return pcb;
 		}
 		
-		public SignalType getSignal() {
+		public static SignalType getSignal() {
 			return rOrw;
 		}
-		public DevType getDevType()
+		public static DevType getDevType()
 		{
 			return devType;
 		}
+		
+		public static int getPageNumber()
+		{
+			return virPage;
+		}
 		//开中断
-		public void onSwitch() {
+		public static void onSwitch() {
 			INTRSwitch=1;
 		}
 		//关中断
-		public void offSwitch() {
+		public static void offSwitch() {
 			INTRSwitch=0;
 		}
 		
@@ -87,7 +92,7 @@ public class InterHandler {
 		
 		//给时钟的
 		
-		public void timeINTR(InterType type) {
+		public static void timeINTR(InterType type) {
 			if(INTRSwitch==0) {
 				System.out.println("中断已关闭，无法收到中断请求");
 			}
@@ -105,7 +110,7 @@ public class InterHandler {
 		}
 		
 		//给设备的
-		public void devINTR(InterType type,int INTRID) {
+		public static void devINTR(InterType type,int INTRID) {
 			if(INTRSwitch==0) {
 				System.out.println("中断已关闭，无法收到中断请求");
 			}

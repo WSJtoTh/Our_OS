@@ -2,12 +2,14 @@ package Interrupt;
 import Device.*;
 import timer.*;
 import Process.Process;
+import Global.*;
+import memory.*;
 //中断服务程序
 public class InterService {
 	
 	private static InterHandler IntrHandler;
 	//给进程用的处理中断的函数
-	//private static Process PCB;
+	private static Process PCB;
 	
 	private static timer time=new timer();
 	
@@ -97,10 +99,9 @@ public class InterService {
 		IntrHandler.onSwitch();
 		
 		//执行中断服务程序
-			
-		
-			//中断服务程序
-				//内存那边的调页函数（传入PCB里的进程id）
+		//调页函数	
+		Memory.replacePage(PCB.getPid(),InterHandler.getPageNumber());
+	
 		return 1;
 		
 	}
@@ -139,7 +140,7 @@ public class InterService {
 				//signal(DevType,ProID)
 		Process PCB=IntrHandler.getPCB();	
 		boolean flag=DevController.responseINTR(IntrHandler.getdevINTRID(),devType);
-		
+		System.out.println("来自Keyboard的数据"+Global.databus);
 		signal(devType,PCB.getPid());
 				
 		
@@ -162,6 +163,7 @@ public class InterService {
 				//signal(DevType,DevCount,ProID)
 		Process PCB=IntrHandler.getPCB();	
 		boolean flag=DevController.responseINTR(IntrHandler.getdevINTRID(),devType);
+		System.out.println("来自Microphone的数据"+Global.databus);
 		signal(devType,PCB.getPid());		
 		
 		return 1;
@@ -176,14 +178,17 @@ public class InterService {
 		DevType devType;
 		devType=DevType.DISK;
 		//执行中断服务程序
-			
+		SignalType signal=IntrHandler.getSignal();
 		
 			//中断服务程序
 				//从外设 responseINTR(IntrHandler.getdevINTRID(),DevType type)
 				//signal(DevType,DevCount,ProID)
 		Process PCB=IntrHandler.getPCB();	
 		boolean flag=DevController.responseINTR(IntrHandler.getdevINTRID(),devType);
-		signal(devType,PCB.getPID());		
+		if(signal==SignalType.READ) {
+		System.out.println("来自Disk的数据"+Global.databus);
+		}
+		signal(devType,PCB.getPid());		
 		
 		return 1;
 	}
@@ -206,8 +211,8 @@ public class InterService {
 				//从外设 responseINTR(IntrHandler.getdevINTRID())获取设备类型，设备数量，进程ID
 				//signal(DevType,DevCount,ProID)
 		Process PCB=IntrHandler.getPCB();	
-		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
-		boolean flag1=signal(devType,PCB.getPID());		
+		boolean flag=DevController.responseINTR(IntrHandler.getdevINTRID(),devType);
+		boolean flag1=signal(devType,PCB.getPid());		
 		if(flag==true&&flag1==true)
 		{
 			return 1;
@@ -229,7 +234,11 @@ public class InterService {
 				//调度函数
 				//sendCMD(CMD读或写,DevType,proID)
 		SignalType CMD=IntrHandler.getSignal();
-		boolean flag=sendCMD(CMD,IntrHandler.getDevType(),PCB.getPid());
+		if(CMD==SignalType.WRITE)
+		{
+			Global.databus="来自进程的数据1234";
+		}
+		boolean flag=DevController.sendCMD(CMD,IntrHandler.getDevType(),PCB.getPid());
 		if(flag==true)
 		{
 			System.out.println("成功处理IO中断");
