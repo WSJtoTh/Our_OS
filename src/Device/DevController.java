@@ -13,12 +13,12 @@ import java.util.HashMap;
 public class DevController implements Runnable{
 	
 	
-	private SDT sdt;
+	private static SDT sdt;
 	//private final int initialDevNum = 5;
 	private HashMap<Integer, DevIDState> devIDTable;
 	private Thread devConThread;
 	private Boolean POWER = true;
-	private SignalReg signalReg;
+	public static SignalReg signalReg;
 	@Override
 	public void run() {
 		//Boolean responseINTR;
@@ -33,11 +33,11 @@ public class DevController implements Runnable{
 				//askAvailDev = ;
 				//CMD = ;
 				//检测中断响应寄存器
-				if(this.signalReg.testResponseINTRIDReg()) {
-					int devID = this.signalReg.getResponseINTRIDReg();
-					DevType devType = this.signalReg.getResponseINTRDevType();
-					this.sdt.freeBusyDevice(devType, devID);
-				}
+				//if(this.signalReg.testResponseINTRIDReg()) {
+					//int devID = this.signalReg.getResponseINTRIDReg();
+					//DevType devType = this.signalReg.getResponseINTRDevType();
+					//this.sdt.freeBusyDevice(devType, devID);
+				//}
 				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -109,12 +109,18 @@ public class DevController implements Runnable{
 		return null;
 	}
 //
+	public static Boolean signal(DevType devType, int proID) {
+		int devID = sdt.getDevIDByDevTpyeAndProID(proID, devType);
+		sdt.freeBusyDevice(devType, devID);
+		return true;
+	}
 	/*
 	 * 中断响应函数
 	 * 由中断处理机调用
+	 * 
 	 */
 	public static Boolean responseINTR(int INTRID, DevType devType) {
-		//this.signalReg.setResponseINTRIDReg(SignalType.INTR, INTRID, devType);
+		signalReg.setResponseINTRIDReg(SignalType.INTR, INTRID, devType);
 		System.out.println("Receive INTR response"+INTRID);
 		return true;
 	}
@@ -130,7 +136,7 @@ public class DevController implements Runnable{
 		System.out.println("Receive CMD from CPU"+signalType);
 		 */
 		
-		int devID = this.sdt.getDevIDByDevTpyeAndProID(proID, devType);
+		int devID = sdt.getDevIDByDevTpyeAndProID(proID, devType);
 		switch (devType) {
 		case PRINTER://启动打印机
 			Printer printer = new Printer(devID);
@@ -163,9 +169,9 @@ public class DevController implements Runnable{
 	 * 由CPU调用
 	 * 
 	 */
-	public int[] getAvailDevTable() {
+	public static int[] getAvailDevTable() {
 		int[] availTable = new int[5];
-		availTable = this.sdt.getAvailDevCountSortByType();
+		availTable = sdt.getAvailDevCountSortByType();
 		return availTable;
 	}
 	
@@ -174,9 +180,9 @@ public class DevController implements Runnable{
 	 * 由CPU调用
 	 *
 	 */
-	public int[] getEntireDevTable() {
+	public static int[] getEntireDevTable() {
 		int[] entireTable = new int[5];
-		entireTable = this.sdt.getEntireDevCount();
+		entireTable = sdt.getEntireDevCount();
 		return entireTable;
 	}
 	

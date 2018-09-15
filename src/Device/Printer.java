@@ -4,6 +4,8 @@
 package Device;
 
 import java.util.Random;
+
+import Global.Global;
 import Interrupt.*;
 
 /**
@@ -30,9 +32,18 @@ public class Printer implements Runnable {
 		InterHandler interHandler = new InterHandler();
 		System.out.println(this.belongDevID+"is running.It will run for"+this.runTime+"seconds");
 		try {
+			System.out.println("Printer"+this.belongDevID+"receive data from CPU to print:");
+			System.out.println(Global.databus);
 			Thread.sleep(this.runTime*1000);
-			System.out.println("The device"+this.belongDevID+"finished");
+			System.out.println("Prnter"+this.belongDevID+"finished");
 			interHandler.devINTR(InterType.PRINTERINT, this.belongDevID);
+			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
+				System.out.println("Printer"+this.belongDevID+"INTR wasn't accept by CPU");
+				//Thread.sleep(this.runTime*1000);
+				System.out.println("Printer"+this.belongDevID+"resend INTR");
+				interHandler.devINTR(InterType.PRINTERINT, this.belongDevID);
+			}
+			System.out.println("CPU accept Printer"+this.belongDevID+"'s INTR");
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {
