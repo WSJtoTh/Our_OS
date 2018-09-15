@@ -114,7 +114,7 @@ public class InterService {
 		devType=DevType.PRINTER;
 		//执行中断服务程序
 		Process PCB=IntrHandler.getPCB();	
-		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
+		boolean flag=DevController.responseINTR(IntrHandler.getdevINTRID(),devType);
 		signal(devType,PCB.getPid());
 			//中断服务程序
 				//从外设 responseINTR(IntrHandler.getdevINTRID()) 回布尔型
@@ -138,7 +138,8 @@ public class InterService {
 				//从外设 responseINTR(IntrHandler.getdevINTRID())获取设备数量，进程ID,用hashmap
 				//signal(DevType,ProID)
 		Process PCB=IntrHandler.getPCB();	
-		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
+		boolean flag=DevController.responseINTR(IntrHandler.getdevINTRID(),devType);
+		
 		signal(devType,PCB.getPid());
 				
 		
@@ -160,8 +161,8 @@ public class InterService {
 				//从外设 responseINTR(IntrHandler.getdevINTRID())获取设备类型，设备数量，进程ID
 				//signal(DevType,DevCount,ProID)
 		Process PCB=IntrHandler.getPCB();	
-		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
-		signal(devType,PCB.getPID());		
+		boolean flag=DevController.responseINTR(IntrHandler.getdevINTRID(),devType);
+		signal(devType,PCB.getPid());		
 		
 		return 1;
 	}
@@ -181,7 +182,7 @@ public class InterService {
 				//从外设 responseINTR(IntrHandler.getdevINTRID(),DevType type)
 				//signal(DevType,DevCount,ProID)
 		Process PCB=IntrHandler.getPCB();	
-		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
+		boolean flag=DevController.responseINTR(IntrHandler.getdevINTRID(),devType);
 		signal(devType,PCB.getPID());		
 		
 		return 1;
