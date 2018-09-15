@@ -9,27 +9,27 @@ import java.util.Random;
  * @author 45044
  *
  */
-public class Printer implements Runnable {
-	private final int RANGE = 10;
+public class Keyboard implements Runnable {
+	private final int RANGE = 50;
 	private Random rand; 
 	private int runTime;
 	private Thread thread;
 	private int belongDevID;//线程所属的设备
-	public Printer(int devID) {
+	public Keyboard(int devID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
 		System.out.println("设备"+devID+"运行线程创建");
 	}
-//???
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		System.out.println(this.belongDevID+"is running.It will run for"+this.runTime+"seconds");
+		System.out.println("Keybord"+this.belongDevID+"is waiting for user's input.");
 		try {
 			Thread.sleep(this.runTime*1000);
-			System.out.println("The device"+this.belongDevID+"finished");
+			System.out.println("The keybord"+this.belongDevID+"has get data from users");
 			
 			//发送完成中断请求
 			

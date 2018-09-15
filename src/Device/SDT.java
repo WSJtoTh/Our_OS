@@ -57,9 +57,9 @@ public class SDT {
 		return allocateMap;
 	}
 	
-	public Boolean freeBusyDevice(DevType devType, int devCount, int belongProID) {
+	public Boolean freeBusyDevice(DevType devType, int devID) {
 		DCT dct = this.sysDevTb.get(devType);
-		if(dct.freeBusyDevice(belongProID)) {
+		if(dct.freeBusyDevice(devID)) {
 			return true;
 		}
 		return false;
@@ -71,5 +71,62 @@ public class SDT {
 	
 	public int getDevCount() {
 		return this.devCount;
+	}//??
+	
+	public int getDevIDByDevTpyeAndProID(int proID, DevType devType) {
+		DCT dct = this.sysDevTb.get(devType);
+		int devID = dct.getDevIDByProID(proID);
+		return devID;
 	}
+	
+	public int[] getAvailDevCountSortByType() {
+		int[] availDev = new int[5];
+		int i = 0;
+		DCT dct = this.sysDevTb.get(DevType.PRINTER);
+		availDev[i] = dct.getAvailDevCount();
+		i++;
+		dct = this.sysDevTb.get(DevType.KEYBOARD);
+		availDev[i] = dct.getAvailDevCount();
+		i++;
+		dct = this.sysDevTb.get(DevType.DISK);
+		availDev[i] = dct.getAvailDevCount();
+		i++;
+		dct = this.sysDevTb.get(DevType.MICROPHONE);
+		availDev[i] = dct.getAvailDevCount();
+		i++;
+		dct = this.sysDevTb.get(DevType.AUDIO);
+		availDev[i] = dct.getAvailDevCount();
+		return availDev;
+	}
+	
+	public int[] getEntireDevCount() {
+		int[]	entireDev = new int[5];
+		int i = 0;
+		DCT dct;
+		dct = this.sysDevTb.get(DevType.PRINTER);
+		entireDev[i] = dct.getDevCount();
+		i++;
+		dct = this.sysDevTb.get(DevType.KEYBOARD);
+		entireDev[i] = dct.getDevCount();
+		i++;
+		dct = this.sysDevTb.get(DevType.DISK);
+		entireDev[i] = dct.getDevCount();
+		i++;
+		dct = this.sysDevTb.get(DevType.MICROPHONE);
+		entireDev[i] = dct.getDevCount();
+		i++;
+		dct = this.sysDevTb.get(DevType.AUDIO);
+		entireDev[i] = dct.getDevCount();
+		i++;
+		
+		return entireDev;
+	}
+	//public int getBelongProID(int devID, DevType devType) {
+		//DCT dct = this.sysDevTb.get(devType);
+		//int pro
+	//}
+	//public int getInferDevCount(DevType devType) {
+	//	DCT dct = this.sysDevTb.get(devType);
+		
+	//}
 }

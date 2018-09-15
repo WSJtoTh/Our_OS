@@ -18,12 +18,30 @@ public class DevController implements Runnable{
 	private HashMap<Integer, DevIDState> devIDTable;
 	private Thread devConThread;
 	private Boolean POWER = true;
+	private SignalReg signalReg;
 	@Override
 	public void run() {
+		//Boolean responseINTR;
+		//Boolean askAvailDev;
+		//Boolean CMD;
 		// TODO Auto-generated method stub
 		while(POWER) {
 			try {
 				Thread.sleep(100);
+				
+				//responseINTR = ;
+				//askAvailDev = ;
+				//CMD = ;
+				//检测中断响应寄存器
+				if(this.signalReg.testResponseINTRIDReg()) {
+					int devID = this.signalReg.getResponseINTRIDReg();
+					DevType devType = this.signalReg.getResponseINTRDevType();
+					this.sdt.freeBusyDevice(devType, devID);
+				}
+				
+				if(this.signalReg.testCMDReg()) {
+					
+				}
 				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -37,6 +55,7 @@ public class DevController implements Runnable{
 	public DevController() {
 		// TODO Auto-generated constructor stub
 		this.sdt = new SDT();
+		this.signalReg = new SignalReg();
 		this.initDeviceIDTable();
 		this.initDevice();
 	}
@@ -93,6 +112,63 @@ public class DevController implements Runnable{
 		System.out.println("There is no valid Device ID to be distributed for a new "+devType);
 		return null;
 	}
+//
+	/*
+	 * 中断响应函数
+	 * 由中断处理机调用
+	 */
+	public Boolean responseINTR(int INTRID, DevType devType) {
+		this.signalReg.setResponseINTRIDReg(SignalType.INTR, INTRID, devType);
+		System.out.println("Receive INTR response"+INTRID);
+		return true;
+	}
+	
+	/*
+	 * 下达命令函数
+	 * 由CPU调用
+	 */
+	public Boolean sendCMD(SignalType signalType, DevType devType, int proID) {
+		/*
+		 * 
+		 this.signalReg.setCMDReg(signalType, devType, proID);
+		System.out.println("Receive CMD from CPU"+signalType);
+		 */
+		
+		int devID = this.sdt.getDevIDByDevTpyeAndProID(proID, devType);
+		switch (devType) {
+		case PRINTER://启动打印机
+			Printer printer = new Printer(devID);
+			printer.start();
+			break;
 
+		default:
+			break;
+		}
+		return true;
+	}
+	
+	/*
+	 * 获取系统中各类设备的空闲设备数量
+	 * 由CPU调用
+	 * 
+	 */
+	public int[] getAvailDevTable() {
+		int[] availTable = new int[5];
+		availTable = this.sdt.getAvailDevCountSortByType();
+		return availTable;
+	}
+	
+	/*
+	 * 获取系统中各类设备的总数
+	 * 由CPU调用
+	 *
+	 */
+	public int[] getEntireDevTable() {
+		int[] entireTable = new int[5];
+		entireTable = this.sdt.getEntireDevCount();
+		return entireTable;
+	}
+	
+	
 	
 }

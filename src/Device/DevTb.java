@@ -5,7 +5,7 @@ package Device;
 
 /**
  * @author 45044
- * 设备表，用于描述每个设备的各种属性
+ * 锟借备锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷每锟斤拷锟借备锟侥革拷锟斤拷锟斤拷锟斤拷
  *
  */
 public class DevTb {
@@ -49,7 +49,7 @@ public class DevTb {
 	public DevState getDevState() {
 		return this.devState;
 	}
-	
+	//
 	public int getBelongProID() {
 		return this.belongProID;
 	}

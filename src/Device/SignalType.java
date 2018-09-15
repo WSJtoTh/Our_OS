@@ -10,3 +10,4 @@ package Device;
 public enum SignalType {
 	WRITE,READ,INTR,ASKDEV,NONE;
 }
+//
