@@ -1,4 +1,4 @@
-
+package Process;
 public class SystemResources {
 	private static int[] Resource_max;
 	private static int[] Resource_remain;

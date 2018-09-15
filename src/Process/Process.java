@@ -1,5 +1,6 @@
-
 package Process;
+import Device.DevType;
+
 public class Process {
 	private static int id_avl = 0;
 	private int pid; //进程id
