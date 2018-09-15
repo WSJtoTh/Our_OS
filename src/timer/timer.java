@@ -12,7 +12,7 @@ public class timer extends Thread{
 	 
 	 private static InterHandler handler=new InterHandler();
 	 
-	 public boolean setsleepFlag(int x)
+	 public static boolean setsleepFlag(int x)
 	 {
 		 sleepFlag=x;
 		 return true;
@@ -38,7 +38,7 @@ public class timer extends Thread{
 	 
 	 public void run() {
 		 
-		 while(true) {
+		 while(Global.Power) {
 			 while(sleepFlag==1) {
 				 try {
 					sleep(10);

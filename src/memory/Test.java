@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class Test {
-	public static void main(String [] args) {
+	/*public static void main(String [] args) {
 		Memory test =new Memory();
 		File file = new File("D:\\操作系统课程设计\\A.txt");
 		test.getTxt(file, 1);
@@ -17,5 +17,5 @@ public class Test {
 		}
 		System.out.println(test.insPage);
 		
-	}
+	}*/
 }
