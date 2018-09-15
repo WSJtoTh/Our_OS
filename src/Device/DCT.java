@@ -79,17 +79,45 @@ public class DCT {
 		return allocateMap;
 	}
 	
-	public Boolean freeBusyDevice(int belongProID) {
+	public Boolean freeBusyDevice(int devID) {
 		for(int i = 0;i < this.devCount; i++) {
-			if(this.deviceArray[i].getBelongProID() == belongProID) {//分配空闲设备
+			if(this.deviceArray[i].getDevID()== devID) {//分配空闲设备
 				this.deviceArray[i].setDevSate(DevState.FREE);
 				this.deviceArray[i].setBelongProID(0);
 				this.availDevCount++;
-				System.out.println("Process"+belongProID+"free device"+this.deviceArray[i].getDevID()+"successfully");
+				System.out.println("device"+devID+"is freed successfully");
 				return true;
 			}
 		}
-		System.out.println("Process"+belongProID+"has no "+this.devType+" device to free");
+		System.out.println("Device"+devID+"was already free");
 		return false;
+	}
+	
+	/*
+	 * 返回系统中当前类型设备的总数
+	 */
+	public int getDevCount() {
+		return this.devCount;
+	}
+	
+	/*
+	 * 返回系统中当前类型设备空闲的数量
+	 */
+	public int getAvailDevCount() {
+		return this.availDevCount;
+	}
+	
+	/*
+	 * 获取被ProID占用的设备的ID
+	 */
+	public int getDevIDByProID(int proID) {
+		int devID = -1;
+		for(int i = 0;i < this.devCount; i++) {
+			if(this.deviceArray[i].getBelongProID()== proID) {//分配空闲设备
+				devID = this.deviceArray[i].getDevID();
+				return devID;
+			}
+		}
+		return devID;
 	}
 }

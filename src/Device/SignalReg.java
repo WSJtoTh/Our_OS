@@ -14,6 +14,7 @@ public class SignalReg {
 	
 	private SignalType responseType;
 	private int responseINTRIDReg;
+	private DevType responseINTRDevType;
 	//中断响应寄存器
 	//"-1":无中断响应
 	
@@ -73,9 +74,18 @@ public class SignalReg {
 		return this.proID;
 	}
 	
-	public void setResponseINTRIDReg(SignalType responseType,int INTRID) {
+	public void setResponseINTRIDReg(SignalType responseType,int INTRID, DevType devType) {
 		this.responseType = responseType;
 		this.responseINTRIDReg = INTRID;
+		this.responseINTRDevType = devType;
+	}
+	
+	public int getResponseINTRIDReg() {
+		return this.responseINTRIDReg;
+	}
+	
+	public DevType getResponseINTRDevType() {
+		return this.responseINTRDevType;
 	}
 	
 	public Boolean testResponseINTRIDReg() {

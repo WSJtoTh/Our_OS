@@ -30,6 +30,7 @@ public class Printer implements Runnable {
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The device"+this.belongDevID+"finished");
+			
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {
