@@ -71,7 +71,7 @@ public class SDT {
 	
 	public int getDevCount() {
 		return this.devCount;
-	}
+	}//??
 	
 	public int getDevIDByDevTpyeAndProID(int proID, DevType devType) {
 		DCT dct = this.sysDevTb.get(devType);

@@ -112,7 +112,7 @@ public class DevController implements Runnable{
 		System.out.println("There is no valid Device ID to be distributed for a new "+devType);
 		return null;
 	}
-
+//
 	/*
 	 * 中断响应函数
 	 * 由中断处理机调用

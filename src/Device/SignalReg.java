@@ -87,7 +87,7 @@ public class SignalReg {
 	public DevType getResponseINTRDevType() {
 		return this.responseINTRDevType;
 	}
-	
+	//??
 	public Boolean testResponseINTRIDReg() {
 		if(this.responseType == SignalType.INTR) {
 			System.out.println("Receive answer of INTR:"+this.responseINTRIDReg);

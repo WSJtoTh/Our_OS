@@ -106,7 +106,7 @@ public class DCT {
 	public int getAvailDevCount() {
 		return this.availDevCount;
 	}
-	
+	//???
 	/*
 	 * 获取被ProID占用的设备的ID
 	 */
