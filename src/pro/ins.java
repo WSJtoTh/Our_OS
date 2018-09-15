@@ -139,8 +139,8 @@ public class ins {
 			//调函数
 			if(flag == 1) {
 				System.out.println(PCB.toString() + "end!");
-				
-				ProcessMGT.terminateProcess(PCB);
+				ProcessMGT.popRunning();//调出running队列
+				ProcessMGT.terminateProcess(PCB);//调入terminated队列
 			}
 			break;
 		}
