@@ -28,7 +28,7 @@ public class InterHandler {
 		}
 		public DevType getDevType()
 		{
-			return 
+			return devType;
 		}
 		//开中断
 		public void onSwitch() {
