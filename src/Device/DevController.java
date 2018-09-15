@@ -109,6 +109,20 @@ public class DevController implements Runnable{
 		return null;
 	}
 //
+	
+	public static Boolean wait(DevType devType, int proID) {
+		HashMap<Integer, Integer> allocate = sdt.allocateFreeDevice(devType, 1, proID);
+		if(allocate.isEmpty()) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	/*
+	 * CPU释放设备
+	 */
 	public static Boolean signal(DevType devType, int proID) {
 		int devID = sdt.getDevIDByDevTpyeAndProID(proID, devType);
 		sdt.freeBusyDevice(devType, devID);
