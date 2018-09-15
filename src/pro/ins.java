@@ -1,7 +1,7 @@
 package pro;
 import Device.*;
 import Interrupt.*;
-
+import Process.Process;
 
 public class ins {
 
