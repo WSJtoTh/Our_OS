@@ -1,6 +1,7 @@
 package Interrupt;
 import Device.*;
-
+import Process.*;
+import Process.Process;
 //和其余模块的接口
 public class InterHandler {
 	

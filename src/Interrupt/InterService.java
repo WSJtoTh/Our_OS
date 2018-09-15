@@ -1,6 +1,7 @@
 package Interrupt;
 import Device.*;
 import timer.*;
+import Process.Process;
 //中断服务程序
 public class InterService {
 	
@@ -114,7 +115,7 @@ public class InterService {
 		//执行中断服务程序
 		Process PCB=IntrHandler.getPCB();	
 		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
-		signal(devType,PCB.getPID());
+		signal(devType,PCB.getPid());
 			//中断服务程序
 				//从外设 responseINTR(IntrHandler.getdevINTRID()) 回布尔型
 				//signal(DevType,ProID)
@@ -138,7 +139,7 @@ public class InterService {
 				//signal(DevType,ProID)
 		Process PCB=IntrHandler.getPCB();	
 		boolean flag=responseINTR(IntrHandler.getdevINTRID(),devType);
-		signal(devType,PCB.getPID());
+		signal(devType,PCB.getPid());
 				
 		
 		return 1;
@@ -227,7 +228,7 @@ public class InterService {
 				//调度函数
 				//sendCMD(CMD读或写,DevType,proID)
 		SignalType CMD=IntrHandler.getSignal();
-		boolean flag=sendCMD(CMD,IntrHandler.getDevType(),PCB.getPID());
+		boolean flag=sendCMD(CMD,IntrHandler.getDevType(),PCB.getPid());
 		if(flag==true)
 		{
 			System.out.println("成功处理IO中断");
