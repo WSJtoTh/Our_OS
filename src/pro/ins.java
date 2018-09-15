@@ -2,12 +2,13 @@ package pro;
 import Device.*;
 import Interrupt.*;
 import Process.Process;
+import Process.*;
 import memory.*;
 public class ins {
 
 	private static InterHandler intrHandler=new InterHandler();
 	
-	public int[] ExeInstruction(String ins,Process PCB) {//传进来Process PCB
+	public int[] ExeInstruction(String ins,Process PCB,int flag) {//传进来Process PCB，flag为0的时候为计算，1的时候为执行
 		String []content=ins.split(" ");
 		int[] resource= {0};
 		for(int i=0;i<content.length;i++)
@@ -16,47 +17,52 @@ public class ins {
 		}
 		switch(content[0]) {
 		case "C"://计算
-			int pagenumber=Integer.parseInt(content[1]);//逻辑页号
 			
-			int j=1;
-			while(j<content.length)
-			{	
-				ResourceType reTypeC=ResourceType.valueOf(content[j]);//所需资源
-				j=j+1;
-				int ResourceNumberC=Integer.parseInt(content[j]);
-				switch(reTypeC) {//生成资源数组
-				case E:
-					resource[0]=ResourceNumberC;
-					break;
-				case F:
-					resource[1]=ResourceNumberC;
-					break;
-				case G:
-					resource[2]=ResourceNumberC;
-					break;
-				case K:
-					resource[3]=ResourceNumberC;
-					break;
-				case P:
-					resource[4]=ResourceNumberC;
-					break;
-				case R:
-					resource[5]=ResourceNumberC;
-					break;
-				case W:
-					resource[6]=ResourceNumberC;
-					break;
-				case M:
-					resource[7]=ResourceNumberC;
-					break;
-				case A:
-					resource[8]=ResourceNumberC;
-					break;	
+			if (flag == 0) {//计算资源
+				int j=1;
+				while(j<content.length)
+				{	
+					ResourceType reTypeC=ResourceType.valueOf(content[j]);//所需资源
+					j=j+1;
+					int ResourceNumberC=Integer.parseInt(content[j]);
+					switch(reTypeC) {//生成资源数组
+					case E:
+						resource[0]=ResourceNumberC;
+						break;
+					case F:
+						resource[1]=ResourceNumberC;
+						break;
+					case G:
+						resource[2]=ResourceNumberC;
+						break;
+					case K:
+						resource[3]=ResourceNumberC;
+						break;
+					case P:
+						resource[4]=ResourceNumberC;
+						break;
+					case R:
+						resource[5]=ResourceNumberC;
+						break;
+					case W:
+						resource[6]=ResourceNumberC;
+						break;
+					case M:
+						resource[7]=ResourceNumberC;
+						break;
+					case A:
+						resource[8]=ResourceNumberC;
+						break;	
+						
+					}
+					j=j+1;
 					
 				}
-				j=j+1;
 				
 			}
+			int pagenumber=Integer.parseInt(content[1]);//逻辑页号
+			
+			
 			boolean isPage=Memory.seekPage(pagenumber,PCB.getPid());
 			if(isPage==false)//缺页
 			{
