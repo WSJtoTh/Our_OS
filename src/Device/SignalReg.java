@@ -8,17 +8,18 @@ package Device;
  *
  */
 public class SignalReg {
-	private SignalType cmdType;
-	private DevType devType;
-	private int proID;
+	private static SignalType cmdType;
+	private static DevType devType;
+	private static int proID;
+	private static int devID;
 	
-	private SignalType responseType;
-	private int responseINTRIDReg;
-	private DevType responseINTRDevType;
+	private static SignalType responseType;
+	private static int responseINTRIDReg;
+	private static DevType responseINTRDevType;
 	//中断响应寄存器
 	//"-1":无中断响应
 	
-	private SignalType askType;
+	private static SignalType askType;
 	//private int askAvailDeviceReg;
 	//请求系统设备状态信息寄存器
 	//"-1":无请求
@@ -38,10 +39,15 @@ public class SignalReg {
 		this.responseINTRIDReg = -1;
 	}
 	
-	public void setCMDReg(SignalType cmdType, DevType devType,int proID) {
+	public void setCMDReg(SignalType cmdType, DevType devType,int proID, int devID) {
 		this.proID = proID;
 		this.cmdType = cmdType;
 		this.devType = devType;
+		this.devID = devID;
+	}
+	
+	public static int getStatic() {
+		return devID;
 	}
 	
 	public Boolean testCMDReg() {
