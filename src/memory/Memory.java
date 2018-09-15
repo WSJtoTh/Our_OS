@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
+import Process.Process;
+
 
 public class Memory {
-	Page[] pages=new Page[30];
-	private int pageUse;//已使用数据页数
+	static Page[] pages=new Page[30];
+	private static int pageUse;//已使用数据页数
 	private int insNum;//指令条数
 	private int pageNum;//初始数据页数
 	int insPage;//代码段对应物理页号
@@ -132,7 +134,7 @@ public class Memory {
 	}
 	
 	
-	public boolean seekPage(int pageNO,int pid) {
+	public static boolean seekPage(int pageNO,int pid) {
 		try {
 			for(int i=0;i<pages.length;i++) {
 				if(pages[i].getPid()==pid && pages[i].getVirPage()==pageNO) {
@@ -155,10 +157,10 @@ public class Memory {
 		return false;
 	}
 	
-	public boolean setPCB(PCB m) {//set PCB
+	public boolean setPCB(Process m) {//set PCB
 		try {
-			m.setPage(insPage);//代码物理页号
-			m.setInsNum(insNum);//指令条数
+			m.setActivemm(insPage);//代码物理页号
+			m.setLimit(insNum);//指令条数
 			return true;
 		}catch(Exception e){
             e.printStackTrace();
@@ -179,7 +181,7 @@ public class Memory {
 	}
 	
 	
-	public String getIns(int pageNo,int offset) {//获得指定指令
+	public static String getIns(int pageNo,int offset) {//获得指定指令
 		String str = null;
 		try {
 			str=(String) pages[pageNo].insList.get(offset);
@@ -190,7 +192,7 @@ public class Memory {
 		return str;
 	}
 	
-public void replacePage(int pid,int pageNO){//中断置换页面
+public static void replacePage(int pid,int pageNO){//中断置换页面
 		long endTime=System.currentTimeMillis();
 		long[] dur=new long[pages.length];
 		int replace_page=0;
