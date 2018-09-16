@@ -68,6 +68,7 @@ public class DCT {
 					this.deviceArray[i].setBelongProID(belongProID);
 					allocateMap.put(i, this.deviceArray[i].getDevID());
 					this.availDevCount--;
+					System.out.println("success to allocate the device:"+this.deviceArray[i].getDevID());
 				}
 			}	
 			//return allocateMap;

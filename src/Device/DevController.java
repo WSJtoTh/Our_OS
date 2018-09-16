@@ -6,18 +6,21 @@ package Device;
 import java.awt.List;
 import java.util.HashMap;
 
+import Global.Global;
+
 /**
  * @author 45044
  *
  */
 public class DevController implements Runnable{
 	
-	
-	private static SDT sdt;
+	/**////
+	public static SDT sdt;
+	private final static int IDRange = 20;
 	//private final int initialDevNum = 5;
-	private HashMap<Integer, DevIDState> devIDTable;
+	private static HashMap<Integer, DevIDState> devIDTable;
 	private Thread devConThread;
-	private Boolean POWER = true;
+	//private Boolean POWER = true;
 	public static SignalReg signalReg;
 	@Override
 	public void run() {
@@ -25,9 +28,10 @@ public class DevController implements Runnable{
 		//Boolean askAvailDev;
 		//Boolean CMD;
 		// TODO Auto-generated method stub
-		while(POWER) {
+		while(Global.Power) {
 			try {
-				Thread.sleep(100);
+				System.out.println("devCon is working");
+				Thread.sleep(1000);
 				
 				//responseINTR = ;
 				//askAvailDev = ;
@@ -50,10 +54,19 @@ public class DevController implements Runnable{
 	
 	public DevController() {
 		// TODO Auto-generated constructor stub
-		this.sdt = new SDT();
-		this.signalReg = new SignalReg();
+		System.out.println("devicecontroller init");
+		//sdt = new SDT();
+		this.devIDTable = new HashMap<>();
+		System.out.println("DevID table init");
 		this.initDeviceIDTable();
-		this.initDevice();
+		System.out.println("device init");
+		HashMap<DevType, DCT> initTable = this.initDevice();
+		System.out.println("sdt init");
+		sdt = new SDT(initTable);
+		System.out.println("signal");
+		signalReg = new SignalReg();
+		System.out.println("finish devCon init");
+		
 	}
 	
 	public void startDevController() {
@@ -68,50 +81,100 @@ public class DevController implements Runnable{
 	 * 初始化设备ID维护表
 	 */
 	private void initDeviceIDTable() {
-		for(int i = 0;i < this.sdt.getMaxSize();i++) {
+		System.out.println("enter DevID table init function");
+		//System.out.println("sdt maxsize:"+sdt.getMaxSize());
+		for(int i = 0;i < IDRange;i++) {
+			
 			devIDTable.put(i, DevIDState.VALID);
+			System.out.println("DevID table"+i+devIDTable.get(i));
 		}
+		System.out.println("finish DevID table init");
 	}
 	
 	/*
 	 * 初始化系统设备
 	 */
-	private void initDevice() {
-		DevTb devTb = this.newDevice(DevType.AUDIO);
-		this.sdt.addDeviceIntoSystem(devTb);
-		devTb = this.newDevice(DevType.DISK);
-		this.sdt.addDeviceIntoSystem(devTb);
-		devTb = this.newDevice(DevType.KEYBOARD);
-		this.sdt.addDeviceIntoSystem(devTb);
-		devTb = this.newDevice(DevType.MICROPHONE);
-		this.sdt.addDeviceIntoSystem(devTb);
-		devTb = this.newDevice(DevType.PRINTER);
-		this.sdt.addDeviceIntoSystem(devTb);
-		System.out.println("Initialize SDT finished"+"Now there are "+sdt.getDevCount()+"outer devices in system");
-		
+	private HashMap<DevType, DCT> initDevice() {
+		HashMap<DevType, DCT> initTable = new HashMap<>();
+		int i = 0;
+		DCT dct = new DCT(DevType.AUDIO);
+		DevTb devTb = new DevTb(DevType.AUDIO, DevState.FREE, i);
+		devIDTable.put(i, DevIDState.INVALID);
+		dct.addDev(devTb);
+		i++;
+		initTable.put(DevType.AUDIO, dct);
+		System.out.println("！！！！！！");
+		dct = new DCT(DevType.DISK);
+		devTb = new DevTb(DevType.DISK, DevState.FREE, i);
+		devIDTable.put(i, DevIDState.INVALID);
+		dct.addDev(devTb);
+		i++;
+		initTable.put(DevType.DISK, dct);
+		System.out.println("！！！！！！");
+		dct = new DCT(DevType.KEYBOARD);
+		devTb = new DevTb(DevType.KEYBOARD, DevState.FREE, i);
+		devIDTable.put(i, DevIDState.INVALID);
+		dct.addDev(devTb);
+		i++;
+		initTable.put(DevType.KEYBOARD, dct);
+		System.out.println("！！！！！！");
+		dct = new DCT(DevType.MICROPHONE);
+		devTb = new DevTb(DevType.MICROPHONE, DevState.FREE, i);
+		devIDTable.put(i, DevIDState.INVALID);
+		dct.addDev(devTb);
+		i++;
+		initTable.put(DevType.MICROPHONE, dct);
+		System.out.println("！！！！！！");
+		dct = new DCT(DevType.PRINTER);
+		devTb = new DevTb(DevType.PRINTER, DevState.FREE, i);
+		devIDTable.put(i, DevIDState.INVALID);
+		dct.addDev(devTb);
+		i++;
+		initTable.put(DevType.PRINTER, dct);
+		System.out.println("！！！！！！");
+		//System.out.println("Initialize SDT finished"+"Now there are "+sdt.getDevCount()+"outer devices in system");
+		return initTable;
 	}
 	
 	
 	/*
-	 *初始化一个新设备 
+	 *往系统中增加一个设备
+	 *界面调用
 	 */
-	private DevTb newDevice(DevType devType) {
+	public static DevTb addDevice(DevType devType) {
 		DevTb devTb;
-		for(int i = 0;i < this.sdt.getMaxSize();i++) {
-			if(devIDTable.get(i) == DevIDState.VALID) {//如果这个设备ID号有效，就将设备与这个ID绑定
-				devTb = new DevTb(devType, DevState.FREE, i);
-				devIDTable.put(i, DevIDState.INVALID);
-				System.out.println("Create a"+devType+"object succuss");
-				return devTb;			
-				}
+		int devID = findAnValidDevID();
+		if(devID > 0) {
+			devTb = new DevTb(devType, DevState.FREE, devID);
+			devIDTable.put(devID, DevIDState.INVALID);
+			sdt.addDeviceIntoSystem(devTb);
+			return devTb;
 		}
-		System.out.println("There is no valid Device ID to be distributed for a new "+devType);
 		return null;
 	}
 //
+	public static Boolean delDevice(DevType devType, int devID) {
+		if(sdt.deleteDeviceFromSystem(devID, devType)) {
+			System.out.println("Device "+devID+" is deleted");
+			return true;
+		}
+		return false;
+	}
 	
+	private static int findAnValidDevID() {
+		int devID = -1;
+		for(int i = 0;i < IDRange;i++) {
+			if(devIDTable.get(i) == DevIDState.VALID) {
+				devID = i;
+				System.out.println("find a valid ID"+i);
+				break;
+			}
+		}
+		return devID;
+	}
 	public static Boolean wait(DevType devType, int proID) {
 		HashMap<Integer, Integer> allocate = sdt.allocateFreeDevice(devType, 1, proID);
+		System.out.println("wait successfully of device:"+allocate);
 		if(allocate.isEmpty()) {
 			return false;
 		}
@@ -125,7 +188,15 @@ public class DevController implements Runnable{
 	 */
 	public static Boolean signal(DevType devType, int proID) {
 		int devID = sdt.getDevIDByDevTpyeAndProID(proID, devType);
+		int[] dev = sdt.getAvailDevCountSortByType();
+		for(int i = 0;i < 5;i++) {
+			System.out.println(dev[i]);
+		}
 		sdt.freeBusyDevice(devType, devID);
+		dev = sdt.getAvailDevCountSortByType();
+		for(int i = 0;i < 5;i++) {
+			System.out.println(dev[i]);
+		}
 		return true;
 	}
 	/*
@@ -149,12 +220,15 @@ public class DevController implements Runnable{
 		 this.signalReg.setCMDReg(signalType, devType, proID);
 		System.out.println("Receive CMD from CPU"+signalType);
 		 */
-		
+		System.out.println("in sendCMD");
 		int devID = sdt.getDevIDByDevTpyeAndProID(proID, devType);
+		System.out.println("the devID is"+devID);
 		switch (devType) {
 		case PRINTER://启动打印机
+			System.out.println("ready to start PRINTER");
 			Printer printer = new Printer(devID);
 			printer.start();
+			System.out.println("start the printer");
 			break;
 		case KEYBOARD://启动打印机
 			Keyboard keyboard = new Keyboard(devID);

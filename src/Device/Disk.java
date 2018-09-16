@@ -6,15 +6,15 @@ package Device;
 import java.util.Random;
 
 import Global.Global;
-import Interrupt.InterHandler;
-import Interrupt.InterType;
+/**///import Interrupt.InterHandler;
+/**///import Interrupt.InterType;
 
 /**
  * @author 45044
  *
  */
 public class Disk implements Runnable{
-	private final int RANGE = 50;
+	private final int RANGE = 3;
 	private Random rand; 
 	private int runTime;
 	private Thread thread;
@@ -34,32 +34,32 @@ public class Disk implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		InterHandler interHandler = new InterHandler();
-		System.out.println("Keybord"+this.belongDevID+"is waiting for user's input.");
+		/**///InterHandler interHandler = new InterHandler();
+		System.out.println("disk"+this.belongDevID+"is waiting for user's input.");
 		try {
 			switch (this.signalType) {
 			case WRITE:
 				System.out.println("Disk"+this.belongDevID+"receive data from CPU to disk:");
 				System.out.println(Global.databus);
 				Thread.sleep(this.runTime*1000);
-				interHandler.devINTR(InterType.DISKINT, this.belongDevID);
+				/**///interHandler.devINTR(InterType.DISKINT, this.belongDevID);
 				while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
-					//Thread.sleep(this.runTime*1000);
+					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
-					interHandler.devINTR(InterType.DISKINT, this.belongDevID);
+					/**///interHandler.devINTR(InterType.DISKINT, this.belongDevID);
 				}
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");
 				break;
 			case READ:
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Disk"+this.belongDevID+"send data to CPU:");
-				interHandler.devINTR(InterType.DISKINT, this.belongDevID);
+				/**///interHandler.devINTR(InterType.DISKINT, this.belongDevID);
 				while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
-					//Thread.sleep(this.runTime*1000);
+					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
-					interHandler.devINTR(InterType.DISKINT, this.belongDevID);
+					/**///interHandler.devINTR(InterType.DISKINT, this.belongDevID);
 				}
 				Global.databus = data+this.belongDevID;
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");

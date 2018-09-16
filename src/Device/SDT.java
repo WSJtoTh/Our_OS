@@ -20,9 +20,9 @@ public class SDT {
 	private int devCount = 0;	//系统当前的设备总数<=20
 	private HashMap<DevType, DCT> sysDevTb;
 	
-	public SDT() {//初始化一个系统设备表
+	public SDT(HashMap<DevType, DCT> sysDevTb) {//初始化一个系统设备表
 		// TODO Auto-generated constructor stub
-		this.sysDevTb = new HashMap<>();
+		this.sysDevTb = sysDevTb;
 	}
 	
 	public Boolean addDeviceIntoSystem(DevTb devTb) {
@@ -54,6 +54,7 @@ public class SDT {
 		//int availCount = 0;
 		DCT dct = this.sysDevTb.get(devType);
 		HashMap<Integer, Integer> allocateMap = dct.allocateFreeDevice(needCount, belongProID);
+		System.out.println("success allocate in SDT,device:"+allocateMap);
 		return allocateMap;
 	}
 	

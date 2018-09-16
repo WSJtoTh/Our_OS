@@ -6,8 +6,8 @@ package Device;
 import java.util.Random;
 
 import Global.Global;
-import Interrupt.InterHandler;
-import Interrupt.InterType;
+/**///import Interrupt.InterHandler;
+/**///import Interrupt.InterType;
 
 /**
  * @author 45044
@@ -32,17 +32,17 @@ public class Microphone implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		InterHandler interHandler = new InterHandler();
+		/**///InterHandler interHandler = new InterHandler();
 		System.out.println("Microphone"+this.belongDevID+"is running.");
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The device"+this.belongDevID+"finished");
-			interHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID);
+			/**///interHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Microphone"+this.belongDevID+"INTR wasn't accept by CPU");
 				//Thread.sleep(this.runTime*1000);
 				System.out.println("Microphone"+this.belongDevID+"resend INTR");
-				interHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID);
+				/**///interHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID);
 			}
 			Global.databus = data+this.belongDevID;
 			System.out.println("CPU accept Microphone"+this.belongDevID+"'s INTR");
