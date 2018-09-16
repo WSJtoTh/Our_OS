@@ -11,18 +11,29 @@ import Process.Process;
 
 
 public class Memory {
-	static Page[] pages=new Page[30];
-	private static int pageUse;//已使用数据页数
-	private int insNum;//指令条数
-	private int pageNum;//初始数据页数
-	int insPage;//代码段对应物理页号
-	private int[] sourceList=new int[9];
+	static Page[] pages=new Page[4];
+	static int pageUse;//已使用数据页数
+	private static int insNum;//指令条数
+	private static int pageNum;//初始数据页数
+	static int insPage;//代码段对应物理页号
+	private static int[] sourceList=new int[9];
 	
-	public double getPageUse() {//获取内存使用率(实时刷新)
-		return this.pageUse/30*1.00;
+	public static double getPageUseRate() {//获取内存使用率(实时刷新)
+		return pageUse/4*1.00;
 	}
 	public Memory() {}
-	public void getTxt(File file,int pid){//读取指令条数，初始数据页数以及资源数组
+	
+	public static void InitPage() {//初始化内存界面
+		try {
+			for(int i=0;i<pages.length;i++) {
+				pages[i]=new Page();
+			}
+		}catch(Exception e){
+            e.printStackTrace();
+        }
+	}
+	
+	public static void getTxt(File file,int pid){//读取指令条数，初始数据页数以及资源数组
 	    try{
 	         BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
 	         String s ="";
@@ -51,7 +62,7 @@ public class Memory {
 	}	
 	
 	
-	public boolean InitMemory(File file,int pid) {//实际给初始数据页以及代码段分配内存
+	public static boolean InitMemory(File file,int pid) {//实际给初始数据页以及代码段分配内存
 		 try{
 	         BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
 	         String s ="";
@@ -76,6 +87,7 @@ public class Memory {
 	        
 	        	 }
 	         }
+	         
 	         while((s=br.readLine())!=null ){
 	        	 lines++;
 		         if(lines==3) {
@@ -97,6 +109,7 @@ public class Memory {
 		        	 			if(j==m.length) {
 		        	 				return true;
 		        	 			}
+		        	 			
 		        	 		}
 		        	 	}
 		         } 
@@ -111,11 +124,11 @@ public class Memory {
 		 	return false;
 }	
 	
-	public boolean isFree() {//判断进程是否可创建
+	public static boolean isFree() {//判断进程是否可创建
 		try {
-			for(int i=0;i<pages.length;i++) {
+			/*for(int i=0;i<pages.length;i++) {
 				pages[i]=new Page();
-			}
+			}*/
 			int j=0;
 			int total=pageNum+1;
 			for(int i=0;i<pages.length;i++) {
@@ -199,7 +212,7 @@ public static void replacePage(int pid,int pageNO){//中断置换页面
 		long maxTime=endTime-pages[0].getTime();
 		for(int i=1;i<pages.length;i++) {
 			dur[i]=endTime-pages[i].getTime();
-			if(dur[i]>=maxTime) {
+			if(dur[i]>maxTime) {
 				replace_page=i;
 				maxTime=dur[i];
 			}
