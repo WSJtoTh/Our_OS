@@ -33,7 +33,7 @@ public class Memory {
         }
 	}
 	
-	public static void getTxt(File file,int pid){//读取指令条数，初始数据页数以及资源数组
+	public static void getTxt(File file){//读取指令条数，初始数据页数以及资源数组
 	    try{
 	         BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
 	         String s ="";
@@ -170,7 +170,7 @@ public class Memory {
 		return false;
 	}
 	
-	public boolean setPCB(Process m) {//set PCB
+	public static boolean setPCB(Process m) {//set PCB
 		try {
 			m.setActivemm(insPage);//代码物理页号
 			m.setLimit(insNum);//指令条数
@@ -181,7 +181,7 @@ public class Memory {
 		return false;
 	}
 	
-	public void releasePro(int pid) {//进程结束释放内存
+	public static void releasePro(int pid) {//进程结束释放内存
 		for(int i=0;i<pages.length;i++) {
 			if(pages[i].getPid()==pid) {
 				pages[i].setState(0);
