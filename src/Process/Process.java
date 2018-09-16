@@ -10,9 +10,9 @@ public class Process {
 	private int active_mm;//存储代码的页号
 	private int pc;//pc当前值
 	private int limit;//指令界限寄存器
-	private int[] resource_max;//资源最大需求数组
-	private int[] resource_hold;//持有资源数组
-	private int[] resource_need;//下一时间片资源需求数组
+	private int[] resource_max = new int[8];//资源最大需求数组
+	private int[] resource_hold = new int[8];//持有资源数组
+	private int[] resource_need = new int[8];//下一时间片资源需求数组
 	private int waitingtime;//进程等待时间片
 	private int runningtime;//进程执行时间片
 	
@@ -42,7 +42,29 @@ public class Process {
 	
 	public String toString() {
 		String s;
-		s = "pid = " + pid + " state = " + convertState();
+		s = "pid = " + pid + " state = " + convertState() + "\n";
+		s += "resource_max: ";
+		for(int i = 0;i < resource_max.length;i++) {
+			s += resource_max[i];
+			s += "\t";
+					
+		}
+		s += "\n";
+		s += "resource_need: ";
+		for(int i = 0;i < resource_need.length;i++) {
+			s += resource_need[i];
+			s += "\t";
+					
+		}
+		s += "\n";
+		s += "resource_max: ";
+		for(int i = 0;i < resource_hold.length;i++) {
+			s += resource_hold[i];
+			s += "\t";
+					
+		}
+		s += "\nwait_signal: " + signal + "\nactive_mm: "+active_mm+"\npc: "+pc+"\nlimit: "+limit+"\nwaitingtime: "+waitingtime+"\nrunningtime: "+runningtime;
+		
 		return s;
 	}
 	
@@ -86,6 +108,7 @@ public class Process {
 			return true;
 		}
 		else {
+			System.out.println("pid:"+pid+" process finished!");
 			return false;
 		}
 		

@@ -68,6 +68,7 @@ public class ProcessMGT {
 	public static Process createProcess() {
 		Process p = new Process();
 		p.alloc_pid();
+		p.setPC(0);
 		return p;
 	}
 	

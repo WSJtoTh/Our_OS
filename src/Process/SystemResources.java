@@ -1,7 +1,7 @@
 package Process;
 public class SystemResources {
-	private static int[] Resource_max;
-	private static int[] Resource_remain;
+	private static int[] Resource_max = new int[8];
+	private static int[] Resource_remain= new int[8];
 	
 	//设置设备的最大数组
 	public static void setDevmax(int[] max) {

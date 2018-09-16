@@ -1,4 +1,4 @@
 package Process;
 public enum ResourceType {
-	E,F,G,K,P,R,W,M,A
+	E,F,G,K,P,D,M,A
 }
