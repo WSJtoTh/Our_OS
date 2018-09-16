@@ -1,6 +1,8 @@
 package Process;
-import Device.DevType;
+import Device.*;
 import java.util.*;
+import memory.*;
+import pro.*;
 
 public class ProcessMGT {
 	static LinkedList<Process> allProcess = new LinkedList<>();//全部进程
@@ -15,8 +17,22 @@ public class ProcessMGT {
 		while(!terminated.isEmpty()) {
 			Process process = terminated.pop();
 			allProcess.remove(process);
-			//调用释放内存空间的函数//////////////////////////////////////////////////////////
+			//调用释放内存空间的函数
+			Memory.releasePro(process.getPid());
 		}
+	}
+	
+	//移出running队列
+	public static Process popRunning() {
+		Process process = null;
+		try {
+			process = running.pop();
+		}
+		catch(NoSuchElementException e) {
+			process = null;
+			System.out.println("没有running的进程！");
+		}
+		return process;
 	}
 	
 	//根据进程id获得进程
@@ -49,7 +65,15 @@ public class ProcessMGT {
 	}
 	
 	//创建进程
-	public void createProcess(Process process) {
+	public static Process createProcess() {
+		Process p = new Process();
+		p.alloc_pid();
+		return p;
+	}
+	
+	
+	//将创建的进程加入队列
+	public static void addProcess(Process process) {	
 		allProcess.add(process);
 		ready.add(process);
 	}
@@ -138,8 +162,11 @@ public class ProcessMGT {
 		}
 		p.setResource_need(need);
 		
-		//往后取五条指令，进行处理/////////////////////////////////////////////////////
-		
+		//往后取五条指令，计算下一个时间片资源
+		int temppc = p.getPid();
+		for(int i = 0; temppc<p.getLimit() &&i < 5 ;i++,temppc++) {
+			ins.ExeInstruction(Memory.getIns(p.getActivemm(),temppc), p, 0);			
+		}
 		
 	}
 	
@@ -148,29 +175,34 @@ public class ProcessMGT {
 	public static void timeoutSchedule() {
 		LinkedList<Process> move_to_ready = new LinkedList<>();//存放到ready队列的process
 		LinkedList<Process> move_to_kill = new LinkedList<>();//存放到terminated队列的process
-		Process process = running.pop();
 		
 		incWaitTimes();//waiting队列中的设备等待时间加1
+		//更新一次设备资源表
+		SystemResources.setDevremain(DevController.getAvailDevTable());
+		SystemResources.setDevmax(DevController.getEntireDevTable());
 		
-		
-		//更新一次设备资源表////////////////////////////////////////////////////////////
-		
-		//先判断当前运行的process是否能进ready
-		
-		culNextNeed(process);//先计算下一个时间片的资源 更新need 
-		int req = SystemResources.reqResource(process.getResource_max(),process.getResource_need());
-		if(req == 1) {
-			SystemResources.decResource(process.getResource_need());
-			process.setResource_hold(process.getResource_need());
-			move_to_ready.add(process);
+		try {
+			Process process = running.pop();
+			//先判断当前运行的process是否能进ready
+			culNextNeed(process);//先计算下一个时间片的资源 更新need 
+			int req = SystemResources.reqResource(process.getResource_max(),process.getResource_need());
+			if(req == 1) {
+				SystemResources.decResource(process.getResource_need());
+				process.setResource_hold(process.getResource_need());
+				move_to_ready.add(process);
+			}
+			else if(req == -1) {
+				move_to_kill.add(process);
+			}
+			else {
+				releaseResource(process);
+				waiting.add(process);
+			}
+			
+		}catch(NoSuchElementException e) {
+			System.out.println("running队列为空，上一个进程执行完毕！");
 		}
-		else if(req == -1) {
-			move_to_kill.add(process);
-		}
-		else {
-			releaseResource(process);
-			waiting.add(process);
-		}
+		
 		
 		//遍历waiting中的process 是否能进ready ？？？？？？等待过多时间片该如何处理
 		for(Process wp:waiting) {

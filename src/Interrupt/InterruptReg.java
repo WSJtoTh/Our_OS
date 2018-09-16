@@ -2,22 +2,29 @@ package Interrupt;
 //中断寄存器 中断屏蔽表
 public class InterruptReg {
 
-	private InterType NowInterType;
+	private static InterType NowInterType;
 	
 	InterruptReg(){
 		NowInterType=InterType.NULL;
 	}
 	//用于获取当前的中断类型
-	public InterType getInterType()
+	public static InterType getInterType()
 	{
 		
 		return NowInterType;
 		
 	}
 	//设置此时的中断类型
-	public boolean SetInterType(InterType type)
+	public static boolean SetInterType(InterType type)
 	{
-		//调用屏蔽表
+		
+		if(type==InterType.NULL)
+		{
+			NowInterType=type;
+			return true;
+		}
+		else
+		{//调用屏蔽表
 		boolean admit=false;
 		admit=AdmitInter(type);
 		
@@ -31,10 +38,11 @@ public class InterruptReg {
 			System.out.println("中断被屏蔽掉了，有更高优先级中断在");
 			return false;
 		}
+		}
 		
 	}
 	
-	public int getPrior(InterType type)
+	public static int getPrior(InterType type)
 	{
 		switch(type) {
 		case NEEDPAGE:
@@ -60,7 +68,7 @@ public class InterruptReg {
 		}
 	}
 	
-	public boolean AdmitInter(InterType type)
+	public static boolean AdmitInter(InterType type)
 	{
 		int thisPrior=getPrior(type);
 		int alreadyPrior=getPrior(NowInterType);

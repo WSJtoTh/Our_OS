@@ -143,13 +143,13 @@ public class InterHandler {
 			
 		}
 		
-		public int getdevINTRID() {
+		public static int getdevINTRID() {
 			return devINTRID;
 		}
 		
 		/////////////////////处理输出信息
 
-		public String output() {
+		public static String output() {
 			String Tips=outString;
 			outString="";//消息已被取走后就会清空
 			return Tips;
