@@ -17,13 +17,22 @@ public class ProcessMGT {
 		while(!terminated.isEmpty()) {
 			Process process = terminated.pop();
 			allProcess.remove(process);
-			//调用释放内存空间的函数//////////////////////////////////////////////////////////
+			//调用释放内存空间的函数
+			Memory.releasePro(process.getPid());
 		}
 	}
 	
-	//移出ready队列
-	public static void popRunning() {
-		running.pop();
+	//移出running队列
+	public static Process popRunning() {
+		Process process = null;
+		try {
+			process = running.pop();
+		}
+		catch(NoSuchElementException e) {
+			process = null;
+			System.out.println("没有running的进程！");
+		}
+		return process;
 	}
 	
 	//根据进程id获得进程
@@ -56,7 +65,15 @@ public class ProcessMGT {
 	}
 	
 	//创建进程
-	public void createProcess(Process process) {
+	public static Process createProcess() {
+		Process p = new Process();
+		p.alloc_pid();
+		return p;
+	}
+	
+	
+	//将创建的进程加入队列
+	public static void addProcess(Process process) {	
 		allProcess.add(process);
 		ready.add(process);
 	}
@@ -185,6 +202,7 @@ public class ProcessMGT {
 		}catch(NoSuchElementException e) {
 			System.out.println("running队列为空，上一个进程执行完毕！");
 		}
+		
 		
 		//遍历waiting中的process 是否能进ready ？？？？？？等待过多时间片该如何处理
 		for(Process wp:waiting) {
