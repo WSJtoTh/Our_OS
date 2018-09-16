@@ -6,6 +6,8 @@ package Device;
 import java.util.Random;
 
 import Global.Global;
+import Interrupt.InterHandler;
+import Interrupt.InterType;
 /**///import Interrupt.*;
 /**
  * @author 45044
@@ -30,17 +32,17 @@ public class Keyboard implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		/**///InterHandler interHandler = new InterHandler();
+		//InterHandler interHandler = new InterHandler();
 		System.out.println("Keybord"+this.belongDevID+"is waiting for user's input.");
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The keybord"+this.belongDevID+"has get data from users");
-			/**///interHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID);
+			InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Keyboard"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Keyboard"+this.belongDevID+"resend INTR");
-				/**///interHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID);
+				InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID);
 			}
 			Global.databus = data;
 			System.out.println("CPU accept Keyboard"+this.belongDevID+"'s INTR");

@@ -8,6 +8,8 @@ import java.util.Random;
 import Global.Global;
 /**///import Interrupt.InterHandler;
 /**///import Interrupt.InterType;
+import Interrupt.InterHandler;
+import Interrupt.InterType;
 
 /**
  * @author 45044
@@ -31,23 +33,22 @@ public class Disk implements Runnable{
 		System.out.println("设备"+devID+"运行线程创建");
 	}
 
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		/**///InterHandler interHandler = new InterHandler();
-		System.out.println("disk"+this.belongDevID+"is waiting for user's input.");
 		try {
 			switch (this.signalType) {
 			case WRITE:
 				System.out.println("Disk"+this.belongDevID+"receive data from CPU to disk:");
 				System.out.println(Global.databus);
 				Thread.sleep(this.runTime*1000);
-				/**///interHandler.devINTR(InterType.DISKINT, this.belongDevID);
+				InterHandler.devINTR(InterType.DISKINT, this.belongDevID);
 				while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
-					/**///interHandler.devINTR(InterType.DISKINT, this.belongDevID);
+					InterHandler.devINTR(InterType.DISKINT, this.belongDevID);
 				}
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");
 				break;
