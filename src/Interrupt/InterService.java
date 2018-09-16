@@ -33,9 +33,8 @@ public class InterService {
 		if (type == InterType.NULL) {
 			System.out.println("此时没有中断");
 			return -1;// 表示没有中断！
-		} 
-		else {
-			System.out.println("此时中断"+type);
+		} else {
+			System.out.println("此时中断" + type);
 			int OK = 0;
 			// 判别中断源，转入中断服务程序
 			if (type == InterType.TIMEOUT) {
@@ -85,7 +84,7 @@ public class InterService {
 
 		// time.setsleepFlag(1);
 		// 调度函数
-		
+
 		ProcessMGT.timeoutSchedule();
 		// 时间片清零
 		time.setRRTime(0);
@@ -100,7 +99,7 @@ public class InterService {
 		reg.SetInterType(InterType.NULL);
 		// 开中断 允许响应
 		IntrHandler.onSwitch();
-		System.out.println("虚拟页号"+ InterHandler.getPageNumber());
+		System.out.println("虚拟页号" + InterHandler.getPageNumber());
 		Memory.replacePage(PCB.getPid(), InterHandler.getPageNumber());
 		System.out.println("成功处理缺页中断");
 
@@ -117,19 +116,15 @@ public class InterService {
 		// 执行中断服务程序
 		Process PCB = IntrHandler.getPCB();
 		boolean flag = DevController.responseINTR(IntrHandler.getdevINTRID(), devType);
-		boolean flag1=DevController.signal(devType, PCB.getPid());
-		if(flag==true&&flag1==true)
-		{
+		boolean flag1 = DevController.signal(devType, PCB.getPid());
+		if (flag == true && flag1 == true) {
 			System.out.println("成功处理打印机中断");
 			return 1;
-		}
-		else
-		{
+		} else {
 			System.out.println("未成功处理打印机中断");
 			return 0;
 		}
 
-		
 	}
 
 	public static int DealKeyboardInt() {
@@ -145,13 +140,12 @@ public class InterService {
 		Process PCB = IntrHandler.getPCB();
 		boolean flag = DevController.responseINTR(IntrHandler.getdevINTRID(), devType);
 		System.out.println("来自Keyboard的数据" + Global.databus);
-		boolean flag1=DevController.signal(devType, PCB.getPid());
+		boolean flag1 = DevController.signal(devType, PCB.getPid());
 
-		if(flag==true&&flag1==true)
-		{	System.out.println("成功处理KEYBOARD中断");
+		if (flag == true && flag1 == true) {
+			System.out.println("成功处理KEYBOARD中断");
 			return 1;
-		}
-		else {
+		} else {
 			System.out.println("未成功处理KEYBOARD中断");
 			return 0;
 		}
@@ -169,17 +163,15 @@ public class InterService {
 		Process PCB = IntrHandler.getPCB();
 		boolean flag = DevController.responseINTR(IntrHandler.getdevINTRID(), devType);
 		System.out.println("来自Microphone的数据" + Global.databus);
-		boolean flag1=DevController.signal(devType, PCB.getPid());
-		if(flag==true&&flag1==true)
-		{
+		boolean flag1 = DevController.signal(devType, PCB.getPid());
+		if (flag == true && flag1 == true) {
 			System.out.println("成功处理麦克风中断");
 			return 1;
-		}
-		else {
+		} else {
 			System.out.println("未成功处理麦克风中断");
 			return 0;
 		}
-		
+
 	}
 
 	public static int DealDiskInt() {
@@ -200,19 +192,15 @@ public class InterService {
 		boolean flag1 = DevController.signal(devType, PCB.getPid());
 		System.out.println(PCB.getPid());
 
-		if(flag==true&&flag1==true)
-		{
-			
+		if (flag == true && flag1 == true) {
+
 			System.out.println("成功处理磁盘中断");
 			return 1;
-		}
-		else {
+		} else {
 			System.out.println("未成功处理磁盘中断");
 			return 0;
 		}
-		
 
-		
 	}
 
 	public static int DealAudioInt() {
@@ -230,8 +218,7 @@ public class InterService {
 		if (flag == true && flag1 == true) {
 			System.out.println("成功处理音响中断");
 			return 1;
-		}
-		else {
+		} else {
 			System.out.println("未成功处理音响中断");
 			return 0;
 		}
@@ -257,12 +244,12 @@ public class InterService {
 		if (CMD == SignalType.WRITE) {
 			Global.databus = "来自进程的数据1234";
 		}
-		PCB=InterHandler.getPCB();
-		System.out.println("pid"+PCB.getPid()+" 设备类型"+IntrHandler.getDevType()+" CMD:"+CMD);
+		PCB = InterHandler.getPCB();
+		System.out.println("pid" + PCB.getPid() + " 设备类型" + IntrHandler.getDevType() + " CMD:" + CMD);
 
-		boolean flag1= DevController.wait(IntrHandler.getDevType(), PCB.getPid());
-		if (flag == true&&flag1==true) {
-			
+		boolean flag1 = DevController.wait(IntrHandler.getDevType(), PCB.getPid());
+		if (flag == true && flag1 == true) {
+
 			System.out.println("成功处理IO中断");
 			return 1;
 		} else {
