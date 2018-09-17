@@ -46,10 +46,16 @@ public class ProcessMGT {
 	
 	//打印所有进程状态
 	public static void printAll() {
+		/*
 		System.out.println("所有进程情况:");
 		for(Process process: allProcess) {
 			System.out.println(process.toString());
-		}
+		}*/
+		printReady();
+		printRunning();
+		printWaiting();
+		printTerminated();
+		printBlocking();
 	}
 	
 	//打印所有等待状态
@@ -287,6 +293,8 @@ public class ProcessMGT {
 				
 		//清一次terminated
 		killProcess();
+		
+		printAll();//////////////////////////////////打印输出信息
 		
 		//取ready到running
 		try {

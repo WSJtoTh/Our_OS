@@ -63,7 +63,8 @@ public class ProducerThread extends Thread{
 				Memory.setPCB(p);
 				//加入ready队列
 				ProcessMGT.addProcess(p);
-				p.toString();
+				System.out.print(file.getName()+"创建进程");
+				System.out.println(p.toString());
 				flag = false;
 			}
 			
