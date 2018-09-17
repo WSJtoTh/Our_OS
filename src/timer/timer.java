@@ -53,7 +53,7 @@ public class timer extends Thread{
 			if(RRTime%(Global.RRLength)==0&&RRTime!=0)
 			{
 				//触发中断
-				handler.timeINTR(InterType.TIMEOUT);
+				InterHandler.timeINTR(InterType.TIMEOUT);
 				RRCount++;
 				//置零
 				RRTime=0;

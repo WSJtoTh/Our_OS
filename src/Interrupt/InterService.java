@@ -76,7 +76,7 @@ public class InterService {
 
 	public static int DealTimeOut() {
 		// 中断寄存器置NULL
-		reg.SetInterType(InterType.NULL);
+		
 		// 开中断 允许响应
 		IntrHandler.onSwitch();
 
@@ -89,7 +89,7 @@ public class InterService {
 		// 时间片清零
 		time.setRRTime(0);
 		System.out.println("成功处理时钟中断");
-
+		reg.SetInterType(InterType.NULL);
 		return 1;
 
 	}
