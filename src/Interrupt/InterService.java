@@ -186,7 +186,7 @@ public class InterService {
 		DevType devType;
 		devType = DevType.DISK;
 		// 执行中断服务程序
-		SignalType signal = IntrHandler.getSignal();
+		SignalType signal = IntrHandler.getsType();
 
 		Process PCB = IntrHandler.getPCB();
 		boolean flag = DevController.responseINTR(IntrHandler.getdevINTRID(), devType);

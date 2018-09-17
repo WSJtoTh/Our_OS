@@ -12,11 +12,12 @@ public class InterHandler {
 	private static int devINTRID;
 	private static InterruptReg INTRreg = new InterruptReg();
 	private static String outString;
-	private static SignalType rOrw;
+	private static SignalType rOrw;//io中断时用的记录读或写
 	private static int virPage;// 缺页时使用的虚拟页号
 	private static Process pcb = new Process(); // 从进程获得
 	private static DevType devType;// io中断时需要记录的devType
 	private static int DevReProId;
+	private static SignalType stype;//dev中断时给的type类型
 
 	public InterHandler() {
 		INTRSwitch = 1;
@@ -105,7 +106,7 @@ public class InterHandler {
 	}
 
 	// 给设备的
-	public static void devINTR(InterType type, int INTRID,int proId) {
+	public static void devINTR(InterType type, int INTRID,int proId,SignalType sType) {
 		if (INTRSwitch == 0) {
 			System.out.println("中断已关闭，无法收到中断请求");
 		}
@@ -115,6 +116,7 @@ public class InterHandler {
 		if (setType == true) {
 			devINTRID = INTRID;
 			DevReProId=proId;
+			stype=sType;
 			System.out.println("设备中断成功写入中断寄存器！");
 			// outString="设备中断";
 			switch (type) {
@@ -142,6 +144,9 @@ public class InterHandler {
 		return devINTRID;
 	}
 
+	public static SignalType getsType() {
+		return stype;
+	}
 	
 	public static int getDevReProId() {
 		return DevReProId;
