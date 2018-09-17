@@ -190,6 +190,7 @@ public class ProcessMGT {
 	public static void blockProcess(Process process,DevType dev) {
 		process.setState(PState.INTERRUPTIBLE);
 		process.setSignal(dev);
+		running.pop();
 		blocking.add(process);
 	}
 	
@@ -246,6 +247,8 @@ public class ProcessMGT {
 			Process process = running.pop();
 			//先判断当前运行的process是否能进ready
 			culNextNeed(process);//先计算下一个时间片的资源 更新need 
+			System.out.println("pid:"+process.getPid()+"进程下一时间片请求的资源：");
+			System.out.println(process.printNeed());
 			int req = SystemResources.reqResource(process.getResource_max(),process.getResource_need());
 			if(req == 1) {
 				int[] need = new int[8];

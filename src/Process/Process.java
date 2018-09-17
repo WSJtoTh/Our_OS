@@ -53,6 +53,16 @@ public class Process {
 		return this.state.name();
 	}
 	
+	public String printNeed () {
+		String s = null;
+		for(int i = 0;i < resource_need.length;i++) {
+			s += resource_need[i];
+			s += "\t";
+					
+		}
+		return s;
+	}
+	
 	public String toString() {
 		String s;
 		s = "pid = " + pid + " state = " + state + "\n";
