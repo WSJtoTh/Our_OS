@@ -222,7 +222,7 @@ public class ProcessMGT {
 		p.setResource_need(need);
 		
 		//往后取五条指令，计算下一个时间片资源
-		int temppc = p.getPid();
+		int temppc = p.getPC();
 		for(int i = 0; temppc<p.getLimit() &&i < 5 ;i++,temppc++) {
 			ins.ExeInstruction(Memory.getIns(p.getActivemm(),temppc), p, 0);			
 		}
