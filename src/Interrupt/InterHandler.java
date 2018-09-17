@@ -53,6 +53,8 @@ public class InterHandler {
 	// 给进程的IO中断
 	public static void ioINTR(InterType type, Process PCB, SignalType signal, DevType devType)// 传入PCB
 	{
+		System.out.println("IO中断！！!!!!绑定的PCBid为"+PCB.getPid());
+		System.out.println("IO中断！！！！！设备类型"+devType);
 		if (INTRSwitch == 0) {
 			System.out.println("中断已关闭，无法收到中断请求");
 		}
