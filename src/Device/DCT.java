@@ -126,7 +126,7 @@ public class DCT {
 	
 	public void showDevState() {
 		System.out.println(this.devType+" state:");
-		System.out.println("DevID\tDevState\tProID");
+		System.out.println("DevID\tDevState\t\tProID");
 		for(int i = 0;i < this.devCount;i++) {
 			System.out.println(this.deviceArray[i].getDevID()+"\t"+this.deviceArray[i].getDevState()+"\t"+this.deviceArray[i].getBelongProID());
 		}
