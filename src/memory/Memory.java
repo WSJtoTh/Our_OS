@@ -39,7 +39,7 @@ public class Memory {
 		        	 pages[j].insList=new ArrayList<String>();
 		         }
 			}
-			
+			System.out.println("内存页面初始化成功！");
 		}catch(Exception e){
             e.printStackTrace();
         }
@@ -67,6 +67,7 @@ public class Memory {
 		            	}	
 		        	 }
 	          }
+	         System.out.println("成功读取程序txt！");
 	            br.close();    
 	        }catch(Exception e){
 	            e.printStackTrace();
@@ -123,6 +124,7 @@ public class Memory {
 		        		pages[insPage].insList.add(s);
 		         }
 		     }
+	         System.out.println("数据页初始分配成功！");
 		     br.close();    
 	        }catch(Exception e){
 	            e.printStackTrace();
@@ -180,6 +182,7 @@ public class Memory {
 		try {
 			m.setActivemm(insPage);//代码物理页号
 			m.setLimit(insNum);//指令条数
+			System.out.println("成功set PCB！");
 			return true;
 		}catch(Exception e){
             e.printStackTrace();
@@ -196,6 +199,7 @@ public class Memory {
 				pages[i].setTime(0);
 				pageUse--;
 				pages[i].insList=null;
+				System.out.println("释放该内存页面");
 			}
 		}
 	}
@@ -206,11 +210,11 @@ public class Memory {
 		try {
 			//pages[pageNo].insList=new ArrayList<String>(insNum);
 			str=(String) pages[pageNo].insList.get(offset);
-			return str;
 		}catch(Exception e){
             e.printStackTrace();
         }
 		return str;
+		
 	}
 	
 public static void replacePage(int pid,int pageNO){//中断置换页面
@@ -230,5 +234,6 @@ public static void replacePage(int pid,int pageNO){//中断置换页面
 		pages[replace_page].setVirPage(pageNO);
 		pages[replace_page].setTime(System.currentTimeMillis());
 		pages[replace_page].insList=null;
+		System.out.println("页面置换成功！");
 	}
 }
