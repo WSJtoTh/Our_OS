@@ -22,10 +22,12 @@ public class Disk implements Runnable{
 	private Thread thread;
 	private SignalType signalType;
 	private int belongDevID;//线程所属的设备
+	private int belongProID;
 	private String data;
-	public Disk(int devID, SignalType signalType) {
+	public Disk(int devID, SignalType signalType, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
+		this.belongProID = proID;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
 		this.signalType = signalType;
@@ -43,12 +45,12 @@ public class Disk implements Runnable{
 				System.out.println("Disk"+this.belongDevID+"receive data from CPU to disk:");
 				System.out.println(Global.databus);
 				Thread.sleep(this.runTime*1000);
-				InterHandler.devINTR(InterType.DISKINT, this.belongDevID);
+				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID);
 				while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
-					InterHandler.devINTR(InterType.DISKINT, this.belongDevID);
+					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID);
 				}
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");
 				break;

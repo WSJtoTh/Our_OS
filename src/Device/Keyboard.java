@@ -19,10 +19,12 @@ public class Keyboard implements Runnable {
 	private int runTime;
 	private Thread thread;
 	private int belongDevID;//线程所属的设备
+	private int belongProID;
 	private String data;
-	public Keyboard(int devID) {
+	public Keyboard(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
+		this.belongProID = proID;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
 		this.data = "data from keybord";
@@ -37,12 +39,12 @@ public class Keyboard implements Runnable {
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The keybord"+this.belongDevID+"has get data from users");
-			InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID);
+			InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Keyboard"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Keyboard"+this.belongDevID+"resend INTR");
-				InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID);
+				InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID);
 			}
 			Global.databus = data;
 			System.out.println("CPU accept Keyboard"+this.belongDevID+"'s INTR");

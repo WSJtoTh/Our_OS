@@ -21,9 +21,11 @@ public class Audio implements Runnable{
 	private int runTime;
 	private Thread thread;
 	private int belongDevID;//线程所属的设备
-	public Audio(int devID) {
+	private int belongProID;
+	public Audio(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
+		this.belongProID = proID;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
 		System.out.println("设备"+devID+"运行线程创建");
@@ -39,12 +41,12 @@ public class Audio implements Runnable{
 			System.out.println(Global.databus);
 			Thread.sleep(this.runTime*1000);
 			System.out.println("Audio"+this.belongDevID+"finished");
-			InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID);
+			InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Audio"+this.belongDevID+"INTR wasn't accept by CPU");
 				/**/////Thread.sleep(this.runTime*1000);
 				System.out.println("Audio"+this.belongDevID+"resend INTR");
-				InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID);
+				InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID);
 			}
 			System.out.println("CPU accept Audio"+this.belongDevID+"'s INTR");
 			//发送完成中断请求

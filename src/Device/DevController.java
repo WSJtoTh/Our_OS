@@ -226,24 +226,24 @@ public class DevController implements Runnable{
 		switch (devType) {
 		case PRINTER://启动打印机
 			System.out.println("ready to start PRINTER");
-			Printer printer = new Printer(devID);
+			Printer printer = new Printer(devID, proID);
 			printer.start();
 			System.out.println("start the printer");
 			break;
 		case KEYBOARD://启动打印机
-			Keyboard keyboard = new Keyboard(devID);
+			Keyboard keyboard = new Keyboard(devID, proID);
 			keyboard.start();
 			break;
 		case DISK://启动打印机
-			Disk disk = new Disk(devID, signalType);
+			Disk disk = new Disk(devID, signalType, proID);
 			disk.start();
 			break;
 		case MICROPHONE://启动打印机
-			Microphone microphone = new Microphone(devID);
+			Microphone microphone = new Microphone(devID, proID);
 			microphone.start();
 			break;
 		case AUDIO://启动打印机
-			Audio audio = new Audio(devID);
+			Audio audio = new Audio(devID, proID);
 			audio.start();
 			break;
 		default:

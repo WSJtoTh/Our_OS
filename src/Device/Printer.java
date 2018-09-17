@@ -20,9 +20,11 @@ public class Printer implements Runnable {
 	private int runTime;
 	private Thread thread;
 	private int belongDevID;//线程所属的设备
-	public Printer(int devID) {
+	private int belongProID;
+	public Printer(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
+		this.belongProID = proID;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
 		System.out.println("设备"+devID+"运行线程创建");
@@ -38,12 +40,12 @@ public class Printer implements Runnable {
 			System.out.println(Global.databus);
 			Thread.sleep(this.runTime*1000);
 			System.out.println("Prnter"+this.belongDevID+"finished");
-			InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID);
+			InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Printer"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Printer"+this.belongDevID+"resend INTR");
-				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID);
+				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID);
 			}
 			System.out.println("CPU accept Printer"+this.belongDevID+"'s INTR");
 			//发送完成中断请求
