@@ -46,9 +46,9 @@ public class ProducerThread extends Thread{
 	
 	public void p_wait(File file) {
 		boolean flag = true;
+		//先判断是否可用
+		Memory.getTxt(file);
 		while(flag) {
-			//先判断是否可用
-			Memory.getTxt(file);
 			//若可用，跳出循环
 			if(Memory.isFree()) {//内存空闲
 				//创建进程pcb

@@ -29,6 +29,20 @@ public class Run {
 		DevController devc = new DevController();
 		devc.startDevController();
 		
+		System.out.println("resource_available");
+		int[] a = DevController.getAvailDevTable();
+		for(int i =0;i<a.length;i++) {
+			System.out.print(a[i]);
+		}
+		System.out.println("");
+		
+		System.out.println("resource_all");
+		int[] b = DevController.getEntireDevTable();
+		for(int i =0;i<b.length;i++) {
+			System.out.print(b[i]);
+		}
+		System.out.println("");
+		
 		while(true) {//power
 			if(fetchflag) {
 				process = ProcessMGT.getRunning();//取出running队列中的线程

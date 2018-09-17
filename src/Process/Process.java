@@ -27,6 +27,7 @@ public class Process {
 		for(int i = 3;i < resource_hold.length;i++) {
 			int num = resource_hold[i];
 			for(int j = 0;j < num;j++) {
+				System.out.println(num);
 				DevController.wait(DevType.values()[i-3], pid);
 				System.out.println("dev:"+DevType.values()[i-3]+"pid:"+pid);
 			}

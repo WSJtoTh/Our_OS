@@ -247,10 +247,12 @@ public class ProcessMGT {
 			int req = SystemResources.reqResource(process.getResource_max(),process.getResource_need());
 			if(req == 1) {
 				int[] need = new int[8];
+				SystemResources.printResource_remain();
 				SystemResources.decResource(process.getResource_need());
 				process.setResource_hold(process.getResource_need());
 				process.setResource_need(need);
 				process.bindDev();
+				SystemResources.printResource_remain();
 				move_to_ready.add(process);
 			}
 			else if(req == -1) {
@@ -271,10 +273,12 @@ public class ProcessMGT {
 			int res = SystemResources.reqResource(wp.getResource_max(),wp.getResource_need());
 			if( res == 1) {
 				int[] need = new int[8];
+				SystemResources.printResource_remain();
 				SystemResources.decResource(wp.getResource_need());
 				wp.setResource_hold(wp.getResource_need());
 				wp.setResource_need(need);
 				wp.bindDev();
+				SystemResources.printResource_remain();
 				move_to_ready.add(wp);
 				wp.resetWaitingtime();//重置等待时间
 			}
