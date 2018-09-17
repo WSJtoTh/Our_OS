@@ -12,7 +12,7 @@ public class Page {
 		private int pid;//进程号
 		private long time;
 		public Page() {}
-		public ArrayList insList;//指令集
+		public ArrayList<String> insList;//指令集
 		public long getTime() {
 			return this.time;
 		}

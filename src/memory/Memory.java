@@ -11,23 +11,35 @@ import Process.Process;
 
 
 public class Memory {
-	static Page[] pages=new Page[4];
+	static Page[] pages=new Page[30];
 	static int pageUse;//已使用数据页数
-	private static int insNum;//指令条数
-	private static int pageNum;//初始数据页数
+	static int insNum;//指令条数
+	static int pageNum;//初始数据页数
 	static int insPage;//代码段对应物理页号
-	private static int[] sourceList=new int[9];
+	private static int[] sourceList=new int[8];
 	
 	public static double getPageUseRate() {//获取内存使用率(实时刷新)
-		return pageUse/4*1.00;
+		return (double)pageUse/30.0*1.00;
 	}
+	
 	public Memory() {}
+	
+	public static int[] getSourceList() {//获取资源数组
+		return sourceList;
+	}
 	
 	public static void InitPage() {//初始化内存界面
 		try {
+			
 			for(int i=0;i<pages.length;i++) {
 				pages[i]=new Page();
 			}
+			for(int j=0;j<pages.length;j++) {
+		         for(int i=0;i<30;i++) {
+		        	 pages[j].insList=new ArrayList<String>();
+		         }
+			}
+			
 		}catch(Exception e){
             e.printStackTrace();
         }
@@ -62,7 +74,8 @@ public class Memory {
 	}	
 	
 	
-	public static boolean InitMemory(File file,int pid) {//实际给初始数据页以及代码段分配内存
+
+	public static void InitMemory(File file,int pid) {//实际给初始数据页以及代码段分配内存
 		 try{
 	         BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
 	         String s ="";
@@ -76,16 +89,8 @@ public class Memory {
 	        		 pages[i].setTime(System.currentTimeMillis());
 	        		 pageUse++;
 	        		 break;
-	        		/* while((s=br.readLine())!=null){
-	        			        	 lines++;
-	        				         if(lines>3) {
-	        				        		insList.add(s);
-	        				        	 }
-	        			          }
-	        			       
-	        				return insList;*/
-	        
 	        	 }
+	         
 	         }
 	         
 	         while((s=br.readLine())!=null ){
@@ -107,21 +112,22 @@ public class Memory {
 		        	 			j++;				        	 			
 		        	 			pageUse++;
 		        	 			if(j==m.length) {
-		        	 				return true;
+		        	 				break;
 		        	 			}
 		        	 			
 		        	 		}
 		        	 	}
 		         } 
 		         if(lines>4) {
+		        	 	//pages[insPage].insList=new ArrayList<String>(insNum);
 		        		pages[insPage].insList.add(s);
-		        	 }
+		         }
 		     }
 		     br.close();    
 	        }catch(Exception e){
 	            e.printStackTrace();
 	        }
-		 	return false;
+		 
 }	
 	
 	public static boolean isFree() {//判断进程是否可创建
@@ -184,6 +190,7 @@ public class Memory {
 	public static void releasePro(int pid) {//进程结束释放内存
 		for(int i=0;i<pages.length;i++) {
 			if(pages[i].getPid()==pid) {
+				pages[i].setPid(-1);
 				pages[i].setState(0);
 				pages[i].setVirPage(-1);
 				pages[i].setTime(0);
@@ -197,6 +204,7 @@ public class Memory {
 	public static String getIns(int pageNo,int offset) {//获得指定指令
 		String str = null;
 		try {
+			//pages[pageNo].insList=new ArrayList<String>(insNum);
 			str=(String) pages[pageNo].insList.get(offset);
 			return str;
 		}catch(Exception e){
