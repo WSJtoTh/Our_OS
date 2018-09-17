@@ -56,7 +56,7 @@ public class Process {
 	public String toString() {
 		String s;
 		s = "pid = " + pid + " state = " + state + "\n";
-		s += "resource_max: ";
+		s += "resource_max : ";
 		for(int i = 0;i < resource_max.length;i++) {
 			s += resource_max[i];
 			s += "\t";
