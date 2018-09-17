@@ -161,11 +161,13 @@ public class DevController implements Runnable{
 		return devID;
 	}
 	public static Boolean wait(DevType devType, int proID) {
+		System.out.println("Process"+proID+" waits for device "+devType);
 		HashMap<Integer, Integer> allocate = sdt.allocateFreeDevice(devType, 1, proID);
 		if(allocate.isEmpty()) {
 			System.out.println("wait failed");
 			return false;
 		}else {
+			System.out.println("{ProID=DevID}");
 			System.out.println("wait successfully of device:"+allocate);
 			return true;
 		}

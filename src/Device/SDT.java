@@ -54,7 +54,12 @@ public class SDT {
 		//int availCount = 0;
 		DCT dct = this.sysDevTb.get(devType);
 		HashMap<Integer, Integer> allocateMap = dct.allocateFreeDevice(needCount, belongProID);
-		System.out.println("success allocate in SDT,device:"+allocateMap);
+		if(allocateMap.isEmpty()) {
+			System.out.println("fail allocate in SDT");
+		}
+		else {
+			System.out.println("success allocate in SDT,device:"+allocateMap);
+		}
 		return allocateMap;
 	}
 	

@@ -68,7 +68,7 @@ public class DCT {
 				if(this.deviceArray[i].getDevState() == DevState.FREE) {//分配空闲设备
 					this.deviceArray[i].setDevSate(DevState.BUSY);
 					this.deviceArray[i].setBelongProID(belongProID);
-					allocateMap.put(i, this.deviceArray[i].getDevID());
+					allocateMap.put(belongProID, this.deviceArray[i].getDevID());
 					this.availDevCount--;
 					System.out.println("success to allocate the device:"+this.deviceArray[i].getDevID());
 				}
