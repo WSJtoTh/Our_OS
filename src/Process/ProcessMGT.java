@@ -250,6 +250,7 @@ public class ProcessMGT {
 				SystemResources.decResource(process.getResource_need());
 				process.setResource_hold(process.getResource_need());
 				process.setResource_need(need);
+				process.bindDev();
 				move_to_ready.add(process);
 			}
 			else if(req == -1) {
@@ -273,6 +274,7 @@ public class ProcessMGT {
 				SystemResources.decResource(wp.getResource_need());
 				wp.setResource_hold(wp.getResource_need());
 				wp.setResource_need(need);
+				wp.bindDev();
 				move_to_ready.add(wp);
 				wp.resetWaitingtime();//重置等待时间
 			}

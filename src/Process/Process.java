@@ -1,5 +1,6 @@
 package Process;
 import Device.DevType;
+import Device.DevController;
 
 public class Process {
 	private static int id_avl = 0;
@@ -21,6 +22,16 @@ public class Process {
 		int index = dev.ordinal() + 3;
 		resource_need[index] += 1; 
 	}
+	
+	public void bindDev() {
+		for(int i = 3;i < resource_need.length;i++) {
+			int num = resource_need[i];
+			for(int j = 0;j < num;j++) {
+				DevController.wait(DevType.values()[i-3], pid);
+			}
+		}
+	}
+	
 	
 	public void addCommonResource(int[] need) {
 		for(int i = 0;i < need.length;i++) {
