@@ -73,6 +73,19 @@ public class ProcessMGT {
 	}
 	
 	//移出running队列
+	public static Process getRunning() {
+		Process process = null;
+		try {
+			process = running.getFirst();
+		}
+		catch(NoSuchElementException e) {
+			process = null;
+			System.out.println("没有running的进程！");
+		}
+		return process;
+	}
+	
+	//移出running队列
 	public static Process popRunning() {
 		Process process = null;
 		try {
@@ -84,6 +97,7 @@ public class ProcessMGT {
 		}
 		return process;
 	}
+	
 	
 	//根据进程id获得进程
 	public static Process getPCBBypid(int pid) {

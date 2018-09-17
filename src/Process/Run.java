@@ -2,6 +2,9 @@ package Process;
 import pro.ins;
 import memory.Memory;
 import Interrupt.InterService;
+import Interrupt.InterType;
+import timer.timer;
+import Device.*;
 
 public class Run {
 	final static long timeInterval = 1000;
@@ -10,38 +13,67 @@ public class Run {
 	public static void main(String args[]) throws InterruptedException {
 		boolean runflag = false;//取值标志
 		Process process = null;
+		boolean fetchflag = true;//是否取进程
+		InterType intertype = InterType.NULL;
+		
 		//初始化资源
 		SystemResources.init();//初始化系统资源
 		Memory.InitPage();//初始化内存资源
 		
 		producerthread.start();//开启生产者消费者模型
 		
+		timer t = new timer();//计时器启动
+		t.start();
+		
+		//设备管理器初始化
+		DevController devc = new DevController();
+		devc.startDevController();
+		
 		while(true) {//power
-			process = ProcessMGT.popRunning();//取出running队列中的线程
-			if(process != null){//判断当前队列中是否有进程
-				runflag = true;
-			}
-			else {
-				runflag = false;
+			if(fetchflag) {
+				process = ProcessMGT.getRunning();//取出running队列中的线程
+				if(process != null){//判断当前队列中是否有进程
+					runflag = true;
+				}
+				else {
+					runflag = false;
+				}
 			}
 			
-			for(int i = 0; i < 5; i++) {
-				if(runflag) {
-					//取指令
-					String instruction = Memory.getIns(process.getActivemm(), process.getPC());
-					if(!process.incPC()) {
-						runflag = false;
-					}
-					//执行分析
-					ins.ExeInstruction(instruction,process,1);
-					//执行打印
-					System.out.println(instruction);
+			if(runflag) {
+				fetchflag = false;
+				//取指令
+				String instruction = Memory.getIns(process.getActivemm(), process.getPC());
+				if(!process.incPC()) {
+					runflag = false;
 				}
-				//中断处理
-				InterService.DealInterrupt();
-				//睡眠1s
-				Thread.sleep(timeInterval);
+				//执行分析
+				ins.ExeInstruction(instruction,process,1);
+				//执行打印
+				System.out.println(instruction);
 			}
+			//睡眠1s
+			Thread.sleep(timeInterval);
+			
+			//中断处理
+			intertype = InterService.DealInterrupt();
+			if(intertype == InterType.TIMEOUT) {
+				fetchflag = true;
+			}
+			else if(intertype == InterType.IOINTR && process.getPid()%5 == 0) {
+				runflag = false;
+				fetchflag = true;
+			}
+			else if(intertype == InterType.IOINTR && process.getPid()%5 != 0) {
+				runflag = false;
+				fetchflag = false;
+			}
+			else if(intertype == InterType.NEEDPAGE && process.getPid()%5 == 0) {
+				runflag = false;
+				fetchflag = false;
+			}
+				
+			
 			
 		}
 			
