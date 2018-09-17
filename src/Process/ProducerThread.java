@@ -63,6 +63,7 @@ public class ProducerThread extends Thread{
 				Memory.setPCB(p);
 				//加入ready队列
 				ProcessMGT.addProcess(p);
+				p.toString();
 				flag = false;
 			}
 			
