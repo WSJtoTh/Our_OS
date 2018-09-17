@@ -34,11 +34,11 @@ public class Memory {
 			for(int i=0;i<pages.length;i++) {
 				pages[i]=new Page();
 			}
-			for(int j=0;j<pages.length;j++) {
+			/*for(int j=0;j<pages.length;j++) {
 		         for(int i=0;i<30;i++) {
 		        	 pages[j].insList=new ArrayList<String>();
 		         }
-			}
+			}*/
 			System.out.println("内存页面初始化成功！");
 		}catch(Exception e){
             e.printStackTrace();
@@ -95,6 +95,7 @@ public class Memory {
 	         }
 	         
 	         while((s=br.readLine())!=null ){
+	        	 System.out.println("我打印的！！！！"+lines);
 	        	 lines++;
 		         if(lines==3) {
 		        	 	String str=s.replaceAll("[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。，、？|-]", "");
@@ -121,7 +122,10 @@ public class Memory {
 		         } 
 		         if(lines>4) {
 		        	 	//pages[insPage].insList=new ArrayList<String>(insNum);
-		        		pages[insPage].insList.add(s);
+		        	 	System.out.println("lines:"+lines);
+		        		System.out.println("s:"+s);
+		        		System.out.println("insPage:"+insPage);
+		        	 	pages[insPage].insList.add(s);
 		        		System.out.println("成功加入"+s);
 		        		//System.out.println(s);
 		         }
@@ -200,8 +204,9 @@ public class Memory {
 				pages[i].setVirPage(-1);
 				pages[i].setTime(0);
 				pageUse--;
-				pages[i].insList=null;
-				System.out.println("释放该内存页面");
+				pages[i].insList.clear();
+				//System.out.println("释放后inslist:"+pages[i].insList.size());
+				System.out.println("释放该内存页面:"+i);
 			}
 		}
 	}
@@ -211,7 +216,11 @@ public class Memory {
 		String str = null;
 		try {
 			//pages[pageNo].insList=new ArrayList<String>(insNum);
-			str=(String) pages[pageNo].insList.get(offset);
+			//System.out.println(pages[pageNo].insList.size());
+			if(pages[pageNo].insList.size()==0) {
+				System.out.println("指令为空");
+			}
+			else str=(String) pages[pageNo].insList.get(offset);
 		}catch(Exception e){
             e.printStackTrace();
         }
@@ -235,7 +244,7 @@ public static void replacePage(int pid,int pageNO){//中断置换页面
 		pages[replace_page].setPid(pid);
 		pages[replace_page].setVirPage(pageNO);
 		pages[replace_page].setTime(System.currentTimeMillis());
-		pages[replace_page].insList=null;
+		pages[replace_page].insList.clear();
 		System.out.println("页面置换成功！");
 	}
 }

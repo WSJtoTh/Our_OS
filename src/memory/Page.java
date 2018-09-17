@@ -11,7 +11,9 @@ public class Page {
 		private int virPage;//对应的虚拟页号 ，代码段虚拟页面为0
 		private int pid;//进程号
 		private long time;
-		public Page() {}
+		public Page() {
+			insList=new ArrayList();
+		}
 		public ArrayList<String> insList;//指令集
 		public long getTime() {
 			return this.time;
