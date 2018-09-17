@@ -80,9 +80,16 @@ public class SDT {
 	}//??
 	
 	public int getDevIDByDevTpyeAndProID(int proID, DevType devType) {
-		DCT dct = this.sysDevTb.get(devType);
-		int devID = dct.getDevIDByProID(proID);
-		return devID;
+		if(devType == DevType.PRINTER || devType ==DevType.KEYBOARD || devType == DevType.AUDIO || devType == DevType.DISK || devType == DevType.MICROPHONE) {
+			DCT dct = this.sysDevTb.get(devType);
+			int devID = dct.getDevIDByProID(proID);
+			return devID;	
+		}
+		else {
+			System.out.println("There is no such device type");
+			return -1;
+		}
+		
 	}
 	
 	public int[] getAvailDevCountSortByType() {

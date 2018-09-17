@@ -211,6 +211,7 @@ public class DevController implements Runnable{
 		System.out.println("Receive CMD from CPU"+signalType);
 		 */
 		System.out.println("in sendCMD");
+		System.out.println("the devcie type is:"+devType);
 		System.out.println("the proID is"+proID);
 		sdt.showEntireDevState();
 		int devID = sdt.getDevIDByDevTpyeAndProID(proID, devType);
