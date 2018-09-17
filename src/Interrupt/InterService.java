@@ -250,6 +250,8 @@ public class InterService {
 		ProcessMGT.blockProcess(PCB,InterHandler.getDevType());
 		ProcessMGT.timeoutSchedule();
 		time.setRRTime(0);
+		System.out.println("进程id"+PCB.getPid());
+		//boolean flag1 = DevController.wait(IntrHandler.getDevType(), PCB.getPid());
 		boolean flag = DevController.sendCMD(CMD, IntrHandler.getDevType(), PCB.getPid());
 		if (CMD == SignalType.WRITE) {
 			Global.databus = "来自进程的数据1234";
@@ -257,8 +259,8 @@ public class InterService {
 		
 		System.out.println("pid" + PCB.getPid() + " 设备类型" + IntrHandler.getDevType() + " CMD:" + CMD);
 
-		boolean flag1 = DevController.wait(IntrHandler.getDevType(), PCB.getPid());
-		if (flag == true && flag1 == true) {
+
+		if (flag == true ) {
 
 			System.out.println("成功处理IO中断");
 			return 1;
