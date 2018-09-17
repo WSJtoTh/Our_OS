@@ -204,9 +204,15 @@ public class ProcessMGT {
 			}
 		}
 		if(p != null) {
-			blocking.remove(p);
-			readyProcess(p);
 			p.setSignal(null);
+			if(p.getPC() % 5 == 0) {//如果刚好是一组的最后一条指令且是io指令，先计算下5组指令
+				culNextNeed(p);
+				blocking.remove(p);
+				waitProcess(p);
+			}else {
+				blocking.remove(p);
+				readyProcess(p);
+			}
 		}
 		
 	}
@@ -227,7 +233,7 @@ public class ProcessMGT {
 		//往后取五条指令，计算下一个时间片资源
 		int temppc = p.getPC();
 		for(int i = 0; temppc<p.getLimit() &&i < 5 ;i++,temppc++) {
-			ins.ExeInstruction(Memory.getIns(p.getActivemm(),temppc), p, 0);			
+			ins.ExeInstruction(Memory.getIns(p.getPid(),p.getActivemm(),temppc), p, 0);			
 		}
 		
 	}
@@ -245,6 +251,8 @@ public class ProcessMGT {
 		
 		try {
 			Process process = running.pop();
+			//释放现有的资源
+			releaseResource(process);
 			//先判断当前运行的process是否能进ready
 			culNextNeed(process);//先计算下一个时间片的资源 更新need 
 			System.out.println("pid:"+process.getPid()+"进程下一时间片请求的资源：");

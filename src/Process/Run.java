@@ -58,7 +58,7 @@ public class Run {
 				fetchflag = false;
 				System.out.println("pid:"+process.getPid()+" pc:"+process.getPC());
 				//取指令
-				String instruction = Memory.getIns(process.getActivemm(), process.getPC());
+				String instruction = Memory.getIns(process.getPid(),process.getActivemm(), process.getPC());
 				if(!process.incPC()) {
 					runflag = false;
 				}
