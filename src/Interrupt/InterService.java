@@ -31,7 +31,7 @@ public class InterService {
 		InterType type;
 		type = InterruptReg.getInterType();
 		
-			System.out.println("此时中断" + type);
+			System.out.println("此时中断类型为" + type);
 			int OK = 0;
 			// 判别中断源，转入中断服务程序
 			if (type == InterType.NULL) {
@@ -67,10 +67,15 @@ public class InterService {
 			// PCB？
 			// 开中断
 			InterHandler.onSwitch();
-			if (type!=InterType.NULL&&OK == 1) {
+			if (OK == 1) {
 				System.out.print("已经成功处理该中断！");
-			} else {
+			} 
+			else if(OK == 0&&type!=InterType.NULL) {
 				System.out.println("未成功处理该中断");
+			}
+			else if(type==InterType.NULL)
+			{
+				System.out.println("没有需要处理的中断！");
 			}
 
 			
@@ -248,8 +253,8 @@ public class InterService {
 		PCB = InterHandler.getPCB();
 		SignalType CMD = InterHandler.getSignal();
 		ProcessMGT.blockProcess(PCB,InterHandler.getDevType());
-		ProcessMGT.timeoutSchedule();
-		time.setRRTime(0);
+		//ProcessMGT.timeoutSchedule();
+		//time.setRRTime(0);
 		System.out.println("进程id"+PCB.getPid());
 		System.out.println("设备类型"+InterHandler.getDevType());
 		//boolean flag1 = DevController.wait(IntrHandler.getDevType(), PCB.getPid());
