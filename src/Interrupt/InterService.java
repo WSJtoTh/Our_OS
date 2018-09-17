@@ -19,7 +19,7 @@ public class InterService {
 	private static InterruptReg reg = new InterruptReg();
 
 	// 给进程用的处理中断的函数
-	public static int DealInterrupt() {
+	public static InterType DealInterrupt() {
 		// 关中断 不允许响应
 		IntrHandler.offSwitch();
 
@@ -32,7 +32,7 @@ public class InterService {
 		type = reg.getInterType();
 		if (type == InterType.NULL) {
 			System.out.println("此时没有中断");
-			return -1;// 表示没有中断！
+			return type;// 表示没有中断！
 		} else {
 			System.out.println("此时中断" + type);
 			int OK = 0;
@@ -70,7 +70,7 @@ public class InterService {
 				System.out.println("未成功处理该中断");
 			}
 
-			return OK;
+			return type;
 		}
 	}
 
