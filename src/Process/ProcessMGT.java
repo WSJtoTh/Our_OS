@@ -1,12 +1,14 @@
 package Process;
 import Device.*;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import memory.*;
 import pro.*;
 
 public class ProcessMGT {
-	static LinkedList<Process> allProcess = new LinkedList<>();//全部进程
-	static LinkedList<Process> ready = new LinkedList<>();//准备队列
+	static List<Process> allProcess = new CopyOnWriteArrayList<>();;//全部进程
+	static List<Process> ready = new CopyOnWriteArrayList<>();//准备队列
 	static LinkedList<Process> running = new LinkedList<>();//运行队列
 	static LinkedList<Process> terminated = new LinkedList<>();//结束队列
 	static LinkedList<Process> waiting = new LinkedList<>();//等待队列
@@ -116,7 +118,7 @@ public class ProcessMGT {
 	}
 	
 	//获取所有进程
-	public static LinkedList<Process> getAllProcess(){
+	public static List<Process> getAllProcess(){
 		return allProcess;
 	}
 	
@@ -304,9 +306,11 @@ public class ProcessMGT {
 		
 		//取ready到running
 		try {
-			running.add(ready.pop());
+			Process addrun = ready.get(0);
+			running.add(addrun);
+			ready.remove(addrun);
 		}
-		catch(NoSuchElementException  e){
+		catch(IndexOutOfBoundsException e){
 			System.out.println("当前ready队列没有进程！");
 		}
 		
