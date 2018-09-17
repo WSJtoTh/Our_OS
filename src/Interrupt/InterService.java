@@ -118,7 +118,9 @@ public class InterService {
 		boolean flag = DevController.responseINTR(IntrHandler.getdevINTRID(), devType);
 		boolean flag1 = DevController.signal(devType, PCB.getPid());
 		if (flag == true && flag1 == true) {
+			ProcessMGT.wakeUpProcess(IntrHandler.getDevReProId(), DevType.PRINTER);
 			System.out.println("成功处理打印机中断");
+			
 			return 1;
 		} else {
 			System.out.println("未成功处理打印机中断");
@@ -143,6 +145,7 @@ public class InterService {
 		boolean flag1 = DevController.signal(devType, PCB.getPid());
 
 		if (flag == true && flag1 == true) {
+			ProcessMGT.wakeUpProcess(IntrHandler.getDevReProId(), DevType.KEYBOARD);
 			System.out.println("成功处理KEYBOARD中断");
 			return 1;
 		} else {
@@ -165,6 +168,7 @@ public class InterService {
 		System.out.println("来自Microphone的数据" + Global.databus);
 		boolean flag1 = DevController.signal(devType, PCB.getPid());
 		if (flag == true && flag1 == true) {
+			ProcessMGT.wakeUpProcess(IntrHandler.getDevReProId(), DevType.MICROPHONE);
 			System.out.println("成功处理麦克风中断");
 			return 1;
 		} else {
@@ -193,7 +197,7 @@ public class InterService {
 		System.out.println(PCB.getPid());
 
 		if (flag == true && flag1 == true) {
-
+			ProcessMGT.wakeUpProcess(IntrHandler.getDevReProId(), DevType.DISK);
 			System.out.println("成功处理磁盘中断");
 			return 1;
 		} else {
@@ -216,6 +220,7 @@ public class InterService {
 		boolean flag = DevController.responseINTR(IntrHandler.getdevINTRID(), devType);
 		boolean flag1 = DevController.signal(devType, PCB.getPid());
 		if (flag == true && flag1 == true) {
+			ProcessMGT.wakeUpProcess(IntrHandler.getDevReProId(), DevType.AUDIO);
 			System.out.println("成功处理音响中断");
 			return 1;
 		} else {
@@ -236,15 +241,16 @@ public class InterService {
 		// 中断服务程序
 		// 调度函数
 		// sendCMD(CMD读或写,DevType,proID)
+		PCB = InterHandler.getPCB();
 		SignalType CMD = IntrHandler.getSignal();
-
+		ProcessMGT.blockProcess(PCB,InterHandler.getDevType());
 		ProcessMGT.timeoutSchedule();
 		time.setRRTime(0);
 		boolean flag = DevController.sendCMD(CMD, IntrHandler.getDevType(), PCB.getPid());
 		if (CMD == SignalType.WRITE) {
 			Global.databus = "来自进程的数据1234";
 		}
-		PCB = InterHandler.getPCB();
+		
 		System.out.println("pid" + PCB.getPid() + " 设备类型" + IntrHandler.getDevType() + " CMD:" + CMD);
 
 		boolean flag1 = DevController.wait(IntrHandler.getDevType(), PCB.getPid());

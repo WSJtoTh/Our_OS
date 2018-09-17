@@ -16,6 +16,7 @@ public class InterHandler {
 	private static int virPage;// 缺页时使用的虚拟页号
 	private static Process pcb = new Process(); // 从进程获得
 	private static DevType devType;// io中断时需要记录的devType
+	private static int DevReProId;
 
 	public InterHandler() {
 		INTRSwitch = 1;
@@ -104,14 +105,16 @@ public class InterHandler {
 	}
 
 	// 给设备的
-	public static void devINTR(InterType type, int INTRID) {
+	public static void devINTR(InterType type, int INTRID,int proId) {
 		if (INTRSwitch == 0) {
 			System.out.println("中断已关闭，无法收到中断请求");
 		}
-		devINTRID = INTRID;
+		
 		boolean setType = false;
 		setType = INTRreg.SetInterType(type);
 		if (setType == true) {
+			devINTRID = INTRID;
+			DevReProId=proId;
 			System.out.println("设备中断成功写入中断寄存器！");
 			// outString="设备中断";
 			switch (type) {
@@ -139,6 +142,10 @@ public class InterHandler {
 		return devINTRID;
 	}
 
+	
+	public static int getDevReProId() {
+		return DevReProId;
+	}
 	///////////////////// 处理输出信息
 
 	public static String output() {
