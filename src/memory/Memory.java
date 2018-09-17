@@ -122,6 +122,8 @@ public class Memory {
 		         if(lines>4) {
 		        	 	//pages[insPage].insList=new ArrayList<String>(insNum);
 		        		pages[insPage].insList.add(s);
+		        		System.out.println("成功加入"+s);
+		        		//System.out.println(s);
 		         }
 		     }
 	         System.out.println("数据页初始分配成功！");
