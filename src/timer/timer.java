@@ -42,6 +42,7 @@ public class timer extends Thread{
 			 while(sleepFlag==1) {
 				 try {
 					sleep(10);
+					System.out.println("时间片正在休息");
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -65,7 +66,7 @@ public class timer extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println(handler.output());
+			System.out.println(InterHandler.output());
 			System.out.println("当前时间"+AllTime+"  当前时间片计时"+RRTime+"  当前时间片"+RRCount);
 		 }
 	 }

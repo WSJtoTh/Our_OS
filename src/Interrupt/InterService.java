@@ -30,14 +30,13 @@ public class InterService {
 
 		InterType type;
 		type = reg.getInterType();
-		if (type == InterType.NULL) {
-			System.out.println("此时没有中断");
-			return type;// 表示没有中断！
-		} else {
+		
 			System.out.println("此时中断" + type);
 			int OK = 0;
 			// 判别中断源，转入中断服务程序
-			if (type == InterType.TIMEOUT) {
+			if (type == InterType.NULL) {
+			System.out.println("此时没有中断");
+			} else if (type == InterType.TIMEOUT) {
 				OK = DealTimeOut();
 			} else if (type == InterType.AUDIOINT) {
 				OK = DealAudioInt();
@@ -59,19 +58,24 @@ public class InterService {
 			IntrHandler.offSwitch();
 			// 恢复环境
 			// 重新开启时间片？
-			timer.setsleepFlag(0);
+			boolean timeyes=timer.setsleepFlag(0);
+			if(timeyes==true)
+			{
+				System.out.println("已成功开启时间片");
+			}
 
 			// PCB？
 			// 开中断
 			IntrHandler.onSwitch();
-			if (OK == 1) {
+			if (type!=InterType.NULL&&OK == 1) {
 				System.out.print("已经成功处理该中断！");
 			} else {
 				System.out.println("未成功处理该中断");
 			}
 
-			return type;
-		}
+			
+	
+		return type;
 	}
 
 	public static int DealTimeOut() {
