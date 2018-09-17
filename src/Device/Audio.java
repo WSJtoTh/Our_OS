@@ -41,12 +41,12 @@ public class Audio implements Runnable{
 			System.out.println(Global.databus);
 			Thread.sleep(this.runTime*1000);
 			System.out.println("Audio"+this.belongDevID+"finished");
-			InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID);
+			InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Audio"+this.belongDevID+"INTR wasn't accept by CPU");
 				/**/////Thread.sleep(this.runTime*1000);
 				System.out.println("Audio"+this.belongDevID+"resend INTR");
-				InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID);
+				InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			}
 			System.out.println("CPU accept Audio"+this.belongDevID+"'s INTR");
 			//发送完成中断请求

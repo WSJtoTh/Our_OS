@@ -41,12 +41,12 @@ public class Microphone implements Runnable {
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The device"+this.belongDevID+"finished");
-			InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID);
+			InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Microphone"+this.belongDevID+"INTR wasn't accept by CPU");
 				//Thread.sleep(this.runTime*1000);
 				System.out.println("Microphone"+this.belongDevID+"resend INTR");
-				InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID);
+				InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
 			}
 			Global.databus = data+this.belongDevID;
 			System.out.println("CPU accept Microphone"+this.belongDevID+"'s INTR");

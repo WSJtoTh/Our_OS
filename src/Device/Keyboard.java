@@ -39,12 +39,12 @@ public class Keyboard implements Runnable {
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The keybord"+this.belongDevID+"has get data from users");
-			InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID);
+			InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID, SignalType.READ);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Keyboard"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Keyboard"+this.belongDevID+"resend INTR");
-				InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID);
+				InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID, SignalType.READ);
 			}
 			Global.databus = data;
 			System.out.println("CPU accept Keyboard"+this.belongDevID+"'s INTR");

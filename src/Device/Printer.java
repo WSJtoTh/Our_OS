@@ -40,12 +40,12 @@ public class Printer implements Runnable {
 			System.out.println(Global.databus);
 			Thread.sleep(this.runTime*1000);
 			System.out.println("Prnter"+this.belongDevID+"finished");
-			InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID);
+			InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Printer"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Printer"+this.belongDevID+"resend INTR");
-				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID);
+				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			}
 			System.out.println("CPU accept Printer"+this.belongDevID+"'s INTR");
 			//发送完成中断请求

@@ -45,24 +45,24 @@ public class Disk implements Runnable{
 				System.out.println("Disk"+this.belongDevID+"receive data from CPU to disk:");
 				System.out.println(Global.databus);
 				Thread.sleep(this.runTime*1000);
-				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID);
+				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 				while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
-					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID);
+					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 				}
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");
 				break;
 			case READ:
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Disk"+this.belongDevID+"send data to CPU:");
-				/**///interHandler.devINTR(InterType.DISKINT, this.belongDevID);
+				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
 				while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
-					/**///interHandler.devINTR(InterType.DISKINT, this.belongDevID);
+					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
 				}
 				Global.databus = data+this.belongDevID;
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");
