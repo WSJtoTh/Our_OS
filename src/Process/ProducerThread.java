@@ -57,7 +57,7 @@ public class ProducerThread extends Thread{
 				Memory.InitMemory(file,p.getPid());
 				//设置资源数组
 				p.setResource_max(Memory.getSourceList());
-				p.setResource_hold(Memory.getSourceList());
+				//p.setResource_hold(Memory.getSourceList());
 				
 				//设置物理页号, 指令条数
 				Memory.setPCB(p);

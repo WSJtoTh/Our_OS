@@ -260,7 +260,7 @@ public class ProcessMGT {
 			}
 			else {
 				releaseResource(process);
-				waiting.add(process);
+				waitProcess(process);
 			}
 			
 		}catch(NoSuchElementException e) {
