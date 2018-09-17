@@ -251,6 +251,7 @@ public class InterService {
 		ProcessMGT.timeoutSchedule();
 		time.setRRTime(0);
 		System.out.println("进程id"+PCB.getPid());
+		System.out.println("设备类型"+InterHandler.getDevType());
 		//boolean flag1 = DevController.wait(IntrHandler.getDevType(), PCB.getPid());
 		boolean flag = DevController.sendCMD(CMD, InterHandler.getDevType(), PCB.getPid());
 		if (CMD == SignalType.WRITE) {

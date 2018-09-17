@@ -15,7 +15,7 @@ public class InterHandler {
 	private static SignalType rOrw;//io中断时用的记录读或写
 	private static int virPage;// 缺页时使用的虚拟页号
 	private static Process pcb = new Process(); // 从进程获得
-	private static DevType devType;// io中断时需要记录的devType
+	private static DevType devtype;// io中断时需要记录的devType
 	private static int DevReProId;
 	private static SignalType stype;//dev中断时给的type类型
 
@@ -33,7 +33,7 @@ public class InterHandler {
 	}
 
 	public static DevType getDevType() {
-		return devType;
+		return devtype;
 	}
 
 	public static int getPageNumber() {
@@ -63,6 +63,7 @@ public class InterHandler {
 		if (setType == true) {
 			pcb = PCB;
 			rOrw = signal;
+			devtype=devType;
 			System.out.println("IO中断成功写入中断寄存器！");
 			outString = "IO中断！";
 
