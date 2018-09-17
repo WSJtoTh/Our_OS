@@ -122,6 +122,20 @@ public class SDT {
 		
 		return entireDev;
 	}
+	
+	public void showEntireDevState() {
+		DCT dct;
+		dct = this.sysDevTb.get(DevType.PRINTER);
+		dct.showDevState();
+		dct = this.sysDevTb.get(DevType.KEYBOARD);
+		dct.showDevState();
+		dct = this.sysDevTb.get(DevType.AUDIO);
+		dct.showDevState();
+		dct = this.sysDevTb.get(DevType.MICROPHONE);
+		dct.showDevState();
+		dct = this.sysDevTb.get(DevType.DISK);
+		dct.showDevState();
+	}
 	//public int getBelongProID(int devID, DevType devType) {
 		//DCT dct = this.sysDevTb.get(devType);
 		//int pro

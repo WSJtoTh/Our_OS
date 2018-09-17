@@ -24,24 +24,12 @@ public class DevController implements Runnable{
 	public static SignalReg signalReg;
 	@Override
 	public void run() {
-		//Boolean responseINTR;
-		//Boolean askAvailDev;
-		//Boolean CMD;
 		// TODO Auto-generated method stub
 		while(Global.Power) {
 			try {
 				System.out.println("devCon is working");
 				Thread.sleep(1000);
 				
-				//responseINTR = ;
-				//askAvailDev = ;
-				//CMD = ;
-				//检测中断响应寄存器
-				//if(this.signalReg.testResponseINTRIDReg()) {
-					//int devID = this.signalReg.getResponseINTRIDReg();
-					//DevType devType = this.signalReg.getResponseINTRDevType();
-					//this.sdt.freeBusyDevice(devType, devID);
-				//}
 				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -174,11 +162,11 @@ public class DevController implements Runnable{
 	}
 	public static Boolean wait(DevType devType, int proID) {
 		HashMap<Integer, Integer> allocate = sdt.allocateFreeDevice(devType, 1, proID);
-		System.out.println("wait successfully of device:"+allocate);
 		if(allocate.isEmpty()) {
+			System.out.println("wait failed");
 			return false;
-		}
-		else {
+		}else {
+			System.out.println("wait successfully of device:"+allocate);
 			return true;
 		}
 	}
@@ -221,35 +209,44 @@ public class DevController implements Runnable{
 		System.out.println("Receive CMD from CPU"+signalType);
 		 */
 		System.out.println("in sendCMD");
+		System.out.println("the proID is"+proID);
+		sdt.showEntireDevState();
 		int devID = sdt.getDevIDByDevTpyeAndProID(proID, devType);
-		System.out.println("the devID is"+devID);
-		switch (devType) {
-		case PRINTER://启动打印机
-			System.out.println("ready to start PRINTER");
-			Printer printer = new Printer(devID, proID);
-			printer.start();
-			System.out.println("start the printer");
-			break;
-		case KEYBOARD://启动打印机
-			Keyboard keyboard = new Keyboard(devID, proID);
-			keyboard.start();
-			break;
-		case DISK://启动打印机
-			Disk disk = new Disk(devID, signalType, proID);
-			disk.start();
-			break;
-		case MICROPHONE://启动打印机
-			Microphone microphone = new Microphone(devID, proID);
-			microphone.start();
-			break;
-		case AUDIO://启动打印机
-			Audio audio = new Audio(devID, proID);
-			audio.start();
-			break;
-		default:
-			break;
+		if(devID < 0) {
+			System.out.println("The process"+proID+"doesn't have such device"+devType);
+			return false;
 		}
-		return true;
+		else {
+			System.out.println("the devID is"+devID);
+			switch (devType) {
+			case PRINTER://启动打印机
+				System.out.println("ready to start PRINTER");
+				Printer printer = new Printer(devID, proID);
+				printer.start();
+				System.out.println("start the printer");
+				break;
+			case KEYBOARD://启动打印机
+				Keyboard keyboard = new Keyboard(devID, proID);
+				keyboard.start();
+				break;
+			case DISK://启动打印机
+				Disk disk = new Disk(devID, signalType, proID);
+				disk.start();
+				break;
+			case MICROPHONE://启动打印机
+				Microphone microphone = new Microphone(devID, proID);
+				microphone.start();
+				break;
+			case AUDIO://启动打印机
+				Audio audio = new Audio(devID, proID);
+				audio.start();
+				break;
+			default:
+				break;
+			}
+			return true;	
+		}
+		
 	}
 	
 	/*

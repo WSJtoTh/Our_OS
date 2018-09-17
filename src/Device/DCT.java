@@ -7,6 +7,8 @@ import java.sql.Blob;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
+import pro.ins;
+
 /**
  * @author 45044
  *
@@ -120,5 +122,13 @@ public class DCT {
 			}
 		}
 		return devID;
+	}
+	
+	public void showDevState() {
+		System.out.println(this.devType+" state:");
+		System.out.println("DevID\tDevState\tProID");
+		for(int i = 0;i < this.devCount;i++) {
+			System.out.println(this.deviceArray[i].getDevID()+"\t"+this.deviceArray[i].getDevState()+"\t"+this.deviceArray[i].getBelongProID());
+		}
 	}
 }
