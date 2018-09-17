@@ -80,7 +80,7 @@ public class ins {
 			} else {
 				SignalType rOrwK = SignalType.READ;
 				// 使用函数
-				intrHandler.ioINTR(InterType.IOINTR, PCB, rOrwK, DevType.KEYBOARD);
+				InterHandler.ioINTR(InterType.IOINTR, PCB, rOrwK, DevType.KEYBOARD);
 			}
 			break;
 		case "P":// 打印
@@ -90,7 +90,7 @@ public class ins {
 			} else {
 				int FileSizeP = Integer.parseInt(content[1]);
 				SignalType rOrwP = SignalType.WRITE;
-				intrHandler.ioINTR(InterType.IOINTR, PCB, rOrwP, DevType.PRINTER);
+				InterHandler.ioINTR(InterType.IOINTR, PCB, rOrwP, DevType.PRINTER);
 				// 使用函数
 			}
 			break;
@@ -102,7 +102,7 @@ public class ins {
 			} else {
 				int FileSizeR = Integer.parseInt(content[1]);
 				SignalType rOrwR = SignalType.READ;
-				intrHandler.ioINTR(InterType.IOINTR, PCB, rOrwR, DevType.DISK);
+				InterHandler.ioINTR(InterType.IOINTR, PCB, rOrwR, DevType.DISK);
 			}
 			break;
 		case "W":// 写磁盘
@@ -113,7 +113,7 @@ public class ins {
 			} else {
 				int FileSizeW = Integer.parseInt(content[1]);
 				SignalType rOrwW = SignalType.WRITE;
-				intrHandler.ioINTR(InterType.IOINTR, PCB, rOrwW, DevType.DISK);
+				InterHandler.ioINTR(InterType.IOINTR, PCB, rOrwW, DevType.DISK);
 			}
 			break;
 		case "M":// 麦克风输入
@@ -123,7 +123,7 @@ public class ins {
 				PCB.addResource(DevType.MICROPHONE);
 			} else {
 				SignalType rOrwM = SignalType.READ;
-				intrHandler.ioINTR(InterType.IOINTR, PCB, rOrwM, DevType.MICROPHONE);
+				InterHandler.ioINTR(InterType.IOINTR, PCB, rOrwM, DevType.MICROPHONE);
 			}
 			break;
 		case "A":// 音响输出
@@ -134,7 +134,7 @@ public class ins {
 			} else {
 				int FileSizeA = Integer.parseInt(content[1]);
 				SignalType rOrwA = SignalType.WRITE;
-				intrHandler.ioINTR(InterType.IOINTR, PCB, rOrwA, DevType.AUDIO);
+				InterHandler.ioINTR(InterType.IOINTR, PCB, rOrwA, DevType.AUDIO);
 			}
 			break;
 		case "Q":// 结束运行

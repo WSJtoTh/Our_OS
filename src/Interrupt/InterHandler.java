@@ -57,7 +57,7 @@ public class InterHandler {
 			System.out.println("中断已关闭，无法收到中断请求");
 		}
 		boolean setType = false;
-		setType = INTRreg.SetInterType(type);
+		setType = InterruptReg.SetInterType(type);
 		if (setType == true) {
 			pcb = PCB;
 			rOrw = signal;
@@ -76,7 +76,7 @@ public class InterHandler {
 			System.out.println("中断已关闭，无法收到中断请求");
 		}
 		boolean setType = false;
-		setType = INTRreg.SetInterType(type);
+		setType = InterruptReg.SetInterType(type);
 		if (setType == true) {
 			virPage = virtualPage;
 
@@ -96,7 +96,7 @@ public class InterHandler {
 		}
 		boolean setType = false;
 		System.out.println(type);
-		setType = INTRreg.SetInterType(type);
+		setType = InterruptReg.SetInterType(type);
 		if (setType == true) {
 			System.out.println("时钟中断成功写入中断寄存器！");
 			outString = "时钟中断";
@@ -112,7 +112,7 @@ public class InterHandler {
 		}
 		
 		boolean setType = false;
-		setType = INTRreg.SetInterType(type);
+		setType = InterruptReg.SetInterType(type);
 		if (setType == true) {
 			devINTRID = INTRID;
 			DevReProId=proId;
@@ -133,6 +133,7 @@ public class InterHandler {
 				outString = "麦克风中断";
 			case PRINTERINT:
 				outString = "打印机中断";
+
 			}
 		} else {
 			System.out.println("设备中断未成功写入中断寄存器");
