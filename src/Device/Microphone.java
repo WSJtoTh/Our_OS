@@ -21,10 +21,12 @@ public class Microphone implements Runnable {
 	private int runTime;
 	private Thread thread;
 	private int belongDevID;//线程所属的设备
+	private int belongProID;
 	private String data;
-	public Microphone(int devID) {
+	public Microphone(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
+		this.belongProID = proID;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
 		this.data = "data from microphone";
@@ -39,12 +41,12 @@ public class Microphone implements Runnable {
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The device"+this.belongDevID+"finished");
-			InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID);
+			InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Microphone"+this.belongDevID+"INTR wasn't accept by CPU");
 				//Thread.sleep(this.runTime*1000);
 				System.out.println("Microphone"+this.belongDevID+"resend INTR");
-				InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID);
+				InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID);
 			}
 			Global.databus = data+this.belongDevID;
 			System.out.println("CPU accept Microphone"+this.belongDevID+"'s INTR");
