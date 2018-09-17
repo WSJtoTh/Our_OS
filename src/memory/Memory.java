@@ -124,7 +124,7 @@ public class Memory {
 		        	 	//pages[insPage].insList=new ArrayList<String>(insNum);
 		        	 	System.out.println("lines:"+lines);
 		        		System.out.println("s:"+s);
-		        		System.out.println("insPage:"+insPage);
+		        		System.out.println("当前页面insPage:"+insPage);
 		        	 	pages[insPage].insList.add(s);
 		        		System.out.println("成功加入"+s);
 		        		//System.out.println(s);
@@ -212,15 +212,20 @@ public class Memory {
 	}
 	
 	
-	public static String getIns(int pageNo,int offset) {//获得指定指令
+	public static String getIns(int pid,int pageNo,int offset) {//获得指定指令
 		String str = null;
 		try {
-			//pages[pageNo].insList=new ArrayList<String>(insNum);
-			//System.out.println(pages[pageNo].insList.size());
-			if(pages[pageNo].insList.size()==0) {
-				System.out.println("指令为空");
+			for(int i=0;i<pages.length;i++) {
+				if(pages[i].getState()!=0) {
+					System.out.println("pid:"+pid+"\t"+"虚拟页面:"+pages[i].getVirPage()+"\t"+"物理页面："+i);
+				}
 			}
-			else str=(String) pages[pageNo].insList.get(offset);
+			//pages[pageNo].insList=new ArrayList<String>(insNum);
+			System.out.println(pageNo);
+			if(pages[pageNo].insList.size()==0) {
+				System.out.println("指令为空\t"+"物理页面为："+pageNo);
+			}
+			str=(String) pages[pageNo].insList.get(offset);
 		}catch(Exception e){
             e.printStackTrace();
         }
