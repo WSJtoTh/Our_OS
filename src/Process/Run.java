@@ -10,6 +10,10 @@ public class Run {
 	public static void main(String args[]) throws InterruptedException {
 		boolean runflag = false;//取值标志
 		Process process = null;
+		//初始化资源
+		SystemResources.init();//初始化系统资源
+		Memory.InitPage();//初始化内存资源
+		
 		producerthread.start();//开启生产者消费者模型
 		
 		while(true) {//power

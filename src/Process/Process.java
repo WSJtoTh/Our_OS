@@ -42,7 +42,7 @@ public class Process {
 	
 	public String toString() {
 		String s;
-		s = "pid = " + pid + " state = " + convertState() + "\n";
+		s = "pid = " + pid + " state = " + state + "\n";
 		s += "resource_max: ";
 		for(int i = 0;i < resource_max.length;i++) {
 			s += resource_max[i];
@@ -57,7 +57,7 @@ public class Process {
 					
 		}
 		s += "\n";
-		s += "resource_max: ";
+		s += "resource_hold: ";
 		for(int i = 0;i < resource_hold.length;i++) {
 			s += resource_hold[i];
 			s += "\t";
@@ -123,27 +123,45 @@ public class Process {
 	}
 	
 	public void setResource_max(int[] max) {
-		this.resource_max = max;
+		for(int i = 0; i<max.length;i++) {
+			resource_max[i] = max[i];
+		}
 	}
 	
 	public int[] getResource_max() {
-		return this.resource_max;
+		int [] res = new int[8];
+		for(int i = 0; i< res.length;i++) {
+			res[i] = resource_max[i];
+		}
+		return res;
 	}
 	
 	public void setResource_hold(int[] hold) {
-		this.resource_hold = hold;
+		for(int i = 0; i<hold.length;i++) {
+			resource_hold[i] = hold[i];
+		}
 	}
 	
 	public int[] getResource_hold() {
-		return this.resource_hold;
+		int [] res = new int[8];
+		for(int i = 0; i< res.length;i++) {
+			res[i] = resource_hold[i];
+		}
+		return res;
 	}
 	
 	public void setResource_need(int[] need) {
-		this.resource_need = need;
+		for(int i = 0; i<need.length;i++) {
+			resource_need[i] = need[i];
+		}
 	}
 	
 	public int[] getResource_need() {
-		return this.resource_need;
+		int [] res = new int[8];
+		for(int i = 0; i< res.length;i++) {
+			res[i] = resource_need[i];
+		}
+		return res;
 	}
 	
 	public void incWaitingtime() {

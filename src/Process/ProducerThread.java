@@ -55,6 +55,10 @@ public class ProducerThread extends Thread{
 				Process p = ProcessMGT.createProcess();
 				//分配资源
 				Memory.InitMemory(file,p.getPid());
+				//设置资源数组
+				p.setResource_max(Memory.getSourceList());
+				p.setResource_hold(Memory.getSourceList());
+				
 				//设置物理页号, 指令条数
 				Memory.setPCB(p);
 				//加入ready队列

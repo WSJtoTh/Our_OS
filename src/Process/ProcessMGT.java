@@ -12,6 +12,56 @@ public class ProcessMGT {
 	static LinkedList<Process> waiting = new LinkedList<>();//等待队列
 	static LinkedList<Process> blocking = new LinkedList<>();//I/O阻塞队列
 	
+	//打印terminated的情况
+	public static void printTerminated() {
+		System.out.println("终结进程情况:");
+		for(Process process: terminated) {
+			System.out.println(process.toString());
+		}
+	}
+	
+	//打印blocking的情况
+	public static void printBlocking() {
+		System.out.println("阻塞进程情况:");
+		for(Process process: blocking) {
+			System.out.println(process.toString());
+		}
+	}
+	
+	//打印ready的情况
+	public static void printReady() {
+		System.out.println("进程准备情况:");
+		for(Process process: ready) {
+			System.out.println(process.toString());
+		}
+	}
+	
+	//打印当前运行进程状态
+	public static void printRunning() {
+		System.out.println("运行进程情况:");
+		for(Process process: running) {
+			System.out.println(process.toString());
+		}
+	}
+	
+	//打印所有进程状态
+	public static void printAll() {
+		System.out.println("所有进程情况:");
+		for(Process process: allProcess) {
+			System.out.println(process.toString());
+		}
+	}
+	
+	//打印所有等待状态
+		public static void printWaiting() {
+			System.out.println("等待进程情况:");
+			for(Process process: waiting) {
+				System.out.println(process.toString());
+			}
+		}
+	
+	
+	
 	//销毁terminated的进程
 	public static void killProcess() {
 		while(!terminated.isEmpty()) {
@@ -36,7 +86,7 @@ public class ProcessMGT {
 	}
 	
 	//根据进程id获得进程
-	public Process getPCBBypid(int pid) {
+	public static Process getPCBBypid(int pid) {
 		for(Process process: allProcess) {
 			if(process.getPid() == pid) {
 				return process;
@@ -46,24 +96,11 @@ public class ProcessMGT {
 	}
 	
 	//获取所有进程
-	public LinkedList<Process> getAllProcess(){
+	public static LinkedList<Process> getAllProcess(){
 		return allProcess;
 	}
 	
-	//打印当前运行进程状态
-	public void printRunning() {
-		for(Process process: running) {
-			System.out.println(process.toString());
-		}
-	}
-	
-	//打印所有进程状态
-	public void printAll() {
-		for(Process process: allProcess) {
-			System.out.println(process.toString());
-		}
-	}
-	
+
 	//创建进程
 	public static Process createProcess() {
 		Process p = new Process();
@@ -75,6 +112,7 @@ public class ProcessMGT {
 	
 	//将创建的进程加入队列
 	public static void addProcess(Process process) {	
+		process.setState(PState.READY);
 		allProcess.add(process);
 		ready.add(process);
 	}
@@ -89,7 +127,7 @@ public class ProcessMGT {
 	
 	//释放资源
 	public static void releaseResource(Process process) {
-		int[] re = new int[9];
+		int[] re = new int[8];
 		for(int i = 0;i < re.length;i++) {
 			re[i] = 0;
 		}
@@ -127,7 +165,7 @@ public class ProcessMGT {
 	}
 	
 	//进程进入阻塞队列 被外设阻塞
-	public void blockProcess(Process process,DevType dev) {
+	public static void blockProcess(Process process,DevType dev) {
 		process.setState(PState.INTERRUPTIBLE);
 		process.setSignal(dev);
 		blocking.add(process);
@@ -188,8 +226,10 @@ public class ProcessMGT {
 			culNextNeed(process);//先计算下一个时间片的资源 更新need 
 			int req = SystemResources.reqResource(process.getResource_max(),process.getResource_need());
 			if(req == 1) {
+				int[] need = new int[8];
 				SystemResources.decResource(process.getResource_need());
 				process.setResource_hold(process.getResource_need());
+				process.setResource_need(need);
 				move_to_ready.add(process);
 			}
 			else if(req == -1) {
@@ -201,7 +241,7 @@ public class ProcessMGT {
 			}
 			
 		}catch(NoSuchElementException e) {
-			System.out.println("running队列为空，上一个进程执行完毕！");
+			System.out.println("running队列为空！");
 		}
 		
 		
@@ -209,8 +249,10 @@ public class ProcessMGT {
 		for(Process wp:waiting) {
 			int res = SystemResources.reqResource(wp.getResource_max(),wp.getResource_need());
 			if( res == 1) {
+				int[] need = new int[8];
 				SystemResources.decResource(wp.getResource_need());
 				wp.setResource_hold(wp.getResource_need());
+				wp.setResource_need(need);
 				move_to_ready.add(wp);
 				wp.resetWaitingtime();//重置等待时间
 			}
@@ -233,7 +275,13 @@ public class ProcessMGT {
 		killProcess();
 		
 		//取ready到running
-		running.add(ready.pop());
+		try {
+			running.add(ready.pop());
+		}
+		catch(NoSuchElementException  e){
+			System.out.println("当前ready队列没有进程！");
+		}
+		
 	}
 
 	
