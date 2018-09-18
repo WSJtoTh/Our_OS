@@ -135,7 +135,7 @@ public class InterService {
 		//	System.out.println("处理打印机中断回复response");
 			flag = DevController.responseINTR(InterHandler.getdevINTRID(), devType);
 		}
-		 boolean flag1 = DevController.signal(devType, PCB.getPid());
+		 boolean flag1 = DevController.signal(devType,InterHandler.getDevReProId());
 		System.out.println("处理打印机中断flag"+flag);
 		if (flag == true  && flag1 == true ) {
 			System.out.println("处理打印机中断的！！！！此时唤醒的proid" + InterHandler.getDevReProId());
@@ -168,7 +168,7 @@ public class InterService {
 		}
 		System.out.println("处理键盘中断flag"+flag);
 		System.out.println("来自Keyboard的数据" + Global.databus);
-		boolean flag1 = DevController.signal(devType, PCB.getPid());
+		boolean flag1 = DevController.signal(devType,InterHandler.getDevReProId());
 		
 		if (flag == true  && flag1 == true ) {
 			System.out.println("处理键盘中断的！！！！此时唤醒的proid" + InterHandler.getDevReProId());
@@ -199,7 +199,7 @@ public class InterService {
 		}
 		System.out.println("处理麦克风中断flag"+flag);
 		System.out.println("来自Microphone的数据" + Global.databus);
-		 boolean flag1 = DevController.signal(devType, PCB.getPid());
+		 boolean flag1 = DevController.signal(devType, InterHandler.getDevReProId());
 		if (flag == true  && flag1 == true ) {
 			System.out.println("处理麦克风中断的！！！！此时唤醒的proid" + InterHandler.getDevReProId());
 			ProcessMGT.wakeUpProcess(InterHandler.getDevReProId(), DevType.MICROPHONE);
@@ -235,7 +235,7 @@ public class InterService {
 		if (signal == SignalType.READ) {
 			System.out.println("来自Disk的数据" + Global.databus);
 		}
-		 boolean flag1 = DevController.signal(devType, PCB.getPid());
+		 boolean flag1 = DevController.signal(devType,InterHandler.getDevReProId());
 		System.out.println(PCB.getPid());
 
 		if (flag == true  && flag1 == true ) {
@@ -267,7 +267,8 @@ public class InterService {
 			flag=DevController.responseINTR(InterHandler.getdevINTRID(), devType);
 		}
 		System.out.println("处理音响中断flag"+flag);
-		 boolean flag1 = DevController.signal(devType, PCB.getPid());
+		System.out.println("音响中断给的pid"+PCB.getPid());
+		boolean flag1 = DevController.signal(devType, InterHandler.getDevReProId());
 		if (flag == true  && flag1 == true ) {
 			System.out.println("处理音响中断的！！！！此时唤醒的proid" + InterHandler.getDevReProId());
 			ProcessMGT.wakeUpProcess(InterHandler.getDevReProId(), DevType.AUDIO);
