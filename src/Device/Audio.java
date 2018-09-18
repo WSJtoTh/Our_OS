@@ -37,16 +37,19 @@ public class Audio implements Runnable{
 		// TODO Auto-generated method stub
 		//InterHandler interHandler = new InterHandler();
 		System.out.println("Audio"+this.belongDevID+"is running.");
+		System.out.println("Occupied by process"+this.belongProID);
 		try {
 			System.out.println("Audio"+this.belongDevID+" receive data from CPU to print:");
 			System.out.println(Global.databus);
 			Thread.sleep(this.runTime*1000);
 			System.out.println("Audio"+this.belongDevID+"finished");
+			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Audio"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Audio"+this.belongDevID+"resend INTR");
+				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			}
 			System.out.println("CPU accept Audio"+this.belongDevID+"'s INTR");

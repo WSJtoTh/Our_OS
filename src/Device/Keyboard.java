@@ -37,14 +37,17 @@ public class Keyboard implements Runnable {
 		// TODO Auto-generated method stub
 		//InterHandler interHandler = new InterHandler();
 		System.out.println("Keybord"+this.belongDevID+"is waiting for user's input.");
+		System.out.println("Occupied by process"+this.belongProID);
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The keybord"+this.belongDevID+"has get data from users");
+			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID, SignalType.READ);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Keyboard"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Keyboard"+this.belongDevID+"resend INTR");
+				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID, SignalType.READ);
 			}
 			Global.databus = data;

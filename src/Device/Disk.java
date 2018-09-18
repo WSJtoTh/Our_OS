@@ -34,6 +34,7 @@ public class Disk implements Runnable{
 		this.signalType = signalType;
 		this.data = "data from disk";
 		System.out.println("设备"+devID+"运行线程创建");
+		System.out.println("Occupied by process"+this.belongProID);
 	}
 
 	
@@ -46,11 +47,13 @@ public class Disk implements Runnable{
 				System.out.println("Disk"+this.belongDevID+"receive data from CPU to disk:");
 				System.out.println(Global.databus);
 				Thread.sleep(this.runTime*1000);
+				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 				while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
+					System.out.println("调中断之前输出一下进程号："+this.belongProID);
 					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 				}
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");
@@ -58,11 +61,13 @@ public class Disk implements Runnable{
 			case READ:
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Disk"+this.belongDevID+"send data to CPU:");
+				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
 				while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
+					System.out.println("调中断之前输出一下进程号："+this.belongProID);
 					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
 				}
 				Global.databus = data+this.belongDevID;

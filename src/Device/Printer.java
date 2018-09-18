@@ -36,16 +36,19 @@ public class Printer implements Runnable {
 		// TODO Auto-generated method stub
 		//InterHandler interHandler = new InterHandler();
 		System.out.println(this.belongDevID+"is running.It will run for"+this.runTime+"seconds");
+		System.out.println("Occupied by process"+this.belongProID);
 		try {
 			System.out.println("Printer"+this.belongDevID+"receive data from CPU to print:");
 			System.out.println(Global.databus);
 			Thread.sleep(this.runTime*1000);
 			System.out.println("Prnter"+this.belongDevID+"finished");
+			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Printer"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Printer"+this.belongDevID+"resend INTR");
+				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			}
 			System.out.println("CPU accept Printer"+this.belongDevID+"'s INTR");

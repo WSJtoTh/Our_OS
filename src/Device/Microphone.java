@@ -3,6 +3,7 @@
  */
 package Device;
 
+import java.net.StandardSocketOptions;
 import java.util.Random;
 
 import Global.Global;
@@ -39,14 +40,17 @@ public class Microphone implements Runnable {
 		// TODO Auto-generated method stub
 		//InterHandler interHandler = new InterHandler();
 		System.out.println("Microphone"+this.belongDevID+"is running.");
+		System.out.println("Occupied by process"+this.belongProID);
 		try {
 			Thread.sleep(this.runTime*1000);
 			System.out.println("The device"+this.belongDevID+"finished");
+			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
 				System.out.println("Microphone"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Microphone"+this.belongDevID+"resend INTR");
+				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
 			}
 			Global.databus = data+this.belongDevID;
