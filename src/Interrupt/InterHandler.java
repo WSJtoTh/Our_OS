@@ -118,6 +118,7 @@ public class InterHandler {
 		setType = InterruptReg.SetInterType(type);
 		if (setType == true) {
 			devINTRID = INTRID;
+			System.out.println("收到设备中断，中断id为"+devINTRID);
 			DevReProId=proId;
 			stype=sType;
 			System.out.println("设备中断成功写入中断寄存器！");

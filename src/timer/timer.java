@@ -66,7 +66,7 @@ public class timer extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println(InterHandler.output());
+			//System.out.println(InterHandler.output());
 			System.out.println("当前时间"+AllTime+"  当前时间片计时"+RRTime+"  当前时间片"+RRCount);
 		 }
 	 }
