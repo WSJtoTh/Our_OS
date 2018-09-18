@@ -197,7 +197,8 @@ public class DevController implements Runnable{
 	 */
 	public static Boolean responseINTR(int INTRID, DevType devType) {
 		signalReg.setResponseINTRIDReg(SignalType.INTR, INTRID, devType);
-		System.out.println("Receive INTR response"+INTRID);
+		//System.out.println("Receive INTR response"+INTRID);
+		//System.out.println("Receive INTR response"+signalReg.getResponseINTRIDReg());
 		return true;
 	}
 	
