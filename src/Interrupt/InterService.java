@@ -135,9 +135,9 @@ public class InterService {
 		//	System.out.println("处理打印机中断回复response");
 			flag = DevController.responseINTR(InterHandler.getdevINTRID(), devType);
 		}
-		// boolean flag1 = DevController.signal(devType, PCB.getPid());
+		 boolean flag1 = DevController.signal(devType, PCB.getPid());
 		System.out.println("处理打印机中断flag"+flag);
-		if (flag == true /* && flag1 == true */) {
+		if (flag == true  && flag1 == true ) {
 			System.out.println("处理打印机中断的！！！！此时唤醒的proid" + InterHandler.getDevReProId());
 			ProcessMGT.wakeUpProcess(InterHandler.getDevReProId(), DevType.PRINTER);
 			System.out.println("成功处理打印机中断");
@@ -168,9 +168,9 @@ public class InterService {
 		}
 		System.out.println("处理键盘中断flag"+flag);
 		System.out.println("来自Keyboard的数据" + Global.databus);
-		// boolean flag1 = DevController.signal(devType, PCB.getPid());
+		boolean flag1 = DevController.signal(devType, PCB.getPid());
 		
-		if (flag == true /* && flag1 == true */) {
+		if (flag == true  && flag1 == true ) {
 			System.out.println("处理键盘中断的！！！！此时唤醒的proid" + InterHandler.getDevReProId());
 			ProcessMGT.wakeUpProcess(InterHandler.getDevReProId(), DevType.KEYBOARD);
 			System.out.println("成功处理KEYBOARD中断");
@@ -199,8 +199,8 @@ public class InterService {
 		}
 		System.out.println("处理麦克风中断flag"+flag);
 		System.out.println("来自Microphone的数据" + Global.databus);
-		// boolean flag1 = DevController.signal(devType, PCB.getPid());
-		if (flag == true /* && flag1 == true */) {
+		 boolean flag1 = DevController.signal(devType, PCB.getPid());
+		if (flag == true  && flag1 == true ) {
 			System.out.println("处理麦克风中断的！！！！此时唤醒的proid" + InterHandler.getDevReProId());
 			ProcessMGT.wakeUpProcess(InterHandler.getDevReProId(), DevType.MICROPHONE);
 			System.out.println("成功处理麦克风中断");
@@ -235,10 +235,10 @@ public class InterService {
 		if (signal == SignalType.READ) {
 			System.out.println("来自Disk的数据" + Global.databus);
 		}
-		// boolean flag1 = DevController.signal(devType, PCB.getPid());
+		 boolean flag1 = DevController.signal(devType, PCB.getPid());
 		System.out.println(PCB.getPid());
 
-		if (flag == true /* && flag1 == true */) {
+		if (flag == true  && flag1 == true ) {
 			System.out.println("处理磁盘中断的！！！！此时唤醒的proid" + InterHandler.getDevReProId());
 			ProcessMGT.wakeUpProcess(InterHandler.getDevReProId(), DevType.DISK);
 			System.out.println("成功处理磁盘中断");
@@ -267,8 +267,8 @@ public class InterService {
 			flag=DevController.responseINTR(InterHandler.getdevINTRID(), devType);
 		}
 		System.out.println("处理音响中断flag"+flag);
-		// boolean flag1 = DevController.signal(devType, PCB.getPid());
-		if (flag == true /* && flag1 == true */) {
+		 boolean flag1 = DevController.signal(devType, PCB.getPid());
+		if (flag == true  && flag1 == true ) {
 			System.out.println("处理音响中断的！！！！此时唤醒的proid" + InterHandler.getDevReProId());
 			ProcessMGT.wakeUpProcess(InterHandler.getDevReProId(), DevType.AUDIO);
 			System.out.println("成功处理音响中断");

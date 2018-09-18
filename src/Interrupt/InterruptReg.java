@@ -18,14 +18,21 @@ public class InterruptReg {
 
 	// 设置此时的中断类型
 	public static boolean SetInterType(InterType type) {
-
+		
+		int IntrSwitch=InterHandler.getSwitch();
 		if (type == InterType.NULL) {
 			NowInterType = type;
 			return true;
-		} else {// 调用屏蔽表
+		}
+		else if(IntrSwitch==0)//中断为关
+		{
+			System.out.println("无法写入寄存器，因为中断为关");
+			return false;
+		}
+		else {// 调用屏蔽表
 			boolean admit = false;
 			admit = AdmitInter(type);
-
+			
 			if (admit == true) {
 
 				NowInterType = type;

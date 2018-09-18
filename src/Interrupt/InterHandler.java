@@ -39,6 +39,11 @@ public class InterHandler {
 	public static int getPageNumber() {
 		return virPage;
 	}
+	
+	public static int getSwitch()
+	{
+		return INTRSwitch;
+	}
 
 	// 开中断
 	public static void onSwitch() {
@@ -58,18 +63,20 @@ public class InterHandler {
 		if (INTRSwitch == 0) {
 			System.out.println("中断已关闭，无法收到中断请求");
 		}
-		boolean setType = false;
-		setType = InterruptReg.SetInterType(type);
-		if (setType == true) {
-			pcb = PCB;
-			rOrw = signal;
-			devtype=devType;
-			System.out.println("IO中断成功写入中断寄存器！");
-			outString = "IO中断！";
+		
+			boolean setType = false;
+			setType = InterruptReg.SetInterType(type);
+			if (setType == true) {
+				pcb = PCB;
+				rOrw = signal;
+				devtype=devType;
+				System.out.println("IO中断成功写入中断寄存器！");
+				outString = "IO中断！";
 
-		} else {
-			System.out.println("IO中断未成功写入中断寄存器");
-		}
+			} else {
+				System.out.println("IO中断未成功写入中断寄存器");
+			}
+		
 	}
 
 	// 给进程的缺页中断
@@ -78,6 +85,7 @@ public class InterHandler {
 		if (INTRSwitch == 0) {
 			System.out.println("中断已关闭，无法收到中断请求");
 		}
+		
 		boolean setType = false;
 		setType = InterruptReg.SetInterType(type);
 		if (setType == true) {
@@ -88,7 +96,7 @@ public class InterHandler {
 		} else {
 			System.out.println("缺页中断未成功写入中断寄存器");
 		}
-
+		
 	}
 
 	// 给时钟的
@@ -97,6 +105,7 @@ public class InterHandler {
 		if (INTRSwitch == 0) {
 			System.out.println("中断已关闭，无法收到中断请求");
 		}
+		
 		boolean setType = false;
 		System.out.println(type);
 		setType = InterruptReg.SetInterType(type);
@@ -106,6 +115,7 @@ public class InterHandler {
 		} else {
 			System.out.println("时钟中断未成功写入中断寄存器");
 		}
+		
 	}
 
 	// 给设备的
