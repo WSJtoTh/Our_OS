@@ -17,7 +17,7 @@ import Interrupt.InterType;
  *
  */
 public class Audio implements Runnable{
-	private final int RANGE = 10;
+	private final int RANGE = 3;
 	private Random rand; 
 	private int runTime;
 	private Thread thread;
@@ -46,6 +46,8 @@ public class Audio implements Runnable{
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
+				System.out.println("当前response寄存器内的值："+DevController.signalReg.getResponseINTRIDReg());
+				
 				System.out.println("Audio"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Audio"+this.belongDevID+"resend INTR");

@@ -50,6 +50,8 @@ public class Disk implements Runnable{
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 				while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
+					System.out.println("当前response寄存器内的值："+DevController.signalReg.getResponseINTRIDReg());
+					
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
