@@ -126,7 +126,7 @@ public class Memory {
 		        		System.out.println("s:"+s);
 		        		System.out.println("当前页面insPage:"+insPage);
 		        	 	pages[insPage].insList.add(s);
-		        		System.out.println("成功加入"+s);
+		        		//System.out.println("成功加入"+s);
 		        		//System.out.println(s);
 		         }
 		     }
@@ -140,9 +140,7 @@ public class Memory {
 	
 	public static boolean isFree() {//判断进程是否可创建
 		try {
-			/*for(int i=0;i<pages.length;i++) {
-				pages[i]=new Page();
-			}*/
+			
 			int j=0;
 			int total=pageNum+1;
 			for(int i=0;i<pages.length;i++) {
@@ -217,7 +215,7 @@ public class Memory {
 		try {
 			for(int i=0;i<pages.length;i++) {
 				if(pages[i].getState()!=0) {
-					System.out.println("pid:"+pid+"\t"+"虚拟页面:"+pages[i].getVirPage()+"\t"+"物理页面："+i);
+					System.out.println("pid:"+pages[i].getPid()+"\t"+"虚拟页面:"+pages[i].getVirPage()+"\t"+"物理页面："+i);
 				}
 			}
 			//pages[pageNo].insList=new ArrayList<String>(insNum);
