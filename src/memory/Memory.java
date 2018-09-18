@@ -67,7 +67,7 @@ public class Memory {
 		            	}	
 		        	 }
 	          }
-	         System.out.println("成功读取程序txt！");
+	         System.out.println("成功读取程序txt！"+file.getName());
 	            br.close();    
 	        }catch(Exception e){
 	            e.printStackTrace();
@@ -124,13 +124,14 @@ public class Memory {
 		        	 	//pages[insPage].insList=new ArrayList<String>(insNum);
 		        	 	System.out.println("lines:"+lines);
 		        		System.out.println("s:"+s);
-		        		System.out.println("当前页面insPage:"+insPage);
+		        		System.out.println("当前页面insPage:"+insPage+"已成功加入指令！！！！");
 		        	 	pages[insPage].insList.add(s);
 		        		//System.out.println("成功加入"+s);
 		        		//System.out.println(s);
 		         }
 		     }
 	         System.out.println("数据页初始分配成功！");
+	         System.out.print("当前pid："+pid+"\t当前物理页面:"+insPage+"\t指令列表："+pages[insPage].insList);
 		     br.close();    
 	        }catch(Exception e){
 	            e.printStackTrace();
@@ -211,19 +212,22 @@ public class Memory {
 	
 	
 	public static String getIns(int pid,int pageNo,int offset) {//获得指定指令
-		String str = null;
+		String str = "";
 		try {
-			for(int i=0;i<pages.length;i++) {
+			/*for(int i=0;i<pages.length;i++) {
 				if(pages[i].getState()!=0) {
 					System.out.println("pid:"+pages[i].getPid()+"\t"+"虚拟页面:"+pages[i].getVirPage()+"\t"+"物理页面："+i);
 				}
-			}
+			}*/
+			System.out.println("调用物理页的指令列表为："+pages[pageNo].insList+"!!!!");
 			//pages[pageNo].insList=new ArrayList<String>(insNum);
-			System.out.println(pageNo);
+			
 			if(pages[pageNo].insList.size()==0) {
 				System.out.println("指令为空\t"+"物理页面为："+pageNo);
 			}
 			str=(String) pages[pageNo].insList.get(offset);
+			System.out.println("当前物理进程："+pid+"\t当前物理页面："+pageNo);
+			System.out.println("获得第"+offset+"条指令为："+str+"!!!!!!");
 		}catch(Exception e){
             e.printStackTrace();
         }
