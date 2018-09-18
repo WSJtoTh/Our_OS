@@ -14,9 +14,21 @@ public class InterService {
 
 	private static Process PCB;
 
+	private static boolean isResponse;
+	
 	private static timer time = new timer();
 
 	private static InterruptReg reg = new InterruptReg();
+	
+	public InterService() {
+		isResponse=false;
+	}
+	
+	public void setisResponse(boolean isOk) {
+		isResponse=isOk;
+	}
+	
+	
 
 	// 给进程用的处理中断的函数
 	public static InterType DealInterrupt() {
@@ -125,7 +137,11 @@ public class InterService {
 		// 执行中断服务程序
 		Process PCB = InterHandler.getPCB();
 		System.out.println("处理打印机中断的！！！！此时devINTR"+InterHandler.getdevINTRID()+"设备类型"+devType);
-		boolean flag = DevController.responseINTR(InterHandler.getdevINTRID(), devType);
+		boolean flag=false;
+		while(!isResponse) {
+			System.out.println("回复response");
+			flag= DevController.responseINTR(InterHandler.getdevINTRID(), devType);
+			}
 //		boolean flag1 = DevController.signal(devType, PCB.getPid());
 		if (flag == true /*&& flag1 == true*/) {
 			System.out.println("处理打印机中断的！！！！此时唤醒的proid"+InterHandler.getDevReProId());
