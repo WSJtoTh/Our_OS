@@ -45,8 +45,8 @@ public class Audio implements Runnable{
 			System.out.println("Audio"+this.belongDevID+"finished");
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
-			while(Register.responseINTRIDReg != this.belongDevID) {
-				System.out.println("当前response寄存器内的值："+Register.responseINTRIDReg);
+			while(DevController.getRegister() != this.belongDevID) {
+				System.out.println("当前response寄存器内的值："+DevController.getRegister());
 				
 				System.out.println("Audio"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);

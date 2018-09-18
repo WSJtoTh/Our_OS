@@ -46,8 +46,8 @@ public class Microphone implements Runnable {
 			System.out.println("The device"+this.belongDevID+"finished");
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
-			while(Register.responseINTRIDReg  != this.belongDevID) {
-				System.out.println("当前response寄存器内的值："+Register.responseINTRIDReg);				
+			while(DevController.getRegister()  != this.belongDevID) {
+				System.out.println("当前response寄存器内的值："+DevController.getRegister());				
 				System.out.println("Microphone"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Microphone"+this.belongDevID+"resend INTR");

@@ -16,10 +16,12 @@ public class DevController implements Runnable{
 	
 	/**////
 	public static SDT sdt;
+	private static int register;
 	private final static int IDRange = 20;
 	//private final int initialDevNum = 5;
 	private static HashMap<Integer, DevIDState> devIDTable;
 	private Thread devConThread;
+	
 	//private Boolean POWER = true;
 	public static SignalReg signalReg = new SignalReg();
 	@Override
@@ -52,6 +54,7 @@ public class DevController implements Runnable{
 		System.out.println("sdt init");
 		sdt = new SDT(initTable);
 		System.out.println("signal");
+		register = -100;
 		//signalReg = new SignalReg();
 		//System.out.println("finish devCon init");
 		
@@ -177,6 +180,7 @@ public class DevController implements Runnable{
 	 * CPU释放设备
 	 */
 	public static Boolean signal(DevType devType, int proID) {
+		register = -100;
 		int devID = sdt.getDevIDByDevTpyeAndProID(proID, devType);
 		int[] dev = sdt.getAvailDevCountSortByType();
 		for(int i = 0;i < 5;i++) {
@@ -190,6 +194,9 @@ public class DevController implements Runnable{
 		return true;
 	}
 	
+	public static int getRegister() {
+		return register;
+	}
 	/*
 	 * 中断响应函数
 	 * 由中断处理机调用
@@ -197,9 +204,22 @@ public class DevController implements Runnable{
 	 */
 	public static Boolean responseINTR(int INTRID, DevType devType) {
 		//signalReg.setResponseINTRIDReg(SignalType.INTR, INTRID, devType);
-		Register.responseINTRIDReg = INTRID;
+		//Register.responseINTRIDReg = INTRID;
+		if(register == -100) {
+			register = INTRID;
+		}
+		else {
+			System.out.println("Register is occupied");
+		}		
+		int s = 100;
+		try {
+			Thread.sleep(s);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		Register.responseDevType = devType;
-		System.out.println("register:"+Register.responseINTRIDReg);
+		//System.out.println("register:"+Register.responseINTRIDReg);
 		//System.out.println("Receive INTR response"+INTRID);
 		//System.out.println("Receive INTR response"+signalReg.getResponseINTRIDReg());
 		return true;

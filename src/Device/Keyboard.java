@@ -43,8 +43,8 @@ public class Keyboard implements Runnable {
 			System.out.println("The keybord"+this.belongDevID+"has get data from users");
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID, SignalType.READ);
-			while(Register.responseINTRIDReg != this.belongDevID) {
-				System.out.println("当前response寄存器内的值："+ Register.responseINTRIDReg );
+			while(DevController.getRegister() != this.belongDevID) {
+				System.out.println("当前response寄存器内的值："+ DevController.getRegister());
 				System.out.println("Keyboard"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Keyboard"+this.belongDevID+"resend INTR");
