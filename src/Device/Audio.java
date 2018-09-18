@@ -59,6 +59,7 @@ public class Audio implements Runnable{
 			System.out.println("CPU accept Audio"+this.belongDevID+"'s INTR");
 			//Register.responseINTRIDReg = -this.belongDevID;
 			DevController.clearRegister(this.belongDevID, this.belongProID);
+			System.out.println("before setIsResponse, register="+DevController.getRegister());
 			InterService.setisResponse(true);
 			//发送完成中断请求
 			

@@ -121,6 +121,7 @@ public class DCT {
 				return devID;
 			}
 		}
+		System.out.println("no device attaches th process:"+proID);
 		return devID;
 	}
 	

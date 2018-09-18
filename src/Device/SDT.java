@@ -83,6 +83,9 @@ public class SDT {
 		if(devType == DevType.PRINTER || devType ==DevType.KEYBOARD || devType == DevType.AUDIO || devType == DevType.DISK || devType == DevType.MICROPHONE) {
 			DCT dct = this.sysDevTb.get(devType);
 			int devID = dct.getDevIDByProID(proID);
+			if(devID < 0) {
+				System.out.println("no device attaches the process:"+proID+" of device type:"+devType);
+			}
 			return devID;	
 		}
 		else {
