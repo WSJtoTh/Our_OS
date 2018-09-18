@@ -46,9 +46,8 @@ public class Microphone implements Runnable {
 			System.out.println("The device"+this.belongDevID+"finished");
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
-			while(DevController.signalReg.getResponseINTRIDReg() != this.belongDevID) {
-				System.out.println("当前response寄存器内的值："+DevController.signalReg.getResponseINTRIDReg());
-				
+			while(Register.responseINTRIDReg  != this.belongDevID) {
+				System.out.println("当前response寄存器内的值："+Register.responseINTRIDReg);				
 				System.out.println("Microphone"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Microphone"+this.belongDevID+"resend INTR");
@@ -56,6 +55,7 @@ public class Microphone implements Runnable {
 				InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
 			}
 			Global.databus = data+this.belongDevID;
+			Register.responseINTRIDReg = -this.belongDevID;
 			System.out.println("CPU accept Microphone"+this.belongDevID+"'s INTR");
 			InterService.setisResponse(true);
 			//发送完成中断请求

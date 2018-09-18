@@ -28,22 +28,22 @@ public class SignalReg {
 	
 	public SignalReg() {
 		// TODO Auto-generated constructor stub
-		this.cmdType = SignalType.NONE;
-		this.devType = DevType.DEFAULT;
-		this.proID = 0;
+		cmdType = SignalType.NONE;
+		devType = DevType.DEFAULT;
+		proID = 0;
 		
-		this.askType = SignalType.NONE;
+		askType = SignalType.NONE;
 		//this.askAvailDeviceReg = -1;
 		
-		this.responseType = SignalType.NONE;
-		this.responseINTRIDReg = -1;
+		responseType = SignalType.NONE;
+		responseINTRIDReg = -1;
 	}
 	
-	public void setCMDReg(SignalType cmdType, DevType devType,int proID, int devID) {
-		this.proID = proID;
-		this.cmdType = cmdType;
-		this.devType = devType;
-		this.devID = devID;
+	public void setCMDReg(SignalType cmdType1, DevType devType1,int proID1, int devID1) {
+		proID = proID1;
+		cmdType = cmdType1;
+		devType = devType1;
+		devID = devID1;
 	}
 	
 	public static int getStatic() {
@@ -51,7 +51,7 @@ public class SignalReg {
 	}
 	
 	public Boolean testCMDReg() {
-		if(this.cmdType == SignalType.NONE) {
+		if(cmdType == SignalType.NONE) {
 			System.out.println("CMDReg is null");
 			return false;
 		}
@@ -62,41 +62,43 @@ public class SignalReg {
 	}
 	
 	public void clearCMDReg() {
-		this.cmdType = SignalType.NONE;
-		this.devType = DevType.DEFAULT;
-		this.proID = 0;
+		cmdType = SignalType.NONE;
+		devType = DevType.DEFAULT;
+		proID = 0;
 		System.out.println("CMDReg has been cleared");
 	}
 	
 	public SignalType getCMDType() {
-		return this.cmdType;
+		return cmdType;
 	}
 	
 	public DevType getDevType() {
-		return this.devType;
+		return devType;
 	}
 	
 	public int getProID() {
-		return this.proID;
+		return proID;
 	}
 	
-	public void setResponseINTRIDReg(SignalType responseType,int INTRID, DevType devType) {
-		this.responseType = responseType;
-		this.responseINTRIDReg = INTRID;
-		this.responseINTRDevType = devType;
+	public void setResponseINTRIDReg(SignalType responseType1,int INTRID, DevType devType) {
+		responseType = responseType1;
+		responseINTRIDReg = INTRID;
+		responseINTRDevType = devType;
+		//System.out.println("Reg value:"+responseINTRIDReg);
+		//System.out.println("INTRID"+INTRID);
 	}
 	
 	public int getResponseINTRIDReg() {
-		return this.responseINTRIDReg;
+		return responseINTRIDReg;
 	}
 	
 	public DevType getResponseINTRDevType() {
-		return this.responseINTRDevType;
+		return responseINTRDevType;
 	}
 	//??
 	public Boolean testResponseINTRIDReg() {
-		if(this.responseType == SignalType.INTR) {
-			System.out.println("Receive answer of INTR:"+this.responseINTRIDReg);
+		if(responseType == SignalType.INTR) {
+			System.out.println("Receive answer of INTR:"+responseINTRIDReg);
 			return true;
 		}
 		else {
@@ -106,17 +108,17 @@ public class SignalReg {
 	}
 
 	public void clearResponseINTRIDReg() {
-		this.responseINTRIDReg = 0;
-		this.responseType = SignalType.NONE;
+		responseINTRIDReg = -1;
+		responseType = SignalType.NONE;
 	}
 	
-	public void setAskAvailDeviceReg(SignalType askType) {
+	public void setAskAvailDeviceReg(SignalType askType1) {
 		//this.askAvailDeviceReg = 1;
-		this.askType = askType;
+		askType = askType1;
 	}
 	
 	public Boolean testAskAvailDeviceReg() {
-		if(this.askType == SignalType.ASKDEV) {
+		if(askType == SignalType.ASKDEV) {
 			System.out.println("CPU send a CMD asks for system devices states ");
 			return true;
 		}
@@ -127,6 +129,6 @@ public class SignalReg {
 	}
 	
 	public void clearAskAvailDeviceReg() {
-		this.askType = SignalType.NONE;
+		askType = SignalType.NONE;
 	}
 }

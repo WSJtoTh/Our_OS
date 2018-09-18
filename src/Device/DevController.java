@@ -21,7 +21,7 @@ public class DevController implements Runnable{
 	private static HashMap<Integer, DevIDState> devIDTable;
 	private Thread devConThread;
 	//private Boolean POWER = true;
-	public static SignalReg signalReg;
+	public static SignalReg signalReg = new SignalReg();
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -52,8 +52,8 @@ public class DevController implements Runnable{
 		System.out.println("sdt init");
 		sdt = new SDT(initTable);
 		System.out.println("signal");
-		signalReg = new SignalReg();
-		System.out.println("finish devCon init");
+		//signalReg = new SignalReg();
+		//System.out.println("finish devCon init");
 		
 	}
 	
@@ -196,7 +196,10 @@ public class DevController implements Runnable{
 	 * 
 	 */
 	public static Boolean responseINTR(int INTRID, DevType devType) {
-		signalReg.setResponseINTRIDReg(SignalType.INTR, INTRID, devType);
+		//signalReg.setResponseINTRIDReg(SignalType.INTR, INTRID, devType);
+		Register.responseINTRIDReg = INTRID;
+		Register.responseDevType = devType;
+		System.out.println("register:"+Register.responseINTRIDReg);
 		//System.out.println("Receive INTR response"+INTRID);
 		//System.out.println("Receive INTR response"+signalReg.getResponseINTRIDReg());
 		return true;
@@ -276,6 +279,11 @@ public class DevController implements Runnable{
 		return entireTable;
 	}
 	
-	
+	public static int getRegValue() {
+		int i;
+		i = signalReg.getResponseINTRIDReg();
+		System.out.println("Reg:"+i);
+		return i;
+	}
 	
 }
