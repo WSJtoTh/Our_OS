@@ -8,6 +8,7 @@ import java.util.Random;
 import Global.Global;
 /**///import Interrupt.*;
 import Interrupt.InterHandler;
+import Interrupt.InterService;
 import Interrupt.InterType;
 
 /**
@@ -48,6 +49,7 @@ public class Printer implements Runnable {
 				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			}
 			System.out.println("CPU accept Printer"+this.belongDevID+"'s INTR");
+			InterService.setisResponse(true);
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {
@@ -62,6 +64,8 @@ public class Printer implements Runnable {
 			thread = new Thread(this, String.valueOf(this.belongDevID));
 			thread.start();
 		}
+		
+	
 		
 	}
 }

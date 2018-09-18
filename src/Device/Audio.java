@@ -9,6 +9,7 @@ import Global.Global;
 /**///import Interrupt.InterHandler;
 /**///import Interrupt.InterType;
 import Interrupt.InterHandler;
+import Interrupt.InterService;
 import Interrupt.InterType;
 
 /**
@@ -49,6 +50,7 @@ public class Audio implements Runnable{
 				InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			}
 			System.out.println("CPU accept Audio"+this.belongDevID+"'s INTR");
+			InterService.setisResponse(true);
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {

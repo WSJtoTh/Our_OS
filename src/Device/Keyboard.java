@@ -7,6 +7,7 @@ import java.util.Random;
 
 import Global.Global;
 import Interrupt.InterHandler;
+import Interrupt.InterService;
 import Interrupt.InterType;
 /**///import Interrupt.*;
 /**
@@ -48,6 +49,7 @@ public class Keyboard implements Runnable {
 			}
 			Global.databus = data;
 			System.out.println("CPU accept Keyboard"+this.belongDevID+"'s INTR");
+			InterService.setisResponse(true);
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {

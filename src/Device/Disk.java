@@ -9,6 +9,7 @@ import Global.Global;
 /**///import Interrupt.InterHandler;
 /**///import Interrupt.InterType;
 import Interrupt.InterHandler;
+import Interrupt.InterService;
 import Interrupt.InterType;
 
 /**
@@ -70,7 +71,9 @@ public class Disk implements Runnable{
 			default:
 				System.out.println("Disk has no such signal");
 				break;
+			
 			}
+			InterService.setisResponse(true);
 			
 			//发送完成中断请求
 			

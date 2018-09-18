@@ -9,6 +9,7 @@ import Global.Global;
 /**///import Interrupt.InterHandler;
 /**///import Interrupt.InterType;
 import Interrupt.InterHandler;
+import Interrupt.InterService;
 import Interrupt.InterType;
 
 /**
@@ -50,6 +51,7 @@ public class Microphone implements Runnable {
 			}
 			Global.databus = data+this.belongDevID;
 			System.out.println("CPU accept Microphone"+this.belongDevID+"'s INTR");
+			InterService.setisResponse(true);
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {
