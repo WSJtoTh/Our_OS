@@ -153,6 +153,7 @@ public class ProcessMGT {
 		for(int i = 0;i < re.length;i++) {
 			re[i] = 0;
 		}
+		process.releaseDev();
 		SystemResources.addResource(process.getResource_hold());
 		process.setResource_hold(re);
 	}
