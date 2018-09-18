@@ -34,6 +34,15 @@ public class Process {
 		}
 	}
 	
+	public void releaseDev() {
+		for(int i = 3;i < resource_hold.length;i++) {
+			int num = resource_hold[i];
+			for(int j = 0;j < num;j++) {
+				DevController.signal(DevType.values()[i-3], pid);
+			}
+		}
+	}
+	
 	
 	public void addCommonResource(int[] need) {
 		for(int i = 0;i < need.length;i++) {
