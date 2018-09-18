@@ -91,7 +91,7 @@ public class InterService {
 		// 中断寄存器置NULL
 
 		// 开中断 允许响应
-		InterHandler.onSwitch();
+		//InterHandler.onSwitch();
 
 		// 执行中断服务程序
 
@@ -111,7 +111,7 @@ public class InterService {
 
 		InterruptReg.SetInterType(InterType.NULL);
 		// 开中断 允许响应
-		InterHandler.onSwitch();
+		//InterHandler.onSwitch();
 		System.out.println("虚拟页号" + InterHandler.getPageNumber());
 		Memory.replacePage(PCB.getPid(), InterHandler.getPageNumber());
 		System.out.println("成功处理缺页中断");
@@ -123,7 +123,7 @@ public class InterService {
 	public static int DealPrinterInt() {
 		InterruptReg.SetInterType(InterType.NULL);
 		// 开中断 允许响应
-		InterHandler.onSwitch();
+		//InterHandler.onSwitch();
 		DevType devType;
 		devType = DevType.PRINTER;
 		isResponse = false;
@@ -152,7 +152,7 @@ public class InterService {
 	public static int DealKeyboardInt() {
 		InterruptReg.SetInterType(InterType.NULL);
 		// 开中断 允许响应
-		InterHandler.onSwitch();
+		//InterHandler.onSwitch();
 
 		// 执行中断服务程序
 
@@ -185,7 +185,7 @@ public class InterService {
 
 		InterruptReg.SetInterType(InterType.NULL);
 		// 开中断 允许响应
-		InterHandler.onSwitch();
+		//InterHandler.onSwitch();
 		DevType devType;
 		devType = DevType.MICROPHONE;
 		// 执行中断服务程序
@@ -216,7 +216,7 @@ public class InterService {
 
 		InterruptReg.SetInterType(InterType.NULL);
 		// 开中断 允许响应
-		InterHandler.onSwitch();
+		//InterHandler.onSwitch();
 		DevType devType;
 		devType = DevType.DISK;
 		isResponse = false;
@@ -254,7 +254,7 @@ public class InterService {
 
 		InterruptReg.SetInterType(InterType.NULL);
 		// 开中断 允许响应
-		InterHandler.onSwitch();
+		//InterHandler.onSwitch();
 		DevType devType;
 		devType = DevType.AUDIO;
 		isResponse = false;
@@ -284,7 +284,7 @@ public class InterService {
 
 		InterruptReg.SetInterType(InterType.NULL);
 		// 开中断 允许响应
-		InterHandler.onSwitch();
+		//InterHandler.onSwitch();
 
 		// 执行中断服务程序
 
