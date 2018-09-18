@@ -44,17 +44,20 @@ public class Printer implements Runnable {
 			System.out.println("Prnter"+this.belongDevID+"finished");
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
-			while(DevController.getRegister()  != this.belongDevID) {
-				System.out.println("当前response寄存器内的值："+DevController.getRegister());
+			int i = DevController.getRegister();
+			while(i != this.belongDevID) {
+				System.out.println("当前response寄存器内的值："+i);
 				
 				System.out.println("Printer"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*1000);
 				System.out.println("Printer"+this.belongDevID+"resend INTR");
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
+				i = DevController.getRegister();
 			}
 			System.out.println("CPU accept Printer"+this.belongDevID+"'s INTR");
 			Register.responseINTRIDReg = -this.belongDevID;
+			
 			InterService.setisResponse(true);
 			//发送完成中断请求
 			

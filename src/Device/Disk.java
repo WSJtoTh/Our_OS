@@ -40,6 +40,7 @@ public class Disk implements Runnable{
 	
 	@Override
 	public void run() {
+		int i = DevController.getRegister();
 		// TODO Auto-generated method stub
 		try {
 			switch (this.signalType) {
@@ -49,14 +50,16 @@ public class Disk implements Runnable{
 				Thread.sleep(this.runTime*1000);
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
-				while(DevController.getRegister()  != this.belongDevID) {
-					System.out.println("当前response寄存器内的值："+DevController.getRegister());
+				i = DevController.getRegister();
+				while(i  != this.belongDevID) {
+					System.out.println("当前response寄存器内的值："+i);
 					
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
 					System.out.println("调中断之前输出一下进程号："+this.belongProID);
 					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
+					i = DevController.getRegister();
 				}
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");
 				break;
@@ -65,12 +68,14 @@ public class Disk implements Runnable{
 				System.out.println("Disk"+this.belongDevID+"send data to CPU:");
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
-				while(DevController.getRegister() != this.belongDevID) {
+				i = DevController.getRegister();
+				while(i != this.belongDevID) {
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
 					System.out.println("调中断之前输出一下进程号："+this.belongProID);
 					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
+					i = DevController.getRegister();
 				}
 				Global.databus = data+this.belongDevID;
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");

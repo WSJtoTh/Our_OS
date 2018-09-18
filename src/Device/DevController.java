@@ -4,6 +4,7 @@
 package Device;
 
 import java.awt.List;
+import java.beans.IntrospectionException;
 import java.util.HashMap;
 
 import Global.Global;
@@ -15,6 +16,7 @@ import Global.Global;
 public class DevController implements Runnable{
 	
 	/**////
+	private static HashMap<Integer, DevIDState> INTRIDTable;
 	public static SDT sdt;
 	private static int register;
 	private final static int IDRange = 20;
@@ -55,6 +57,7 @@ public class DevController implements Runnable{
 		sdt = new SDT(initTable);
 		System.out.println("signal");
 		register = -100;
+		this.initINTRIDTable();
 		//signalReg = new SignalReg();
 		//System.out.println("finish devCon init");
 		
@@ -82,6 +85,25 @@ public class DevController implements Runnable{
 		System.out.println("finish DevID table init");
 	}
 	
+	public static DevIDState getINTRState(int devID) {
+		DevIDState state = DevIDState.WRONG;
+		for(int i = 0;i < IDRange;i++) {
+			if(devID == i) {
+				state = INTRIDTable.get(i);
+			}
+		}
+		return state;
+	}
+	
+	private void initINTRIDTable() {
+		INTRIDTable = new HashMap<>();
+		System.out.println("enter INTRID table init function");
+		for(int i = 0;i < IDRange;i++) {
+			INTRIDTable.put(i, DevIDState.SHIELD);
+			System.out.println("INTRID table"+i+INTRIDTable.get(i));
+		}
+		System.out.println("finish INTRID table init");
+	}
 	/*
 	 * 初始化系统设备
 	 */
@@ -197,6 +219,7 @@ public class DevController implements Runnable{
 	public static int getRegister() {
 		return register;
 	}
+	
 	/*
 	 * 中断响应函数
 	 * 由中断处理机调用
