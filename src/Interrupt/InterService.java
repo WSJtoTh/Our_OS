@@ -24,7 +24,7 @@ public class InterService {
 		isResponse=false;
 	}
 	
-	public void setisResponse(boolean isOk) {
+	public static void setisResponse(boolean isOk) {
 		isResponse=isOk;
 	}
 	
