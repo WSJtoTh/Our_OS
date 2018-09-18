@@ -89,6 +89,7 @@ public class Disk implements Runnable{
 			}
 			DevController.clearRegister(this.belongDevID, this.belongProID);
 			//Register.responseINTRIDReg = -this.belongDevID;
+			System.out.println("before setIsResponse, register="+DevController.getRegister());
 			InterService.setisResponse(true);
 			
 			//发送完成中断请求

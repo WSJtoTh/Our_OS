@@ -205,16 +205,23 @@ public class DevController implements Runnable{
 	public static Boolean signal(DevType devType, int proID) {
 		//register = -100;
 		int devID = sdt.getDevIDByDevTpyeAndProID(proID, devType);
-		int[] dev = sdt.getAvailDevCountSortByType();
-		for(int i = 0;i < 5;i++) {
-			System.out.println(dev[i]);
+		if(devID < 0) {
+			System.out.println("in signal ,the process doesn't own this type of device(process:"+proID+" devType:"+devType+")");
+			return false;
 		}
-		sdt.freeBusyDevice(devType, devID);
-		dev = sdt.getAvailDevCountSortByType();
-		for(int i = 0;i < 5;i++) {
-			System.out.println(dev[i]);
+		else {
+			int[] dev = sdt.getAvailDevCountSortByType();
+			for(int i = 0;i < 5;i++) {
+				System.out.println(dev[i]);
+			}
+			sdt.freeBusyDevice(devType, devID);
+			dev = sdt.getAvailDevCountSortByType();
+			for(int i = 0;i < 5;i++) {
+				System.out.println(dev[i]);
+			}
+			return true;
 		}
-		return true;
+		
 	}
 	
 	public static int getRegister() {

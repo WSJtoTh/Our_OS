@@ -62,6 +62,7 @@ public class Microphone implements Runnable {
 			Register.responseINTRIDReg = -this.belongDevID;
 			System.out.println("CPU accept Microphone"+this.belongDevID+"'s INTR");
 			DevController.clearRegister(this.belongDevID, this.belongProID);
+			System.out.println("before setIsResponse, register="+DevController.getRegister());
 			InterService.setisResponse(true);
 			//发送完成中断请求
 			

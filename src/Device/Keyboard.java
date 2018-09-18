@@ -59,6 +59,7 @@ public class Keyboard implements Runnable {
 			System.out.println("CPU accept Keyboard"+this.belongDevID+"'s INTR");
 			DevController.clearRegister(this.belongDevID, this.belongProID);
 			//Register.responseINTRIDReg = -this.belongDevID;
+			System.out.println("before setIsResponse, register="+DevController.getRegister());
 			InterService.setisResponse(true);
 			//发送完成中断请求
 			
