@@ -34,13 +34,9 @@ public class Process {
 		}
 	}
 	
-	public void releaseDev() {
-		for(int i = 3;i < resource_hold.length;i++) {
-			int num = resource_hold[i];
-			for(int j = 0;j < num;j++) {
-				DevController.signal(DevType.values()[i-3], pid);
-			}
-		}
+	public void releaseDev(DevType dev) {
+		int index = dev.ordinal() + 3;
+		resource_hold[index] -= 1;
 	}
 	
 	

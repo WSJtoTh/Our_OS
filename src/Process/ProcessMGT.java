@@ -206,6 +206,7 @@ public class ProcessMGT {
 		}
 		if(p != null) {
 			p.setSignal(null);
+			p.releaseDev(dev);
 			if(p.getPC() % 5 == 0) {//如果刚好是一组的最后一条指令且是io指令，先计算下5组指令
 				culNextNeed(p);
 				waitProcess(p);
@@ -248,8 +249,10 @@ public class ProcessMGT {
 		
 		incWaitTimes();//waiting队列中的设备等待时间加1
 		//更新一次设备资源表
-		SystemResources.setDevremain(DevController.getAvailDevTable());
-		SystemResources.setDevmax(DevController.getEntireDevTable());
+		int[] max = DevController.getEntireDevTable();
+		int[] remain = DevController.getAvailDevTable();
+		SystemResources.setDevremain(remain);
+		SystemResources.setDevmax(max);
 		
 		try {
 			Process process = running.pop();
@@ -311,7 +314,9 @@ public class ProcessMGT {
 			terminateProcess(p);
 			waiting.remove(p);
 		}
-				
+		
+		printAll();
+		
 		//清一次terminated
 		killProcess();
 		
