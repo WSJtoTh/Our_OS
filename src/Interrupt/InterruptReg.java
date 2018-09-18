@@ -22,6 +22,7 @@ public class InterruptReg {
 		int IntrSwitch=InterHandler.getSwitch();
 		if (type == InterType.NULL) {
 			NowInterType = type;
+			System.out.println("中断处理完毕，已成功将寄存器置为NULL");
 			return true;
 		}
 		else if(IntrSwitch==0)//中断为关
