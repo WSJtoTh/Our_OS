@@ -223,7 +223,7 @@ public class InterService {
 		boolean flag = false;
 		while (!isResponse) {
 			System.out.println("处理磁盘中断回复response");
-			DevController.responseINTR(InterHandler.getdevINTRID(), devType);
+			flag=DevController.responseINTR(InterHandler.getdevINTRID(), devType);
 		}
 
 		if (signal == SignalType.READ) {
@@ -257,7 +257,7 @@ public class InterService {
 		boolean flag = false;
 		while (!isResponse) {
 			System.out.println("处理音响中断回复response");
-			DevController.responseINTR(InterHandler.getdevINTRID(), devType);
+			flag=DevController.responseINTR(InterHandler.getdevINTRID(), devType);
 		}
 		// boolean flag1 = DevController.signal(devType, PCB.getPid());
 		if (flag == true /* && flag1 == true */) {
