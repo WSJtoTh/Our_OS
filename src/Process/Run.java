@@ -15,6 +15,7 @@ public class Run {
 		Process process = null;
 		boolean fetchflag = true;//是否取进程
 		InterType intertype = InterType.NULL;
+		int temppc = 0;
 		
 		//初始化资源
 		SystemResources.init();//初始化系统资源
@@ -66,6 +67,7 @@ public class Run {
 				ins.ExeInstruction(instruction,process,1);
 				//执行打印
 				System.out.println(instruction);
+				temppc = process.getPC();
 			}
 			//睡眠1s
 			Thread.sleep(timeInterval);
@@ -75,15 +77,15 @@ public class Run {
 			if(intertype == InterType.TIMEOUT) {
 				fetchflag = true;
 			}
-			else if(intertype == InterType.IOINTR && process.getPid()%5 == 0) {
+			else if(intertype == InterType.IOINTR && temppc%5 == 0) {
 				runflag = false;
 				fetchflag = true;
 			}
-			else if(intertype == InterType.IOINTR && process.getPid()%5 != 0) {
+			else if(intertype == InterType.IOINTR && temppc%5 != 0) {
 				runflag = false;
 				fetchflag = false;
 			}
-			else if(intertype == InterType.NEEDPAGE && process.getPid()%5 == 0) {
+			else if(temppc%5 == 0) {
 				runflag = false;
 				fetchflag = false;
 			}
