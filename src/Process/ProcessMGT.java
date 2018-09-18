@@ -153,7 +153,7 @@ public class ProcessMGT {
 		for(int i = 0;i < re.length;i++) {
 			re[i] = 0;
 		}
-		process.releaseDev();
+		//process.releaseDev();
 		SystemResources.addResource(process.getResource_hold());
 		process.setResource_hold(re);
 	}
@@ -208,11 +208,12 @@ public class ProcessMGT {
 			p.setSignal(null);
 			if(p.getPC() % 5 == 0) {//如果刚好是一组的最后一条指令且是io指令，先计算下5组指令
 				culNextNeed(p);
-				blocking.remove(p);
 				waitProcess(p);
-			}else {
 				blocking.remove(p);
+				System.out.println("五条指令末尾，唤醒到waiting队列！！！！！！！！！");
+			}else {
 				readyProcess(p);
+				blocking.remove(p);
 			}
 		}
 		
