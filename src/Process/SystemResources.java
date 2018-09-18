@@ -70,7 +70,7 @@ public class SystemResources {
 	//设置设备的余留数组
 	public static void setDevremain(int[] remain) {
 		for(int i = 3,j = 0;j < remain.length;i++,j++) {
-			Resource_max[i] = remain[j];
+			Resource_remain[i] = remain[j];
 		}
 	}
 	

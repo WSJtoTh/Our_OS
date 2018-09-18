@@ -285,7 +285,7 @@ public class ProcessMGT {
 			System.out.println("running队列为空！");
 		}
 		
-		
+		SystemResources.printResource_remain();
 		//遍历waiting中的process 是否能进ready ？？？？？？等待过多时间片该如何处理
 		for(Process wp:waiting) {
 			int res = SystemResources.reqResource(wp.getResource_max(),wp.getResource_need());
