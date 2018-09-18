@@ -315,7 +315,7 @@ public class ProcessMGT {
 		//清一次terminated
 		killProcess();
 		
-		printAll();//////////////////////////////////打印输出信息
+		//printAll();//////////////////////////////////打印输出信息
 		
 		//取ready到running
 		try {
