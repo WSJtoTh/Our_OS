@@ -70,12 +70,14 @@ public class Disk implements Runnable{
 				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
 				i = DevController.getRegister();
 				while(i != this.belongDevID) {
-					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
-					Thread.sleep(this.runTime*1000);
-					System.out.println("Disk"+this.belongDevID+"resend INTR");
-					System.out.println("调中断之前输出一下进程号："+this.belongProID);
-					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
+					//System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					i = DevController.getRegister();
+					Thread.sleep(this.runTime*100);
+					System.out.println("Disk"+this.belongDevID+"resend INTR");
+					i = DevController.getRegister();
+					//System.out.println("调中断之前输出一下进程号："+this.belongProID);
+					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
+					
 				}
 				Global.databus = data+this.belongDevID;
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");
@@ -85,7 +87,8 @@ public class Disk implements Runnable{
 				break;
 			
 			}
-			Register.responseINTRIDReg = -this.belongDevID;
+			DevController.clearRegister(this.belongDevID, this.belongProID);
+			//Register.responseINTRIDReg = -this.belongDevID;
 			InterService.setisResponse(true);
 			
 			//发送完成中断请求

@@ -8,6 +8,7 @@ import java.beans.IntrospectionException;
 import java.util.HashMap;
 
 import Global.Global;
+import pro.ins;
 
 /**
  * @author 45044
@@ -202,7 +203,7 @@ public class DevController implements Runnable{
 	 * CPU释放设备
 	 */
 	public static Boolean signal(DevType devType, int proID) {
-		register = -100;
+		//register = -100;
 		int devID = sdt.getDevIDByDevTpyeAndProID(proID, devType);
 		int[] dev = sdt.getAvailDevCountSortByType();
 		for(int i = 0;i < 5;i++) {
@@ -220,6 +221,11 @@ public class DevController implements Runnable{
 		return register;
 	}
 	
+	public static void clearRegister(int devID, int proID) {
+		register = -100;
+		System.out.println("device: "+devID+"occupied by process: "+proID+"release the register");
+		//return true;
+	}
 	/*
 	 * 中断响应函数
 	 * 由中断处理机调用
@@ -230,6 +236,7 @@ public class DevController implements Runnable{
 		//Register.responseINTRIDReg = INTRID;
 		if(register == -100) {
 			register = INTRID;
+			System.out.println("Receive INTR of"+INTRID);
 		}
 		else {
 			System.out.println("Register is occupied");

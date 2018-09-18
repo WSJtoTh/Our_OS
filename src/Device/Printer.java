@@ -5,6 +5,8 @@ package Device;
 
 import java.util.Random;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
+
 import Global.Global;
 /**///import Interrupt.*;
 import Interrupt.InterHandler;
@@ -47,17 +49,18 @@ public class Printer implements Runnable {
 			int i = DevController.getRegister();
 			while(i != this.belongDevID) {
 				System.out.println("当前response寄存器内的值："+i);
-				
-				System.out.println("Printer"+this.belongDevID+"INTR wasn't accept by CPU");
-				Thread.sleep(this.runTime*1000);
-				System.out.println("Printer"+this.belongDevID+"resend INTR");
-				System.out.println("调中断之前输出一下进程号："+this.belongProID);
-				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 				i = DevController.getRegister();
+				//System.out.println("Printer"+this.belongDevID+"INTR wasn't accept by CPU");
+				Thread.sleep(this.runTime*100);
+				i = DevController.getRegister();
+				System.out.println("Printer"+this.belongDevID+"resend INTR");
+				//System.out.println("调中断之前输出一下进程号："+this.belongProID);
+				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
+				
 			}
 			System.out.println("CPU accept Printer"+this.belongDevID+"'s INTR");
-			Register.responseINTRIDReg = -this.belongDevID;
-			
+			//Register.responseINTRIDReg = -this.belongDevID;
+			DevController.clearRegister(this.belongDevID, this.belongProID);
 			InterService.setisResponse(true);
 			//发送完成中断请求
 			

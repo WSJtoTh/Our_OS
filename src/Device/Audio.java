@@ -45,17 +45,20 @@ public class Audio implements Runnable{
 			System.out.println("Audio"+this.belongDevID+"finished");
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
-			while(DevController.getRegister() != this.belongDevID) {
-				System.out.println("当前response寄存器内的值："+DevController.getRegister());
-				
-				System.out.println("Audio"+this.belongDevID+"INTR wasn't accept by CPU");
-				Thread.sleep(this.runTime*1000);
-				System.out.println("Audio"+this.belongDevID+"resend INTR");
+			int i = DevController.getRegister();
+			while(i != this.belongDevID) {
+				System.out.println("当前response寄存器内的值："+i);
+				i = DevController.getRegister();
+				//System.out.println("Audio"+this.belongDevID+"INTR wasn't accept by CPU");
+				Thread.sleep(this.runTime*100);
+				i = DevController.getRegister();
+				//System.out.println("Audio"+this.belongDevID+"resend INTR");
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			}
 			System.out.println("CPU accept Audio"+this.belongDevID+"'s INTR");
-			Register.responseINTRIDReg = -this.belongDevID;
+			//Register.responseINTRIDReg = -this.belongDevID;
+			DevController.clearRegister(this.belongDevID, this.belongProID);
 			InterService.setisResponse(true);
 			//发送完成中断请求
 			

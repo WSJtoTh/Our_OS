@@ -46,16 +46,19 @@ public class Keyboard implements Runnable {
 			int i = DevController.getRegister();
 			while(i != this.belongDevID) {
 				System.out.println("当前response寄存器内的值："+i);
-				System.out.println("Keyboard"+this.belongDevID+"INTR wasn't accept by CPU");
-				Thread.sleep(this.runTime*1000);
-				System.out.println("Keyboard"+this.belongDevID+"resend INTR");
-				System.out.println("调中断之前输出一下进程号："+this.belongProID);
-				InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID, SignalType.READ);
+				//System.out.println("Keyboard"+this.belongDevID+"INTR wasn't accept by CPU");
 				i = DevController.getRegister();
+				Thread.sleep(this.runTime*100);
+				i = DevController.getRegister();
+				System.out.println("Keyboard"+this.belongDevID+"resend INTR");
+				//System.out.println("调中断之前输出一下进程号："+this.belongProID);
+				InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID, SignalType.READ);
+				
 			}
 			Global.databus = data;
 			System.out.println("CPU accept Keyboard"+this.belongDevID+"'s INTR");
-			Register.responseINTRIDReg = -this.belongDevID;
+			DevController.clearRegister(this.belongDevID, this.belongProID);
+			//Register.responseINTRIDReg = -this.belongDevID;
 			InterService.setisResponse(true);
 			//发送完成中断请求
 			
