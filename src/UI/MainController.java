@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +100,7 @@ public class MainController extends JFrame{
 		public static Font font;
 		public static Font font1;
 		public static Font font2;
+		public static Font font3;
 		public static JLabel systemtimel;
 		public static JTextField systemtimet;
 		public static JLabel timeslicel;
@@ -121,6 +124,8 @@ public class MainController extends JFrame{
 		public static JTextField dealintrprompt;
 		public static JLabel addDevicel;
 		public static JComboBox addDevicet;
+		public static JButton addButton;
+		public static JButton deleteButton;
 		public static JButton okButton;
 		public static JLabel Devicenamel;
 		public static JLabel ocupyProcessl;
@@ -197,7 +202,7 @@ public class MainController extends JFrame{
 		         font = new Font("宋体",Font.BOLD, 18);//宋体、加粗、18像素
 		         font1 = new Font("宋体",Font.BOLD, 24);//宋体、加粗、24像素	  
 		         font2 = new Font("宋体",Font.BOLD, 16);//宋体、加粗、16像素
-		         
+		         font3 = new Font("宋体",Font.BOLD, 14);//宋体、加粗、16像素
 		         // 创建 JLabel
 		         systemtimel = new JLabel("系统时间:");
 		         systemtimel.setFont(font); 
@@ -219,21 +224,21 @@ public class MainController extends JFrame{
 		         // 输入密码的文本域
 		         timeslicel =new JLabel("时间片计时:");
 		         timeslicel.setFont(font);
-		         timeslicel.setBounds(270,20,100,40);
+		         timeslicel.setBounds(260,20,130,40);
 		         os.add(timeslicel);
 		         
 	
 		         /* 
 		          *这个类似用于输入的文本域
-		          * 但是输入的信息会以点号代替，用于包含密码的安全性
+		          * 
 		          */
 		         timeslicet = new JTextField(40);
-		         timeslicet.setBounds(350,20,100,40);
+		         timeslicet.setBounds(370,20,100,40);
 		         timeslicet.setEditable(false);
 		         os.add(timeslicet);
 	
 		         
-		         // 输入密码的文本域
+		         // 文本域
 		         timerl = new JLabel("时间片数:");
 		         timerl.setFont(font);
 		         timerl.setBounds(520,20,100,40);
@@ -245,7 +250,7 @@ public class MainController extends JFrame{
 		          * 但是输入的信息会以点号代替，用于包含密码的安全性
 		          */
 		         timert = new JTextField(40);
-		         timert.setBounds(590,20,100,40);
+		         timert.setBounds(610,20,100,40);
 		         timert.setEditable(false);
 		         os.add(timert);
 		         
@@ -340,7 +345,7 @@ public class MainController extends JFrame{
 		         
 		         addDevicet= new JComboBox();
 		         addDevicet.setFont(font);
-		         addDevicet.setBounds(20, 520, 280, 50);
+		         addDevicet.setBounds(20, 520, 140, 40);
 		         os.add(addDevicet);
 		         addDevicet.addItem(null);
 		         addDevicet.addItem("PRINTER");
@@ -349,12 +354,61 @@ public class MainController extends JFrame{
 		         addDevicet.addItem("MICROPHONE");
 		         addDevicet.addItem("AUDIO");
 		         
-		         // 创建确认按钮
-		         okButton = new JButton("ok");
-		         okButton.setFont(font);
-		         okButton.setBounds(110, 600, 100, 40);
-		         os.add(okButton);
 		         
+		         //添加设备按钮
+				 addButton = new JButton("add");
+				 addButton.setFont(font3);
+		         addButton.setBounds(170, 525, 60, 30);
+		         os.add(addButton);
+				 
+				 //删除设备按钮
+				 deleteButton = new JButton("del");
+				 deleteButton.setFont(font3);
+		         deleteButton.setBounds(240, 525, 60, 30);
+		         os.add(deleteButton);
+		         addButton.addActionListener(new ActionListener() {
+		        	 
+						
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							// TODO Auto-generated method stub
+							String devTypeStr = (String)addDevicet.getSelectedItem();
+							DevType devType;
+							System.out.println("选择的新增设备类型是："+devTypeStr);
+							switch (devTypeStr) {
+							case "PRINTER":
+								devType = DevType.PRINTER;
+								break;
+							case "KEYBOARD":
+								devType = DevType.KEYBOARD;
+								break;
+							case "DISK":
+								devType = DevType.DISK;
+								break;
+							case "MICROPHONE":
+								devType = DevType.MICROPHONE;
+								break;
+							case "AUDIO":
+								devType = DevType.AUDIO;
+								break;
+							default:
+								System.out.println("没有这样的设备！！！");
+								devType = DevType.DEFAULT;
+								break;
+							}
+							DevTb devTb = DevController.addDevice(devType);
+							
+							//DevTb devTb = DevController.addDevice(devType);
+							if(devTb != null) {
+								System.out.println("新增设备成功");
+								
+							}
+							else {
+								System.out.println("新增设备失败");
+							}
+						}
+					});
+			         
 		         
 		         
 		         ////////////////////////////设备以及占用的进程
@@ -401,8 +455,7 @@ public class MainController extends JFrame{
 		         statusl.setFont(font1);
 		         statusl.setBounds(840,470,140,40);
 		         os.add(statusl);	
-		         
-		       
+		         	       
 		         // String[] columnNames2 = {"A","B"};// 定义表格列名数组
 		         
 		     //    String[][] tableValues2 = {{"A1","B1"},{"A2","B2"},{"A3","B3"},{"A4","B4"},{"A5","B5"}}; // 定义表格数据数组
@@ -439,8 +492,13 @@ public class MainController extends JFrame{
 
 
 			 systemtimet.setText(allTimeStr);
+			 systemtimet.setFont(font);
+			
 			 timeslicet.setText(rrTimeStr);
+			 timeslicet.setFont(font);
+			 
 			 timert.setText(rrCountStr);
+			 timert.setFont(font);
 		 }
 		 
 		 
