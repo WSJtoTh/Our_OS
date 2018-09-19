@@ -444,6 +444,8 @@ public class MainController extends JFrame{
 			 insStr=ins.insString;
 			 System.out.println("页面收到了ins！！！"+insStr);
 			 prompt.setText(insStr);
+			 prompt.setFont(font);
+
 			 //ins.insString="";
 			
 
@@ -452,6 +454,7 @@ public class MainController extends JFrame{
 			
 				interStr=InterruptReg.setIntrString;
 				intrprompt.setText(interStr);
+				intrprompt.setFont(font);
 				InterruptReg.setIntrString="";
 			
 
@@ -460,6 +463,7 @@ public class MainController extends JFrame{
 				
 				dealintrStr=InterService.DealStr;
 				dealintrprompt.setText(dealintrStr);
+				dealintrprompt.setFont(font);
 				InterService.DealStr="";
 			
 
