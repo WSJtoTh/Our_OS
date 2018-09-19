@@ -111,12 +111,6 @@ public class ProcessMGT {
 		}
 		return null;
 	}
-	
-	//获取所有进程
-	public static List<Process> getAllProcess(){
-		return allProcess;
-	}
-	
 
 	//创建进程
 	public static Process createProcess() {
@@ -240,6 +234,23 @@ public class ProcessMGT {
 		for(int i = 0; temppc<p.getLimit() &&i < 5 ;i++,temppc++) {
 			ins.ExeInstruction(Memory.getIns(p.getPid(),p.getActivemm(),temppc), p, 0);			
 		}
+		
+	}
+	
+	
+	public static String[][] getAllProcess(){
+		List<Process> temp = new ArrayList<>();
+		for(Process p :allProcess) {
+			temp.add(p);
+		}
+		int row = temp.size();
+		String[][] str = new String[row][2];
+		for(int i = 0;i < row; i++) {
+			Process p = temp.get(i);
+			str[i][0] = Integer.toString(p.getPid());
+			str[i][1] = p.getState().toString();
+		}
+		return str;
 		
 	}
 	

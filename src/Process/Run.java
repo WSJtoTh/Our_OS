@@ -3,6 +3,8 @@ import pro.ins;
 import memory.Memory;
 import Interrupt.InterService;
 import Interrupt.InterType;
+import UI.MainController;
+import UI.UIThread;
 import timer.timer;
 import Device.*;
 
@@ -30,19 +32,12 @@ public class Run {
 		DevController devc = new DevController();
 		devc.startDevController();
 		
-		System.out.println("resource_available");
-		int[] a = DevController.getAvailDevTable();
-		for(int i =0;i<a.length;i++) {
-			System.out.print(a[i]);
-		}
-		System.out.println("");
+		//初始化界面
+		MainController.init();
 		
-		System.out.println("resource_all");
-		int[] b = DevController.getEntireDevTable();
-		for(int i =0;i<b.length;i++) {
-			System.out.print(b[i]);
-		}
-		System.out.println("");
+		//新建界面线程
+		UIThread uithread = new UIThread();
+		uithread.start();
 		
 		while(true) {//power
 			if(fetchflag) {

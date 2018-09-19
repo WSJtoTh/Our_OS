@@ -31,7 +31,8 @@ import memory.Memory;
 import pro.*;
 import Process.*;
 import timer.*;
-	
+import Process.*;
+
 public class MainController extends JFrame {
 /*	     
 		 public JFrame frame;
@@ -121,18 +122,46 @@ public class MainController extends JFrame {
 		public static DefaultTableCellRenderer tcr1;
 		public static JLabel Deviceidl;
 		public static JLabel statusl;
-		public static String[] columnNames2 = {"A","B"};// 定义表格列名数组
-        public static String[][] tableValues2 = {{"A1","B1"},{"A2","B2"},{"A3","B3"},{"A4","B4"},{"A5","B5"}}; // 定义表格数据数组
+		public static String[] columnNames2 = {"进程id","进程状态"};// 定义表格列名数组
+        public static String[][] tableValues2 = {{"",""}}; // 定义表格数据数组
         public static JTable table2;
         public static JScrollPane scrollPane2;
         public static DefaultTableCellRenderer tcr2;
         
-
+        	
+        	public static JScrollPane getjScrollPane2() {
+        		return scrollPane2;
+        	}
+        	
+        	public static void setjScrollPane2(JScrollPane jScrollPane) {
+        		scrollPane2 = jScrollPane;
+        	}
+        	
+        	public static JTable getjTable2() {
+        		return table2;
+        	}
+        	
+        	public static void setjTable2(JTable jTable) {
+        		table2 = jTable;
+        	}
+        	
+        	public static void reloadjTable2() {
+        		String[][] info = ProcessMGT.getAllProcess();
+        		/*
+        		JTable table = new JTable(info,columnNames2);
+        		table.setFont(font1);
+        		setjTable2(table);
+        		getjScrollPane2().setViewportView(table);*/
+        		
+        		int row = info.length;
+        		for(int i = 0;i < row;i++) {
+        			table2.setValueAt(info[i][0],i,0);
+        			table2.setValueAt(info[i][1],i,1);
+        		}
+        		
+        		
+        	}
 		
-			public static void main(String[] args) 
-			{    
-			     init();
-			 }
 
 	
 		    public static void init() 
@@ -360,10 +389,13 @@ public class MainController extends JFrame {
 		         table2 = new JTable(tableValues2,columnNames2);
 		         // 创建显示表格的滚动面板
 		         scrollPane2 = new JScrollPane(table2);
-		         // 将滚动面板添加到边界布局的中间
-		        // getContentPane().add(scrollPane, BorderLayout.CENTER);
 		         table2.setFont(font1);
 		         table2.setRowHeight(30);//设置表格的行高
+		         
+		         
+		         // 将滚动面板添加到边界布局的中间
+		        // getContentPane().add(scrollPane, BorderLayout.CENTER);
+		        
 		         //内容居中
 		         tcr2= new DefaultTableCellRenderer();
 		         tcr2.setHorizontalAlignment(JLabel.CENTER);
