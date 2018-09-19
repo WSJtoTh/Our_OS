@@ -9,6 +9,6 @@ package Device;
  *
  */
 public enum DevIDState {
-	VALID,INVALID,SHIELD,ANSWER,WRONG;
+	VALID,INVALID;
 }
 //占用||未被占用//
