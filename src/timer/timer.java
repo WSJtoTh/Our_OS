@@ -10,6 +10,10 @@ public class timer extends Thread{
 	 private static int RRCount;
 	 private static int sleepFlag;//sleepFlag=1时睡眠
 	 
+	 public static String AllTimeStr;
+	 public static String RRTimeStr;
+	 public static String RRCountStr;
+	 
 	 private static InterHandler handler=new InterHandler();
 	 
 	 public static boolean setsleepFlag(int x)
@@ -49,15 +53,19 @@ public class timer extends Thread{
 				}
 			 }
 			AllTime++;
+			
 			RRTime++;
+			
 			//01234 01234
 			if(RRTime%(Global.RRLength)==0&&RRTime!=0)
 			{
 				//触发中断
 				InterHandler.timeINTR(InterType.TIMEOUT);
 				RRCount++;
+				
 				//置零
 				RRTime=0;
+				//RRTimeStr=String.valueOf(RRTime);
 				
 			}
 			try {
@@ -67,6 +75,10 @@ public class timer extends Thread{
 				e.printStackTrace();
 			}
 			//System.out.println(InterHandler.output());
+			AllTimeStr=String.valueOf(AllTime);
+			RRTimeStr=String.valueOf(RRTime);
+			RRCountStr=String.valueOf(RRCount);
+			System.out.println("给页面的！！！！！！！！！！！！"+AllTimeStr);
 			System.out.println("当前时间"+AllTime+"  当前时间片计时"+RRTime+"  当前时间片"+RRCount);
 		 }
 	 }

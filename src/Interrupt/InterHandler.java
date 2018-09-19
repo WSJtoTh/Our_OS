@@ -7,10 +7,10 @@ import Process.Process;
 //和其余模块的接口
 public class InterHandler {
 
-	static private int INTRSwitch;// 1为开中断，即此时可以收到中断请求，0为关中断，此时不能收到任何中断请求
+	private static int INTRSwitch;// 1为开中断，即此时可以收到中断请求，0为关中断，此时不能收到任何中断请求
 	// static int interID;
 	private static int devINTRID;
-	private static InterruptReg INTRreg = new InterruptReg();
+	//private static InterruptReg INTRreg = new InterruptReg();
 	private static String outString;
 	private static SignalType rOrw;//io中断时用的记录读或写
 	private static int virPage;// 缺页时使用的虚拟页号

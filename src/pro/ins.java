@@ -8,14 +8,17 @@ import memory.*;
 
 public class ins {
 
+	public static String insString="";//给页面的
 	private static InterHandler intrHandler = new InterHandler();
 
 	public static void ExeInstruction(String ins, Process PCB, int flag) {// 传进来Process PCB，flag为0的时候为计算，1的时候为执行
+		insString=ins;
 		System.out.println("ins里的pid！！！！！"+PCB.getPid());
 		if(ins==""||ins==null)
 		{
 			System.out.println("传进来的ins为空！！！！！");
 		}
+		
 		String[] content = ins.split(" ");
 		int[] resource;
 		resource = new int[8];
@@ -154,6 +157,7 @@ public class ins {
 			break;
 		}
 
+		insString="";
 	}
 
 }

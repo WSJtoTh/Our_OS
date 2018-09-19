@@ -101,7 +101,7 @@ public class MainController extends JFrame {
 		public static JTextField timert;
 		public static JButton loginButton;
 		public static JLabel memoryUsagel;
-		public static JPasswordField memoryUsage;
+		public static JTextField memoryUsage;
 		public static JLabel processStatusl;
 		public static String[] columnNames0= {"A"};
 		public static String[][] tableValues0 = {{"A1"},{"A2"},{"A3"},{"A4"},{"A5"}};
@@ -109,7 +109,7 @@ public class MainController extends JFrame {
 		public static JScrollPane scrollPane0;
 		public static DefaultTableCellRenderer tcr0;
 		public static JLabel promptl;
-		public static JPasswordField prompt;
+		public static JTextField prompt;
 		public static JLabel addDevicel;
 		public static JComboBox addDevicet;
 		public static JButton okButton;
@@ -129,6 +129,16 @@ public class MainController extends JFrame {
         public static DefaultTableCellRenderer tcr2;
         
         	
+        /*时间*/
+        public static String allTimeStr="";
+		public static String rrTimeStr="";
+		public static String rrCountStr="";
+		
+		/*message中断*/
+		public static String insStr="";
+		public static String interStr="";
+		public static String promptStr="";
+
         	public static JScrollPane getjScrollPane2() {
         		return scrollPane2;
         	}
@@ -219,7 +229,7 @@ public class MainController extends JFrame {
 		         os.add(systemtimet);
 	
 		         // 输入密码的文本域
-		         timeslicel =new JLabel("时间片:");
+		         timeslicel =new JLabel("时间片计时:");
 		         timeslicel.setFont(font);
 		         timeslicel.setBounds(270,20,100,40);
 		         os.add(timeslicel);
@@ -236,7 +246,7 @@ public class MainController extends JFrame {
 	
 		         
 		         // 输入密码的文本域
-		         timerl = new JLabel("计时器:");
+		         timerl = new JLabel("时间片数:");
 		         timerl.setFont(font);
 		         timerl.setBounds(520,20,100,40);
 		         os.add(timerl);
@@ -264,7 +274,7 @@ public class MainController extends JFrame {
 		         os.add(memoryUsagel);	
 		         
 		         
-		         memoryUsage = new JPasswordField(40);
+		         memoryUsage = new JTextField(40);
 		         memoryUsage.setBounds(20, 190, 280, 200);
 		         os.add(memoryUsage);
 		         
@@ -306,7 +316,7 @@ public class MainController extends JFrame {
 		         promptl.setBounds(750,150,100,40);
 		         os.add(promptl);	        
 		         
-		         prompt = new JPasswordField(40);
+		         prompt = new JTextField(40);
 		         prompt.setBounds(640, 190, 300, 200);
 		         os.add(prompt);
 		         
@@ -407,4 +417,50 @@ public class MainController extends JFrame {
 	         
 	     }
 	     
+		     
+		 public static void setTimer() {
+			
+			 System.out.println("界面输出!!!!!!!!!!"+timer.AllTimeStr);
+			 
+			 allTimeStr=timer.AllTimeStr;
+			 rrTimeStr=timer.RRTimeStr;
+			 rrCountStr=timer.RRCountStr;
+
+
+			 systemtimet.setText(allTimeStr);
+			 timeslicet.setText(rrTimeStr);
+			 timert.setText(rrCountStr);
+		 }
+		 
+		 
+		 public static void setMessage() {
+			 
+			
+			 if(ins.insString!="")
+			 {
+			
+			 insStr=ins.insString;
+			 ins.insString="";
+			 }
+
+			 
+			//收到中断，寄存器
+			if(InterruptReg.setIntrString!=""){
+				interStr=InterruptReg.setIntrString;
+				InterruptReg.setIntrString="";
+			}
+
+			//中断处理
+			if(InterService.DealStr!=""){
+				interStr=interStr+"\n"+InterService.DealStr;
+			}
+
+			
+			
+			promptStr="指令："+insStr+"\n"+interStr+"\n";
+			prompt.setText(promptStr);
+			
+
+			 
+		 }
 }

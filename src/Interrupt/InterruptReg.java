@@ -4,6 +4,7 @@ package Interrupt;
 public class InterruptReg {
 
 	private static InterType NowInterType;
+	public static String setIntrString="";//给页面的
 
 	InterruptReg() {
 		NowInterType = InterType.NULL;
@@ -18,7 +19,10 @@ public class InterruptReg {
 
 	// 设置此时的中断类型
 	public static boolean SetInterType(InterType type) {
-		
+		if(type!=InterType.NULL)
+		{
+			setIntrString="收到了"+type+"中断";
+		}
 		int IntrSwitch=InterHandler.getSwitch();
 		if (type == InterType.NULL) {
 			NowInterType = type;
@@ -27,6 +31,7 @@ public class InterruptReg {
 		}
 		else if(IntrSwitch==0)//中断为关
 		{
+			setIntrString="无法写入寄存器，因为中断为关";
 			System.out.println("无法写入寄存器，因为中断为关");
 			return false;
 		}
@@ -39,6 +44,7 @@ public class InterruptReg {
 				NowInterType = type;
 				return true;
 			} else {
+				setIntrString="中断被屏蔽掉了，有更高优先级中断在";
 				System.out.println("中断被屏蔽掉了，有更高优先级中断在");
 				return false;
 			}

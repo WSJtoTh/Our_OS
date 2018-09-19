@@ -7,7 +7,11 @@ public class UIThread extends Thread{
 		
 		while(true) {//power 是否修改dsdas
 			
+			MainController.setMessage();
+			//System.out.println("更新了！！！！！！！！！！！！！！");
+			MainController.setTimer();		
 			MainController.reloadjTable2();
+
 			try {
 				Thread.sleep(timeinterval);
 			} catch (InterruptedException e) {

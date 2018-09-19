@@ -15,6 +15,8 @@ public class InterService {
 	private static Process PCB;
 
 	private static boolean isResponse;
+	
+	public static String DealStr;
 
 	private static timer time = new timer();
 
@@ -40,7 +42,9 @@ public class InterService {
 
 		InterType type;
 		type = InterruptReg.getInterType();
-
+		if(type!=InterType.NULL) {
+			DealStr="正在处理"+type+"中断";
+		}
 		System.out.println("此时中断类型为" + type);
 		int OK = 0;
 		// 判别中断源，转入中断服务程序
@@ -77,10 +81,13 @@ public class InterService {
 		// 开中断
 		InterHandler.onSwitch();
 		if (OK == 1) {
+			DealStr="已经成功处理"+type+"中断";
 			System.out.print("已经成功处理该中断！");
 		} else if (OK == 0 && type != InterType.NULL) {
+			DealStr="未成功处理"+type+"中断";
 			System.out.println("未成功处理该中断");
 		} else if (type == InterType.NULL) {
+			DealStr="没有需要处理的中断";
 			System.out.println("没有需要处理的中断！");
 		}
 
