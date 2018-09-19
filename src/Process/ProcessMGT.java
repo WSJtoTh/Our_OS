@@ -16,6 +16,8 @@ public class ProcessMGT {
 	static LinkedList<Process> waiting = new LinkedList<>();//等待队列
 	static LinkedList<Process> blocking = new LinkedList<>();//I/O阻塞队列
 	static final int threshold = 4;
+	public static String info = null;
+	public static String info2 = null;
 	
 	//打印terminated的情况
 	public static void printTerminated() {
@@ -190,6 +192,8 @@ public class ProcessMGT {
 		process.setSignal(dev);
 		running.pop();
 		blocking.add(process);
+		String str = "进程" + process.getPid() + "等待I/O设备"+dev+"完成被阻塞！\n";
+		info2 = str;
 	}
 	
 	//唤醒进程
@@ -291,6 +295,8 @@ public class ProcessMGT {
 				move_to_ready.add(process);
 			}
 			else if(req == -1) {
+				String str = "进程" + process.getPid() + "因提出非法资源请求被杀死！\n";
+				info = str;
 				move_to_kill.add(process);
 			}
 			else {
@@ -319,6 +325,8 @@ public class ProcessMGT {
 				wp.resetWaitingtime();//重置等待时间
 			}
 			else if(res == -1) {
+				String str = "进程" + wp.getPid() + "因提出非法资源请求被杀死！";
+				info = str;
 				move_to_kill.add(wp);
 			}
 		}

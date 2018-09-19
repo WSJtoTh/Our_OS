@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -111,10 +112,10 @@ public class MainController extends JFrame{
 		public static JLabel memoryUsagel;
 		public static JTextField memoryUsage;
 		public static JLabel processStatusl;
-		public static String[] columnNames0= {"A"};
-		public static String[][] tableValues0 = {{"A1"},{"A2"},{"A3"},{"A4"},{"A5"}};
-		public static JTable table0;
-		public static JScrollPane scrollPane0;
+		public static JTextArea jta;
+		public static JScrollPane jsp;
+		//public static JTable table0;
+		//public static JScrollPane scrollPane0;
 		public static DefaultTableCellRenderer tcr0;
 		public static JLabel promptl;
 		public static JTextField prompt;
@@ -271,36 +272,19 @@ public class MainController extends JFrame{
 		         memoryUsage.setBounds(20, 190, 280, 200);
 		         os.add(memoryUsage);
 		         
-		         
-		         
-		         ///////////////////////////进程执行情况
-		         processStatusl = new JLabel("设备名称");
-		         processStatusl.setFont(font1);
-		         processStatusl.setBounds(415,150,100,40);
-		         os.add(processStatusl);	
 	
-		       
-		        // columnNames0 = {"A"};// 定义表格列名数组
-		         
-		         // 定义表格数据数组
-		         //String[][] tableValues0 = {{"A1"},{"A2"},{"A3"},{"A4"},{"A5"}};
-		         // 创建指定列名和数据的表格
-		         table0 = new JTable(tableValues0,columnNames0);
-		         // 创建显示表格的滚动面板
-		         scrollPane0 = new JScrollPane(table0);
-		         // 将滚动面板添加到边界布局的中间
-		        // getContentPane().add(scrollPane, BorderLayout.CENTER);
-		         table0.setFont(font1);
-		         table0.setRowHeight(30);//设置表格的行高
-		         //内容居中
-		         tcr0= new DefaultTableCellRenderer();
-		         tcr0.setHorizontalAlignment(JLabel.CENTER);
-		         table0.setDefaultRenderer(Object.class,tcr0);
-		        // table.setBackground(null);
-		         table0.setBounds(320, 190, 300, 200);
-		         os.add(table0);
-		         
-		         
+				///////////////////////////进程执行情况
+		        processStatusl = new JLabel("进程信息");
+		        processStatusl.setFont(font1);
+		        processStatusl.setBounds(415,150,100,40);
+		        os.add(processStatusl);	
+		
+		      
+		        jta = new JTextArea();
+		        jsp = new JScrollPane(jta);//加滚动条
+		        jsp.setBounds(320, 190, 300, 200);//设置矩形大小
+		        os.add(jsp);//加入frame
+		        
 		         
 		         
 		         //////////////////////提示框
@@ -531,6 +515,17 @@ public class MainController extends JFrame{
 			
 			
 			 
+		 }
+		 
+		 
+		 public static void setProcessMessage() { 
+			 String info = ProcessMGT.info;
+			 String info2 = ProcessMGT.info2;
+			 //System.out.println("页面收到了ins！！！"+insStr);
+			 jta.append(info);
+			 jta.append(info2);
+			 ProcessMGT.info="";
+			 ProcessMGT.info2="";
 		 }
 }
 
