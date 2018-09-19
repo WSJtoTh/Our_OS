@@ -26,6 +26,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 //import javafx.scene.control.TableColumn; 
@@ -99,6 +100,13 @@ public class MainController extends JFrame{
 		public static String interStr="";
 		public static String dealintrStr="";
 		public static String promptStr="";
+		
+		/*memory*/
+		 public static String usage="";
+	     public static JTable table3;
+	     public static javax.swing.table.TableCellRenderer renderer;
+	     public static java.awt.Component comp;
+	     public static int[] usageList=new int[30];
 		
 		public static void reloadTable1() {
     		table1.validate();
@@ -205,15 +213,22 @@ public class MainController extends JFrame{
 		         os.add(loginButton);
 		          
 		        ////////////////////内存使用率
-		         memoryUsagel = new JLabel("内存使用率");
+		         memoryUsagel = new JLabel();
 		         memoryUsagel.setFont(font1);
-		         memoryUsagel.setBounds(100,150,200,40);
+		         memoryUsagel.setBounds(60,150,250,40);
 		         os.add(memoryUsagel);	
-		         
-		         
-		         memoryUsage = new JTextField(40);
-		         memoryUsage.setBounds(20, 190, 280, 200);
-		         os.add(memoryUsage);
+		     
+		          table3 = new JTable(6, 5);  
+		    	  table3.setBounds(20, 190, 280, 200);
+		    	  TableColumn column = null;  
+		          int colunms = table3.getColumnCount();  
+		          for(int i = 0; i < colunms; i++)  
+		          {  
+		              column = table3.getColumnModel().getColumn(i);  
+		              /*将每一列的默认宽度设置为33*/  
+		              table3.setRowHeight(33);  
+		          }
+		    	  os.add(table3);
 		         
 	
 				///////////////////////////进程执行情况
@@ -482,6 +497,11 @@ public class MainController extends JFrame{
 			 ProcessMGT.info="";
 			 ProcessMGT.info2="";
 		 }
+		 
+		 public static void setUsage() {
+	    	 usage=Memory.getPageUseRate();
+	    	 memoryUsagel.setText("内存使用率"+usage+"%");
+	     }
 }
 
 

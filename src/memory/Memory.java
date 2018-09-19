@@ -20,8 +20,8 @@ public class Memory {
 	private static int[] sourceList=new int[8];
 	private static  int[] useList=new int[30];
 	
-	public static double getPageUseRate() {//获取内存使用率(实时刷新)
-		return (double)pageUse/30.0*1.00;
+	public static String getPageUseRate() {//获取内存使用率(实时刷新)
+		return  String.valueOf((double)pageUse/30.0*100.00).format("%.2f",(double)pageUse/30.0*100);
 	}
 	
 	public Memory() {}

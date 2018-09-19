@@ -16,6 +16,7 @@ public class UIThread extends Thread{
 			MainController.setTimer();	
 			MainController.reloadTable1();
 			MainController.reloadTable2();
+			MainController.setUsage();
 
 			try {
 				Thread.sleep(timeinterval);
