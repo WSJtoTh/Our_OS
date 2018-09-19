@@ -159,9 +159,9 @@ public class SDT {
 		//System.out.println("devCount="+this.devCount);
 		System.out.println("设备名称\t设备状态");
 		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
-			devArr[k+j][0] = String.valueOf(DevType.PRINTER)+pArr[i][0];
-			devArr[k+j][1] = pArr[i][1];
-			temp = devArr[k+j][0]+" "+devArr[k+j][1];
+			devArr[j][0] = String.valueOf(DevType.PRINTER)+pArr[i][0];
+			devArr[j][1] = pArr[i][1];
+			temp = devArr[j][0]+" "+devArr[j][1];
 			str.add(temp);
 		}
 		//System.out.println("j="+j);
@@ -172,9 +172,9 @@ public class SDT {
 		String[][] kArr = new String[dctDevCount][2];
 		kArr = dct.showDevState();
 		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
-			devArr[k+j][0] = String.valueOf(DevType.KEYBOARD)+kArr[i][0];
-			devArr[k+j][1] = kArr[i][1];
-			temp = devArr[k+j][0]+" "+devArr[k+j][1];
+			devArr[j][0] = String.valueOf(DevType.KEYBOARD)+kArr[i][0];
+			devArr[j][1] = kArr[i][1];
+			temp = devArr[j][0]+" "+devArr[j][1];
 			str.add(temp);
 		}
 		//System.out.println("j="+j);
@@ -185,9 +185,9 @@ public class SDT {
 		String[][] aArr = new String[dctDevCount][2];
 		aArr = dct.showDevState();
 		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
-			devArr[k+j][0] = String.valueOf(DevType.AUDIO)+aArr[i][0];
-			devArr[k+j][1] = aArr[i][1];
-			temp = devArr[k+j][0]+" "+devArr[k+j][1];
+			devArr[j][0] = String.valueOf(DevType.AUDIO)+aArr[i][0];
+			devArr[j][1] = aArr[i][1];
+			temp = devArr[j][0]+" "+devArr[j][1];
 			str.add(temp);
 		}
 		//System.out.println("j="+j);
@@ -198,9 +198,9 @@ public class SDT {
 		String[][] mArr = new String[dctDevCount][2];
 		mArr = dct.showDevState();
 		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
-			devArr[k+j][0] = String.valueOf(DevType.MICROPHONE)+mArr[i][0];
-			devArr[k+j][1] = mArr[i][1];
-			temp = devArr[k+j][0]+" "+devArr[k+j][1];
+			devArr[j][0] = String.valueOf(DevType.MICROPHONE)+mArr[i][0];
+			devArr[j][1] = mArr[i][1];
+			temp = devArr[j][0]+" "+devArr[j][1];
 			str.add(temp);
 		}
 		//System.out.println("j="+j);
@@ -211,9 +211,9 @@ public class SDT {
 		String[][] dArr = new String[dctDevCount][2];
 		dArr = dct.showDevState();
 		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
-			devArr[k+j][0] = String.valueOf(DevType.DISK)+dArr[i][0];
-			devArr[k+j][1] = dArr[i][1];
-			temp = devArr[k+j][0]+" "+devArr[k+j][1];
+			devArr[j][0] = String.valueOf(DevType.DISK)+dArr[i][0];
+			devArr[j][1] = dArr[i][1];
+			temp = devArr[j][0]+" "+devArr[j][1];
 			str.add(temp);
 		}
 		//System.out.println("j="+j);
