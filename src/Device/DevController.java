@@ -12,22 +12,21 @@ import Global.Global;
 import pro.ins;
 
 /**
- * @author 45044
+ * @author 
+ * name:万诗婕
+ * class:2015211312
+ * ID:2015211488
  *
  */
 public class DevController implements Runnable{
-	
-	/**////
-	//private static HashMap<Integer, DevIDState> INTRIDTable;
+
 	public static SDT sdt;
 	private static int register;
 	private final static int IDRange = 20;
-	//private final int initialDevNum = 5;
 	private static HashMap<Integer, DevIDState> devIDTable;
 	private Thread devConThread;
 	
-	//private Boolean POWER = true;
-	//public static SignalReg signalReg = new SignalReg();
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -49,7 +48,6 @@ public class DevController implements Runnable{
 	public DevController() {
 		// TODO Auto-generated constructor stub
 		System.out.println("devicecontroller init");
-		//sdt = new SDT();
 		devIDTable = new HashMap<>();
 		System.out.println("DevID table init");
 		this.initDeviceIDTable();
@@ -59,26 +57,16 @@ public class DevController implements Runnable{
 		sdt = new SDT(initTable,5);
 		System.out.println("signal");
 		register = -100;
-		//this.initINTRIDTable();
-		//signalReg = new SignalReg();
-		//System.out.println("finish devCon init");
 		
 	}
 	
-	public void startDevController() {
-		this.devConThread = new Thread(this,"DeviceControllerThread");
-		System.out.println(("Create the DeviceController thread"));
-		this.devConThread.start();
-		System.out.println("DeviceController starts");
-		
-	}
+	
 	
 	/*
 	 * 初始化设备ID维护表
 	 */
 	private void initDeviceIDTable() {
 		System.out.println("enter DevID table init function");
-		//System.out.println("sdt maxsize:"+sdt.getMaxSize());
 		for(int i = 0;i < IDRange;i++) {
 			
 			devIDTable.put(i, DevIDState.VALID);
@@ -87,25 +75,7 @@ public class DevController implements Runnable{
 		System.out.println("finish DevID table init");
 	}
 	
-	//public static DevIDState getINTRState(int devID) {
-	//	DevIDState state = DevIDState.WRONG;
-	//	for(int i = 0;i < IDRange;i++) {
-	///		if(devID == i) {
-	///			state = INTRIDTable.get(i);
-	//		}
-	//	}
-	//	return state;
-	//}
-	
-	//private void initINTRIDTable() {
-	//	INTRIDTable = new HashMap<>();
-	//	System.out.println("enter INTRID table init function");
-	//	for(int i = 0;i < IDRange;i++) {
-	//		INTRIDTable.put(i, DevIDState.SHIELD);
-	//		System.out.println("INTRID table"+i+INTRIDTable.get(i));
-	//	}
-	//	System.out.println("finish INTRID table init");
-	//}
+
 	/*
 	 * 初始化系统设备
 	 */
@@ -118,36 +88,30 @@ public class DevController implements Runnable{
 		dct.addDev(devTb);
 		i++;
 		initTable.put(DevType.AUDIO, dct);
-		System.out.println("！！！！！！");
 		dct = new DCT(DevType.DISK);
 		devTb = new DevTb(DevType.DISK, DevState.FREE, i);
 		devIDTable.put(i, DevIDState.INVALID);
 		dct.addDev(devTb);
 		i++;
 		initTable.put(DevType.DISK, dct);
-		System.out.println("！！！！！！");
 		dct = new DCT(DevType.KEYBOARD);
 		devTb = new DevTb(DevType.KEYBOARD, DevState.FREE, i);
 		devIDTable.put(i, DevIDState.INVALID);
 		dct.addDev(devTb);
 		i++;
 		initTable.put(DevType.KEYBOARD, dct);
-		System.out.println("！！！！！！");
 		dct = new DCT(DevType.MICROPHONE);
 		devTb = new DevTb(DevType.MICROPHONE, DevState.FREE, i);
 		devIDTable.put(i, DevIDState.INVALID);
 		dct.addDev(devTb);
 		i++;
 		initTable.put(DevType.MICROPHONE, dct);
-		System.out.println("！！！！！！");
 		dct = new DCT(DevType.PRINTER);
 		devTb = new DevTb(DevType.PRINTER, DevState.FREE, i);
 		devIDTable.put(i, DevIDState.INVALID);
 		dct.addDev(devTb);
 		i++;
 		initTable.put(DevType.PRINTER, dct);
-		System.out.println("！！！！！！");
-		//System.out.println("Initialize SDT finished"+"Now there are "+sdt.getDevCount()+"outer devices in system");
 		return initTable;
 	}
 	
@@ -167,7 +131,11 @@ public class DevController implements Runnable{
 		}
 		return null;
 	}
-//
+	
+	/*
+	 * 删除一个系统中已有的设备
+	 * 
+	 */
 	public static Boolean delDevice(DevType devType, int devID) {
 		if(sdt.deleteDeviceFromSystem(devID, devType)) {
 			System.out.println("Device "+devID+" is deleted");
@@ -176,6 +144,10 @@ public class DevController implements Runnable{
 		return false;
 	}
 	
+	/*
+	 * 在系统设备ID表中找到一个没有被占用的表
+	 * 由DevController初始化和新增设备函数调用
+	 */
 	private static int findAnValidDevID() {
 		int devID = -1;
 		for(int i = 0;i < IDRange;i++) {
@@ -187,8 +159,51 @@ public class DevController implements Runnable{
 		}
 		return devID;
 	}
+	
+	/*
+	 * 获取register里的值
+	 */
+	public static int getRegister() {
+		return register;
+	}
+	
+	/*
+	 * 将寄存器清空
+	 * 由各个设备设备调用
+	 */
+	public static void clearRegister(int devID, int proID) {
+		register = -100;
+		System.out.println("device: "+devID+"occupied by process: "+proID+"release the register");
+
+	}
+	
+	
+/*****************************************
+ * 
+ * 以下为对外接口函数
+ * 
+ * 
+ ***************************************** 	*/
+	
+	/*
+	 * 启动DevController
+	 * 由CPU调用
+	 * 
+	 */
+	public void startDevController() {
+		this.devConThread = new Thread(this,"DeviceControllerThread");
+		System.out.println(("Create the DeviceController thread"));
+		this.devConThread.start();
+		System.out.println("DeviceController starts");
+		
+	}
+	
+	/*
+	 * CPU申请设备
+	 * 由CPU调用
+	 *
+	 */
 	public static Boolean wait(DevType devType, int proID) {
-		//String[][] temp = showDeviceInfo();
 		
 		System.out.println("Process"+proID+" waits for device "+devType);
 		HashMap<Integer, Integer> allocate = sdt.allocateFreeDevice(devType, 1, proID);
@@ -204,6 +219,7 @@ public class DevController implements Runnable{
 	
 	/*
 	 * CPU释放设备
+	 * 由CPU调用
 	 */
 	public static Boolean signal(DevType devType, int proID) {
 		//register = -100;
@@ -227,23 +243,14 @@ public class DevController implements Runnable{
 		
 	}
 	
-	public static int getRegister() {
-		return register;
-	}
+
 	
-	public static void clearRegister(int devID, int proID) {
-		register = -100;
-		System.out.println("device: "+devID+"occupied by process: "+proID+"release the register");
-		//return true;
-	}
 	/*
 	 * 中断响应函数
 	 * 由中断处理机调用
 	 * 
 	 */
 	public static Boolean responseINTR(int INTRID, DevType devType) {
-		//signalReg.setResponseINTRIDReg(SignalType.INTR, INTRID, devType);
-		//Register.responseINTRIDReg = INTRID;
 		if(register == -100) {
 			register = INTRID;
 			System.out.println("Receive INTR of"+INTRID);
@@ -258,10 +265,6 @@ public class DevController implements Runnable{
 			// TODO: handle exception
 		}
 		
-		//Register.responseDevType = devType;
-		//System.out.println("register:"+Register.responseINTRIDReg);
-		//System.out.println("Receive INTR response"+INTRID);
-		//System.out.println("Receive INTR response"+signalReg.getResponseINTRIDReg());
 		return true;
 	}
 	
@@ -270,11 +273,7 @@ public class DevController implements Runnable{
 	 * 由CPU调用
 	 */
 	public static Boolean sendCMD(SignalType signalType, DevType devType, int proID) {
-		/*
-		 * 
-		 this.signalReg.setCMDReg(signalType, devType, proID);
-		System.out.println("Receive CMD from CPU"+signalType);
-		 */
+
 		System.out.println("in sendCMD");
 		System.out.println("the devcie type is:"+devType);
 		System.out.println("the proID is"+proID);
@@ -339,18 +338,15 @@ public class DevController implements Runnable{
 		return entireTable;
 	}
 	
+	/*
+	 * 展示当前系统中的所有设备和设备所属进程
+	 * 由界面调用
+	 * 
+	 */
 	public static ArrayList<String> showDeviceInfo() {
 		ArrayList<String> devArr = sdt.showEntireDevState();
-		//for(int i = 0;i<5;i++) {
-		//	System.out.println(devArr[i][0]+"\t"+devArr[i][1]);
-		//}
 		return devArr;
 	}
-//	public static int getRegValue() {
-//		int i;
-//		i = signalReg.getResponseINTRIDReg();
-//		System.out.println("Reg:"+i);
-//		return i;
-//	}
+
 	
 }
