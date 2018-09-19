@@ -157,7 +157,7 @@ public class SDT {
 		pArr = dct.showDevState();
 		//System.out.println("j="+j);
 		//System.out.println("devCount="+this.devCount);
-		System.out.println("设备名称\t设备状态");
+		//System.out.println("设备名称\t设备状态");
 		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
 			devArr[j][0] = String.valueOf(DevType.PRINTER)+":"+pArr[i][0];
 			devArr[j][1] = pArr[i][1];
@@ -221,7 +221,7 @@ public class SDT {
 		//for(int i = 0;i<this.devCount;i++) {
 	//		System.out.println(devArr[i][0]+"\t"+devArr[i][1]);
 		//}
-		System.out.println("出去了");
+		//System.out.println("出去了");
 		return str;
 	}
 }
