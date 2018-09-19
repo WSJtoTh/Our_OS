@@ -23,10 +23,13 @@ public class Audio implements Runnable{
 	private Thread thread;
 	private int belongDevID;//线程所属的设备
 	private int belongProID;
+	private int tryCount;
+	private final int MAXCOUNT = 20;
 	public Audio(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
 		this.belongProID = proID;
+		this.tryCount = 0;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
 		System.out.println("设备"+devID+"运行线程创建");
@@ -46,8 +49,9 @@ public class Audio implements Runnable{
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			int i = DevController.getRegister();
-			while(i != this.belongDevID) {
+			while(i != this.belongDevID && this.tryCount < this.MAXCOUNT) {
 				System.out.println("当前response寄存器内的值："+i);
+				this.tryCount++;
 				i = DevController.getRegister();
 				//System.out.println("Audio"+this.belongDevID+"INTR wasn't accept by CPU");
 				Thread.sleep(this.runTime*100);
@@ -56,11 +60,17 @@ public class Audio implements Runnable{
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			}
-			System.out.println("CPU accept Audio"+this.belongDevID+"'s INTR");
+			if(this.tryCount < this.MAXCOUNT) {
+				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
+				DevController.clearRegister(this.belongDevID, this.belongProID);
+				System.out.println("before setIsResponse, register="+DevController.getRegister());
+				InterService.setisResponse(true);
+			}
+			else {
+				System.out.println("tryCount > MAXCOUNT");
+			}
 			//Register.responseINTRIDReg = -this.belongDevID;
-			DevController.clearRegister(this.belongDevID, this.belongProID);
-			System.out.println("before setIsResponse, register="+DevController.getRegister());
-			InterService.setisResponse(true);
+			
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {

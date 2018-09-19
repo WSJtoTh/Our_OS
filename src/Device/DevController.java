@@ -17,7 +17,7 @@ import pro.ins;
 public class DevController implements Runnable{
 	
 	/**////
-	private static HashMap<Integer, DevIDState> INTRIDTable;
+	//private static HashMap<Integer, DevIDState> INTRIDTable;
 	public static SDT sdt;
 	private static int register;
 	private final static int IDRange = 20;
@@ -49,7 +49,7 @@ public class DevController implements Runnable{
 		// TODO Auto-generated constructor stub
 		System.out.println("devicecontroller init");
 		//sdt = new SDT();
-		this.devIDTable = new HashMap<>();
+		devIDTable = new HashMap<>();
 		System.out.println("DevID table init");
 		this.initDeviceIDTable();
 		System.out.println("device init");
@@ -58,7 +58,7 @@ public class DevController implements Runnable{
 		sdt = new SDT(initTable);
 		System.out.println("signal");
 		register = -100;
-		this.initINTRIDTable();
+		//this.initINTRIDTable();
 		//signalReg = new SignalReg();
 		//System.out.println("finish devCon init");
 		
@@ -86,25 +86,25 @@ public class DevController implements Runnable{
 		System.out.println("finish DevID table init");
 	}
 	
-	public static DevIDState getINTRState(int devID) {
-		DevIDState state = DevIDState.WRONG;
-		for(int i = 0;i < IDRange;i++) {
-			if(devID == i) {
-				state = INTRIDTable.get(i);
-			}
-		}
-		return state;
-	}
+	//public static DevIDState getINTRState(int devID) {
+	//	DevIDState state = DevIDState.WRONG;
+	//	for(int i = 0;i < IDRange;i++) {
+	///		if(devID == i) {
+	///			state = INTRIDTable.get(i);
+	//		}
+	//	}
+	//	return state;
+	//}
 	
-	private void initINTRIDTable() {
-		INTRIDTable = new HashMap<>();
-		System.out.println("enter INTRID table init function");
-		for(int i = 0;i < IDRange;i++) {
-			INTRIDTable.put(i, DevIDState.SHIELD);
-			System.out.println("INTRID table"+i+INTRIDTable.get(i));
-		}
-		System.out.println("finish INTRID table init");
-	}
+	//private void initINTRIDTable() {
+	//	INTRIDTable = new HashMap<>();
+	//	System.out.println("enter INTRID table init function");
+	//	for(int i = 0;i < IDRange;i++) {
+	//		INTRIDTable.put(i, DevIDState.SHIELD);
+	//		System.out.println("INTRID table"+i+INTRIDTable.get(i));
+	//	}
+	//	System.out.println("finish INTRID table init");
+	//}
 	/*
 	 * 初始化系统设备
 	 */
@@ -255,7 +255,7 @@ public class DevController implements Runnable{
 			// TODO: handle exception
 		}
 		
-		Register.responseDevType = devType;
+		//Register.responseDevType = devType;
 		//System.out.println("register:"+Register.responseINTRIDReg);
 		//System.out.println("Receive INTR response"+INTRID);
 		//System.out.println("Receive INTR response"+signalReg.getResponseINTRIDReg());

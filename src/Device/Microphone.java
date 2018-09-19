@@ -25,10 +25,13 @@ public class Microphone implements Runnable {
 	private int belongDevID;//线程所属的设备
 	private int belongProID;
 	private String data;
+	private int tryCount;
+	private final int MAXCOUNT = 20;
 	public Microphone(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
 		this.belongProID = proID;
+		this.tryCount = 0;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
 		this.data = "data from microphone";
@@ -47,8 +50,9 @@ public class Microphone implements Runnable {
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
 			int i = DevController.getRegister();
-			while(i  != this.belongDevID) {
-				System.out.println("当前response寄存器内的值："+i);				
+			while(i  != this.belongDevID && this.tryCount < this.MAXCOUNT) {
+				System.out.println("当前response寄存器内的值："+i);	
+				this.tryCount++;
 				//System.out.println("Microphone"+this.belongDevID+"INTR wasn't accept by CPU");
 				i = DevController.getRegister();
 				Thread.sleep(this.runTime*100);
@@ -57,13 +61,19 @@ public class Microphone implements Runnable {
 				i = DevController.getRegister();
 				InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
 			}
+			if(this.tryCount < this.MAXCOUNT) {
+				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
+				Global.databus = data+this.belongDevID;
+				///Register.responseINTRIDReg = -this.belongDevID;
+				System.out.println("CPU accept Microphone"+this.belongDevID+"'s INTR after try:"+this.tryCount);
+				DevController.clearRegister(this.belongDevID, this.belongProID);
+				System.out.println("before setIsResponse, register="+DevController.getRegister());
+				InterService.setisResponse(true);
+			}
+			else {
+				System.out.println("tryCount > MAXCOUNT");
+			}
 			
-			Global.databus = data+this.belongDevID;
-			Register.responseINTRIDReg = -this.belongDevID;
-			System.out.println("CPU accept Microphone"+this.belongDevID+"'s INTR");
-			DevController.clearRegister(this.belongDevID, this.belongProID);
-			System.out.println("before setIsResponse, register="+DevController.getRegister());
-			InterService.setisResponse(true);
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {

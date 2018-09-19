@@ -25,10 +25,13 @@ public class Disk implements Runnable{
 	private int belongDevID;//线程所属的设备
 	private int belongProID;
 	private String data;
+	private int tryCount;
+	private final int MAXCOUNT = 20;
 	public Disk(int devID, SignalType signalType, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
 		this.belongProID = proID;
+		this.tryCount = 0;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
 		this.signalType = signalType;
@@ -51,9 +54,9 @@ public class Disk implements Runnable{
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 				i = DevController.getRegister();
-				while(i  != this.belongDevID) {
+				while(i  != this.belongDevID && this.tryCount < this.MAXCOUNT) {
 					System.out.println("当前response寄存器内的值："+i);
-					
+					this.tryCount++;
 					System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
 					Thread.sleep(this.runTime*1000);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
@@ -61,7 +64,16 @@ public class Disk implements Runnable{
 					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 					i = DevController.getRegister();
 				}
-				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");
+				if(this.tryCount < this.MAXCOUNT) {
+					System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
+					DevController.clearRegister(this.belongDevID, this.belongProID);
+					//Register.responseINTRIDReg = -this.belongDevID;
+					System.out.println("before setIsResponse, register="+DevController.getRegister());
+					InterService.setisResponse(true);
+				}
+				else {
+					System.out.println("tryCount > MAXCOUNT");
+				}
 				break;
 			case READ:
 				Thread.sleep(this.runTime*1000);
@@ -69,8 +81,9 @@ public class Disk implements Runnable{
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
 				i = DevController.getRegister();
-				while(i != this.belongDevID) {
+				while(i != this.belongDevID && this.tryCount < this.MAXCOUNT) {
 					//System.out.println("Disk"+this.belongDevID+"INTR wasn't accept by CPU");
+					this.tryCount++;
 					i = DevController.getRegister();
 					Thread.sleep(this.runTime*100);
 					System.out.println("Disk"+this.belongDevID+"resend INTR");
@@ -79,18 +92,24 @@ public class Disk implements Runnable{
 					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
 					
 				}
-				Global.databus = data+this.belongDevID;
-				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR");
+				if(this.tryCount < this.MAXCOUNT) {
+					Global.databus = data+this.belongDevID;
+					System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
+					DevController.clearRegister(this.belongDevID, this.belongProID);
+					//Register.responseINTRIDReg = -this.belongDevID;
+					System.out.println("before setIsResponse, register="+DevController.getRegister());
+					InterService.setisResponse(true);
+				}
+				else {
+					System.out.println("tryCount > MAXCOUNT");
+				}
 				break;
 			default:
 				System.out.println("Disk has no such signal");
 				break;
 			
 			}
-			DevController.clearRegister(this.belongDevID, this.belongProID);
-			//Register.responseINTRIDReg = -this.belongDevID;
-			System.out.println("before setIsResponse, register="+DevController.getRegister());
-			InterService.setisResponse(true);
+			
 			
 			//发送完成中断请求
 			

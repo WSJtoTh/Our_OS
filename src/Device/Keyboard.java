@@ -22,10 +22,13 @@ public class Keyboard implements Runnable {
 	private int belongDevID;//线程所属的设备
 	private int belongProID;
 	private String data;
+	private int tryCount;
+	private final int MAXCOUNT = 20;
 	public Keyboard(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
 		this.belongProID = proID;
+		this.tryCount = 0;
 		this.rand = new Random();
 		this.runTime = this.rand.nextInt(RANGE)+1;
 		this.data = "data from keybord";
@@ -44,8 +47,9 @@ public class Keyboard implements Runnable {
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID, SignalType.READ);
 			int i = DevController.getRegister();
-			while(i != this.belongDevID) {
+			while(i != this.belongDevID && this.tryCount < this.MAXCOUNT) {
 				System.out.println("当前response寄存器内的值："+i);
+				this.tryCount++;
 				//System.out.println("Keyboard"+this.belongDevID+"INTR wasn't accept by CPU");
 				i = DevController.getRegister();
 				Thread.sleep(this.runTime*100);
@@ -55,12 +59,16 @@ public class Keyboard implements Runnable {
 				InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID, SignalType.READ);
 				
 			}
-			Global.databus = data;
-			System.out.println("CPU accept Keyboard"+this.belongDevID+"'s INTR");
-			DevController.clearRegister(this.belongDevID, this.belongProID);
-			//Register.responseINTRIDReg = -this.belongDevID;
-			System.out.println("before setIsResponse, register="+DevController.getRegister());
-			InterService.setisResponse(true);
+			if(this.tryCount < this.MAXCOUNT) {
+				Global.databus = data+this.belongDevID;
+				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
+				DevController.clearRegister(this.belongDevID, this.belongProID);
+				System.out.println("before setIsResponse, register="+DevController.getRegister());
+				InterService.setisResponse(true);
+			}
+			else {
+				System.out.println("tryCount > MAXCOUNT");
+			}
 			//发送完成中断请求
 			
 		} catch (InterruptedException e) {
