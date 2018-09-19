@@ -38,6 +38,7 @@ public class Run {
 		//新建界面线程
 		UIThread uithread = new UIThread();
 		uithread.start();
+	
 		
 		while(true) {//power
 			if(fetchflag) {
