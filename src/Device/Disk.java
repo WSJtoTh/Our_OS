@@ -26,7 +26,7 @@ public class Disk implements Runnable{
 	private int belongProID;
 	private String data;
 	private int tryCount;
-	private final int MAXCOUNT = 20;
+	private final int MAXCOUNT = 50;
 	public Disk(int devID, SignalType signalType, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
@@ -64,7 +64,7 @@ public class Disk implements Runnable{
 					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 					i = DevController.getRegister();
 				}
-				if(this.tryCount < this.MAXCOUNT) {
+				if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {
 					System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
 					DevController.clearRegister(this.belongDevID, this.belongProID);
 					//Register.responseINTRIDReg = -this.belongDevID;
@@ -92,7 +92,7 @@ public class Disk implements Runnable{
 					InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.READ);
 					
 				}
-				if(this.tryCount < this.MAXCOUNT) {
+				if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {
 					Global.databus = data+this.belongDevID;
 					System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
 					DevController.clearRegister(this.belongDevID, this.belongProID);

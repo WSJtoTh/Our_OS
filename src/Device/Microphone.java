@@ -26,7 +26,7 @@ public class Microphone implements Runnable {
 	private int belongProID;
 	private String data;
 	private int tryCount;
-	private final int MAXCOUNT = 20;
+	private final int MAXCOUNT = 50;
 	public Microphone(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
@@ -61,7 +61,7 @@ public class Microphone implements Runnable {
 				i = DevController.getRegister();
 				InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
 			}
-			if(this.tryCount < this.MAXCOUNT) {
+			if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
 				Global.databus = data+this.belongDevID;
 				///Register.responseINTRIDReg = -this.belongDevID;

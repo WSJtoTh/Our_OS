@@ -24,7 +24,7 @@ public class Audio implements Runnable{
 	private int belongDevID;//线程所属的设备
 	private int belongProID;
 	private int tryCount;
-	private final int MAXCOUNT = 20;
+	private final int MAXCOUNT = 50;
 	public Audio(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
@@ -60,7 +60,7 @@ public class Audio implements Runnable{
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			}
-			if(this.tryCount < this.MAXCOUNT) {
+			if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
 				DevController.clearRegister(this.belongDevID, this.belongProID);
 				System.out.println("before setIsResponse, register="+DevController.getRegister());
