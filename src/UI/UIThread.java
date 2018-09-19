@@ -12,8 +12,9 @@ public class UIThread extends Thread{
 
 			MainController.setMessage();
 			//System.out.println("更新了！！！！！！！！！！！！！！");
-			MainController.setTimer();		
-		//	MainController.reloadjTable2();
+			MainController.setTimer();	
+			MainController.reloadTable1();
+			MainController.reloadTable2();
 
 			try {
 				Thread.sleep(timeinterval);

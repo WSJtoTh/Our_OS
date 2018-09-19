@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.Window;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,7 +20,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
 
 //import javafx.scene.control.TableColumn; 
 
@@ -33,7 +37,7 @@ import Process.*;
 import timer.*;
 import Process.*;
 
-public class MainController extends JFrame {
+public class MainController extends JFrame{
 /*	     
 		 public JFrame frame;
 		 
@@ -93,6 +97,7 @@ public class MainController extends JFrame {
 		public static JPanel os;
 		public static Font font;
 		public static Font font1;
+		public static Font font2;
 		public static JLabel systemtimel;
 		public static JTextField systemtimet;
 		public static JLabel timeslicel;
@@ -120,15 +125,17 @@ public class MainController extends JFrame {
 		public static JLabel Devicenamel;
 		public static JLabel ocupyProcessl;
 		public static String[] columnNames1 = {"A","B"};
-		public static String[][] tableValues1 = {{"A1","B1"},{"A2","B2"},{"A3","B3"},{"A4","B4"},{"A5","B5"}};// 定义表格数据数组
+		//public static String[][] tableValues1 = {{"A1","B1"},{"A2","B2"},{"A3","B3"},{"A4","B4"},{"A5","B5"}};// 定义表格数据数组
 		public static JTable table1;
+		public static MyTable1 mytable1;
 		public static JScrollPane scrollPane1;
 		public static DefaultTableCellRenderer tcr1;
 		public static JLabel Deviceidl;
 		public static JLabel statusl;
 		public static String[] columnNames2 = {"进程id","进程状态"};// 定义表格列名数组
-        public static String[][] tableValues2 = {{"",""}}; // 定义表格数据数组
+        //public static String[][] tableValues2 = {{"",""}}; // 定义表格数据数组
         public static JTable table2;
+        public static MyTable2 mytable2;
         public static JScrollPane scrollPane2;
         public static DefaultTableCellRenderer tcr2;
         
@@ -143,42 +150,18 @@ public class MainController extends JFrame {
 		public static String interStr="";
 		public static String dealintrStr="";
 		public static String promptStr="";
-
-        	public static JScrollPane getjScrollPane2() {
-        		return scrollPane2;
-        	}
-        	
-        	public static void setjScrollPane2(JScrollPane jScrollPane) {
-        		scrollPane2 = jScrollPane;
-        	}
-        	
-        	public static JTable getjTable2() {
-        		return table2;
-        	}
-        	
-        	public static void setjTable2(JTable jTable) {
-        		table2 = jTable;
-        	}
-        	
-        	public static void reloadjTable2() {
-        		String[][] info = ProcessMGT.getAllProcess();
-        		/*
-        		JTable table = new JTable(info,columnNames2);
-        		table.setFont(font1);
-        		setjTable2(table);
-        		getjScrollPane2().setViewportView(table);*/
-        		
-        		int row = info.length;
-        		for(int i = 0;i < row;i++) {
-        			table2.setValueAt(info[i][0],i,0);
-        			table2.setValueAt(info[i][1],i,1);
-        		}
-        		
-        		
-        		
-        	}
 		
-
+		public static void reloadTable1() {
+    		table1.validate();
+			table1.updateUI();
+    	}
+	
+		
+        	
+    	public static void reloadTable2() {
+    		table2.validate();
+			table2.updateUI();
+    	}
 	
 		    public static void init() 
 		    {    
@@ -212,8 +195,8 @@ public class MainController extends JFrame {
 		    	 
 		        // Label颜色字体设置        
 		         font = new Font("宋体",Font.BOLD, 18);//宋体、加粗、18像素
-		         
-		         font1 = new Font("宋体",Font.BOLD, 24);//宋体、加粗、24像素	         
+		         font1 = new Font("宋体",Font.BOLD, 24);//宋体、加粗、24像素	  
+		         font2 = new Font("宋体",Font.BOLD, 16);//宋体、加粗、16像素
 		         
 		         // 创建 JLabel
 		         systemtimel = new JLabel("系统时间:");
@@ -391,13 +374,14 @@ public class MainController extends JFrame {
 		         
 		       //  String[][] tableValues1 = {{"A1","B1"},{"A2","B2"},{"A3","B3"},{"A4","B4"},{"A5","B5"}};// 定义表格数据数组
 		         
-		         table1 = new JTable(tableValues1,columnNames1);// 创建指定列名和数据的表格
-		         
+		         //table1 = new JTable(tableValues1,columnNames1);// 创建指定列名和数据的表格
+		         mytable1 = new MyTable1();
+		         table1 = new JTable(mytable1);
 		         scrollPane1 = new JScrollPane(table1);// 创建显示表格的滚动面板
 		         // 将滚动面板添加到边界布局的中间
 		        // getContentPane().add(scrollPane, BorderLayout.CENTER);
-		         table1.setFont(font1);
-		         table1.setRowHeight(30);//设置表格的行高
+		         table1.setFont(font2);
+		         table1.setRowHeight(20);//设置表格的行高
 		        
 		         tcr1= new DefaultTableCellRenderer(); //内容居中
 		         tcr1.setHorizontalAlignment(JLabel.CENTER);
@@ -423,11 +407,12 @@ public class MainController extends JFrame {
 		         
 		     //    String[][] tableValues2 = {{"A1","B1"},{"A2","B2"},{"A3","B3"},{"A4","B4"},{"A5","B5"}}; // 定义表格数据数组
 		         // 创建指定列名和数据的表格
-		         table2 = new JTable(tableValues2,columnNames2);
+		         mytable2 = new MyTable2();
+		         table2 = new JTable(mytable2);
 		         // 创建显示表格的滚动面板
 		         scrollPane2 = new JScrollPane(table2);
-		         table2.setFont(font1);
-		         table2.setRowHeight(30);//设置表格的行高
+		         table2.setFont(font2);
+		         table2.setRowHeight(20);//设置表格的行高
 		         
 		         
 		         // 将滚动面板添加到边界布局的中间
@@ -489,4 +474,46 @@ public class MainController extends JFrame {
 			
 			 
 		 }
+}
+
+
+
+class MyTable1 extends AbstractTableModel{
+	//ArrayList<String> str = DevController.showDeviceInfo();
+	
+	public int getColumnCount() {
+		return 2;
+	}
+	public int getRowCount() {
+		return DevController.showDeviceInfo().size();
+	}
+	@Override
+	public Object getValueAt(int row,int col) {
+		switch(col) {
+			case(0):
+				return DevController.showDeviceInfo().get(row).split(" ",0)[0];
+			default:
+				return DevController.showDeviceInfo().get(row).split(" ",0)[1];
+		}
+	}
+}
+
+class MyTable2 extends AbstractTableModel{
+	//List<String> str = ProcessMGT.getAllProcess();
+	
+	public int getColumnCount() {
+		return 2;
+	}
+	public int getRowCount() {
+		return ProcessMGT.getAllProcess().size();
+	}
+	@Override
+	public Object getValueAt(int row,int col) {
+		switch(col) {
+			case(0):
+				return ProcessMGT.getAllProcess().get(row).split(" ",0)[0];
+			default:
+				return ProcessMGT.getAllProcess().get(row).split(" ",0)[1];
+		}
+	}
 }

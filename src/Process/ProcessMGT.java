@@ -1,5 +1,7 @@
 package Process;
 import Device.*;
+import Process.Process;
+
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -238,20 +240,20 @@ public class ProcessMGT {
 	}
 	
 	
-	public static String[][] getAllProcess(){
+	public static List<String> getAllProcess(){
 		List<Process> temp = new ArrayList<>();
 		for(Process p :allProcess) {
 			temp.add(p);
 		}
 		int row = temp.size();
-		String[][] str = new String[row][2];
+		List<String> str = new ArrayList<>();
 		for(int i = 0;i < row; i++) {
 			Process p = temp.get(i);
-			str[i][0] = Integer.toString(p.getPid());
-			str[i][1] = p.getState().toString();
+			String s = Integer.toString(p.getPid()) + " " + p.getState().toString();
+			str.add(s);
 		}
 		return str;
-		
+	
 	}
 	
 
@@ -356,7 +358,7 @@ public class ProcessMGT {
 		//取ready到running
 		try {
 			Process addrun = ready.get(0);
-			running.add(addrun);
+			runProcess(addrun);
 			ready.remove(addrun);
 		}
 		catch(IndexOutOfBoundsException e){
