@@ -3,6 +3,7 @@ package memory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -17,12 +18,20 @@ public class Memory {
 	static int pageNum;//初始数据页数
 	static int insPage;//代码段对应物理页号
 	private static int[] sourceList=new int[8];
+	private static  int[] useList=new int[30];
 	
 	public static double getPageUseRate() {//获取内存使用率(实时刷新)
 		return (double)pageUse/30.0*1.00;
 	}
 	
 	public Memory() {}
+	
+	public  static int[] getUseList() {
+		for(int i=0;i<pages.length;i++) {
+			useList[i]=pages[i].getState();
+		}
+		return useList;
+	}
 	
 	public static int[] getSourceList() {//获取资源数组
 		return sourceList;
