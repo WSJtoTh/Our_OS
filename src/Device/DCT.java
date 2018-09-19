@@ -128,13 +128,13 @@ public class DCT {
 	public String[][] showDevState() {
 		String[][]	devArr = new String[this.devCount][2];
 		int devID = 0;
-		DevState devState;
+		int belongID;
 		//System.out.println(this.devType+"\n设备ID\t设备状态");
 		for(int i = 0;i < this.devCount;i++) {
 			devID =  this.deviceArray[i].getDevID();
 			devArr[i][0] = String.valueOf(devID);
-			devState = this.deviceArray[i].getDevState();
-			devArr[i][1] = String.valueOf(devState);
+			belongID = this.deviceArray[i].getBelongProID();
+			devArr[i][1] = String.valueOf(belongID);
 			//System.out.println(devArr[i][0]+"\t"+devArr[i][1]);
 		}
 		return devArr;
