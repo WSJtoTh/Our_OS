@@ -13,6 +13,7 @@ public class ProcessMGT {
 	static LinkedList<Process> terminated = new LinkedList<>();//结束队列
 	static LinkedList<Process> waiting = new LinkedList<>();//等待队列
 	static LinkedList<Process> blocking = new LinkedList<>();//I/O阻塞队列
+	static final int threshold = 4;
 	
 	//打印terminated的情况
 	public static void printTerminated() {
@@ -48,11 +49,6 @@ public class ProcessMGT {
 	
 	//打印所有进程状态
 	public static void printAll() {
-		/*
-		System.out.println("所有进程情况:");
-		for(Process process: allProcess) {
-			System.out.println(process.toString());
-		}*/
 		printReady();
 		printRunning();
 		printWaiting();
@@ -67,7 +63,6 @@ public class ProcessMGT {
 				System.out.println(process.toString());
 			}
 		}
-	
 	
 	
 	//销毁terminated的进程
@@ -147,13 +142,19 @@ public class ProcessMGT {
 		}
 	}
 	
+	//等待队列的进程等待时间加1
+	public static void incBlockingTimes() {
+		for(Process process:blocking) {
+			process.incBlockingtime();
+		}
+	}
+	
 	//释放资源
 	public static void releaseResource(Process process) {
 		int[] re = new int[8];
 		for(int i = 0;i < re.length;i++) {
 			re[i] = 0;
 		}
-		//process.releaseDev();
 		SystemResources.addResource(process.getResource_hold());
 		process.setResource_hold(re);
 	}
@@ -207,6 +208,7 @@ public class ProcessMGT {
 		if(p != null) {
 			p.setSignal(null);
 			p.releaseDev(dev);
+			p.resetBlockingtime();
 			if(p.getPC() % 5 == 0) {//如果刚好是一组的最后一条指令且是io指令，先计算下5组指令
 				culNextNeed(p);
 				waitProcess(p);
@@ -248,6 +250,7 @@ public class ProcessMGT {
 		LinkedList<Process> move_to_kill = new LinkedList<>();//存放到terminated队列的process
 		
 		incWaitTimes();//waiting队列中的设备等待时间加1
+		incBlockingTimes();//阻塞队列中的设备等待时间加1
 		//更新一次设备资源表
 		int[] max = DevController.getEntireDevTable();
 		int[] remain = DevController.getAvailDevTable();
@@ -305,6 +308,16 @@ public class ProcessMGT {
 				move_to_kill.add(wp);
 			}
 		}
+		
+		//遍历blocking的队列，blocking时间片大于3，移到move_to_kill
+		for(Process bp:blocking) {
+			int blockingtime = bp.getBlockingtime();
+			if(blockingtime > threshold) {
+				bp.releaseDevResource();//释放设备资源
+				move_to_kill.add(bp);
+			}
+		}
+		
 		//移动可以到ready队列的进程
 		for(Process p:move_to_ready) {
 			readyProcess(p);
@@ -321,7 +334,7 @@ public class ProcessMGT {
 		//清一次terminated
 		killProcess();
 		
-		//printAll();//////////////////////////////////打印输出信息
+		
 		
 		//取ready到running
 		try {

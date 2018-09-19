@@ -16,6 +16,7 @@ public class Process {
 	private int[] resource_need = new int[8];//下一时间片资源需求数组
 	private int waitingtime;//进程等待时间片
 	private int runningtime;//进程执行时间片
+	private int blockingtime;//进程执行时间片
 	
 	//传入：资源类型 功能：外设资源加一
 	public void addResource(DevType dev) {
@@ -39,6 +40,16 @@ public class Process {
 		resource_hold[index] -= 1;
 	}
 	
+	public void releaseDevResource() {//添加signal
+		for(int i = 3;i < resource_hold.length;i++) {
+			int num = resource_hold[i];
+			for(int j = 0;j < num;j++) {
+				//System.out.println(num);
+				DevController.signal(DevType.values()[i-3], pid);
+				//System.out.println("dev:"+DevType.values()[i-3]+"pid:"+pid);
+			}
+		}
+	}
 	
 	public void addCommonResource(int[] need) {
 		for(int i = 0;i < need.length;i++) {
@@ -196,8 +207,16 @@ public class Process {
 		this.waitingtime += 1;
 	}
 	
+	public void incBlockingtime() {
+		this.blockingtime += 1;
+	}
+	
 	public int getWaitingtime() {
 		return this.waitingtime;
+	}
+	
+	public int getBlockingtime() {
+		return this.blockingtime;
 	}
 	
 	public void incRunningtime() {
@@ -211,5 +230,10 @@ public class Process {
 	public void resetWaitingtime() {
 		this.waitingtime = 0;
 	}
+	
+	public void resetBlockingtime() {
+		this.blockingtime = 0;
+	}
+	
 	
 }
