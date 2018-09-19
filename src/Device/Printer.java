@@ -65,9 +65,9 @@ public class Printer implements Runnable {
 			i = DevController.getRegister();
 			if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
+				InterService.setisResponse(true);
 				DevController.clearRegister(this.belongDevID, this.belongProID);
 				System.out.println("before setIsResponse, register="+DevController.getRegister());
-				InterService.setisResponse(true);
 			}
 			else {
 				System.out.println("tryCount > MAXCOUNT");

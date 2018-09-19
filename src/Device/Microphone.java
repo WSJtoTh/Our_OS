@@ -67,9 +67,10 @@ public class Microphone implements Runnable {
 				Global.databus = data+this.belongDevID;
 				///Register.responseINTRIDReg = -this.belongDevID;
 				System.out.println("CPU accept Microphone"+this.belongDevID+"'s INTR after try:"+this.tryCount);
+				InterService.setisResponse(true);
 				DevController.clearRegister(this.belongDevID, this.belongProID);
 				System.out.println("before setIsResponse, register="+DevController.getRegister());
-				InterService.setisResponse(true);
+				
 			}
 			else {
 				System.out.println("tryCount > MAXCOUNT");
