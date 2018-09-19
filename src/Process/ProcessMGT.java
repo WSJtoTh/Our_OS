@@ -248,6 +248,7 @@ public class ProcessMGT {
 	public static void timeoutSchedule() {
 		LinkedList<Process> move_to_ready = new LinkedList<>();//存放到ready队列的process
 		LinkedList<Process> move_to_kill = new LinkedList<>();//存放到terminated队列的process
+		LinkedList<Process> move_to_kill_block = new LinkedList<>();//存放到terminated队列的process
 		
 		incWaitTimes();//waiting队列中的设备等待时间加1
 		incBlockingTimes();//阻塞队列中的设备等待时间加1
@@ -314,7 +315,7 @@ public class ProcessMGT {
 			int blockingtime = bp.getBlockingtime();
 			if(blockingtime > threshold) {
 				bp.releaseDevResource();//释放设备资源
-				move_to_kill.add(bp);
+				move_to_kill_block.add(bp);
 			}
 		}
 		
@@ -327,6 +328,11 @@ public class ProcessMGT {
 		for(Process p:move_to_kill) {
 			terminateProcess(p);
 			waiting.remove(p);
+		}
+		//移动可以到terminated队列的进程
+		for(Process p:move_to_kill_block) {
+			terminateProcess(p);
+			blocking.remove(p);
 		}
 		
 		printAll();
