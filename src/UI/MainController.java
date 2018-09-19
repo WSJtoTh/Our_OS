@@ -110,6 +110,10 @@ public class MainController extends JFrame {
 		public static DefaultTableCellRenderer tcr0;
 		public static JLabel promptl;
 		public static JTextField prompt;
+		public static JLabel intrpromptl;
+		public static JTextField intrprompt;
+		public static JLabel dealintrpromptl;
+		public static JTextField dealintrprompt;
 		public static JLabel addDevicel;
 		public static JComboBox addDevicet;
 		public static JButton okButton;
@@ -130,13 +134,14 @@ public class MainController extends JFrame {
         
         	
         /*时间*/
-        public static String allTimeStr="";
-		public static String rrTimeStr="";
-		public static String rrCountStr="";
+        public static  String allTimeStr="";
+		public static  String rrTimeStr="";
+		public static  String rrCountStr="";
 		
 		/*message中断*/
 		public static String insStr="";
 		public static String interStr="";
+		public static String dealintrStr="";
 		public static String promptStr="";
 
         	public static JScrollPane getjScrollPane2() {
@@ -311,14 +316,35 @@ public class MainController extends JFrame {
 		         
 		         
 		         //////////////////////提示框
-		         promptl = new JLabel("提示框");
+		         promptl = new JLabel("指令");
 		         promptl.setFont(font1);
 		         promptl.setBounds(750,150,100,40);
 		         os.add(promptl);	        
 		         
-		         prompt = new JTextField(40);
-		         prompt.setBounds(640, 190, 300, 200);
+		         prompt = new JTextField(10);
+		         prompt.setBounds(640, 190, 300, 40);
 		         os.add(prompt);
+		         
+		         intrpromptl = new JLabel("中断信息");
+		         intrpromptl.setFont(font1);
+		         intrpromptl.setBounds(730,230,100,40);
+		         os.add(intrpromptl);
+		         
+		         intrprompt = new JTextField(10);
+		       //  intrprompt.setFont(font1);
+		         intrprompt.setBounds(640,270,300,40);
+		         os.add(intrprompt);
+		         
+		         dealintrpromptl = new JLabel("中断处理信息");
+		         dealintrpromptl.setFont(font1);
+		         dealintrpromptl.setBounds(720, 310, 200, 40);
+		         os.add(dealintrpromptl);
+		         
+		         dealintrprompt = new JTextField(10);
+		         dealintrprompt.setBounds(640,350,300,40);
+		         os.add(dealintrprompt);
+		         
+		         
 		         
 		         
 		         
@@ -435,32 +461,32 @@ public class MainController extends JFrame {
 		 
 		 public static void setMessage() {
 			 
-			
-			 if(ins.insString!="")
-			 {
-			
+		
+			 System.out.println("页面获得了ins！！！"+ins.insString);
 			 insStr=ins.insString;
-			 ins.insString="";
-			 }
+			 System.out.println("页面收到了ins！！！"+insStr);
+			 prompt.setText(insStr);
+			 //ins.insString="";
+			
 
 			 
 			//收到中断，寄存器
-			if(InterruptReg.setIntrString!=""){
+			
 				interStr=InterruptReg.setIntrString;
+				intrprompt.setText(interStr);
 				InterruptReg.setIntrString="";
-			}
+			
 
 			//中断处理
-			if(InterService.DealStr!=""){
-				interStr=interStr+"\n"+InterService.DealStr;
-			}
-
-			
-			
-			promptStr="指令："+insStr+"\n"+interStr+"\n";
-			prompt.setText(promptStr);
+		
+				
+				dealintrStr=InterService.DealStr;
+				dealintrprompt.setText(dealintrStr);
+				InterService.DealStr="";
 			
 
+			
+			
 			 
 		 }
 }
