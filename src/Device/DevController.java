@@ -136,7 +136,34 @@ public class DevController implements Runnable{
 	 * 删除一个系统中已有的设备
 	 * 
 	 */
-	public static Boolean delDevice(DevType devType, int devID) {
+	public static Boolean delDevice(String devStr) {
+		String[] str = devStr.split(":");
+		String devTypeStr = str[0];
+		DevType devType;
+		int devID = Integer.valueOf(str[1]);
+		
+		switch (devTypeStr) {
+		case "PRINTER":
+			devType = DevType.PRINTER;
+			break;
+		case "KEYBOARD":
+			devType = DevType.KEYBOARD;
+			break;
+		case "DISK":
+			devType = DevType.DISK;
+			break;
+		case "MICROPHONE":
+			devType = DevType.MICROPHONE;
+			break;
+		case "AUDIO":
+			devType = DevType.AUDIO;
+			break;
+		default:
+			System.out.println("没有这样的设备！！！");
+			devType = DevType.DEFAULT;
+			break;
+		}
+		System.out.println("devType:"+devType+"\tdevID:"+devID);
 		if(sdt.deleteDeviceFromSystem(devID, devType)) {
 			System.out.println("Device "+devID+" is deleted");
 			return true;
