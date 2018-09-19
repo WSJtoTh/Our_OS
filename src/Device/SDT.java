@@ -5,8 +5,9 @@ package Device;
 
 import java.awt.List;
 import java.awt.print.Printable;
+import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.*;
 /**
  * @author 45044
  *
@@ -20,9 +21,10 @@ public class SDT {
 	private int devCount = 0;	//系统当前的设备总数<=20
 	private HashMap<DevType, DCT> sysDevTb;
 	
-	public SDT(HashMap<DevType, DCT> sysDevTb) {//初始化一个系统设备表
+	public SDT(HashMap<DevType, DCT> sysDevTb, int devCount) {//初始化一个系统设备表
 		// TODO Auto-generated constructor stub
 		this.sysDevTb = sysDevTb;
+		this.devCount = devCount;
 	}
 	
 	public Boolean addDeviceIntoSystem(DevTb devTb) {
@@ -138,25 +140,88 @@ public class SDT {
 		return entireDev;
 	}
 	
-	public void showEntireDevState() {
+	public ArrayList<String> showEntireDevState() {
 		DCT dct;
-		dct = this.sysDevTb.get(DevType.PRINTER);
-		dct.showDevState();
-		dct = this.sysDevTb.get(DevType.KEYBOARD);
-		dct.showDevState();
-		dct = this.sysDevTb.get(DevType.AUDIO);
-		dct.showDevState();
-		dct = this.sysDevTb.get(DevType.MICROPHONE);
-		dct.showDevState();
-		dct = this.sysDevTb.get(DevType.DISK);
-		dct.showDevState();
-	}
-	//public int getBelongProID(int devID, DevType devType) {
-		//DCT dct = this.sysDevTb.get(devType);
-		//int pro
-	//}
-	//public int getInferDevCount(DevType devType) {
-	//	DCT dct = this.sysDevTb.get(devType);
+		int dctDevCount = 0;
 		
-	//}
+		ArrayList<String> str = new ArrayList<String>();
+		
+		String[][] devArr = new String[this.devCount][2];
+		String temp;
+		int j = 0;
+		
+		//打印机
+		dct = this.sysDevTb.get(DevType.PRINTER);
+		dctDevCount = dct.getDevCount();
+		String[][] pArr = new String[dctDevCount][2];
+		pArr = dct.showDevState();
+		//System.out.println("j="+j);
+		//System.out.println("devCount="+this.devCount);
+		System.out.println("设备名称\t设备状态");
+		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
+			devArr[k+j][0] = String.valueOf(DevType.PRINTER)+pArr[i][0];
+			devArr[k+j][1] = pArr[i][1];
+			temp = devArr[k+j][0]+" "+devArr[k+j][1];
+			str.add(temp);
+		}
+		//System.out.println("j="+j);
+		//System.out.println(devArr[j-1][0]+"\t"+devArr[j-1][1]);
+		//键盘
+		dct = this.sysDevTb.get(DevType.KEYBOARD);
+		dctDevCount = dct.getDevCount();
+		String[][] kArr = new String[dctDevCount][2];
+		kArr = dct.showDevState();
+		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
+			devArr[k+j][0] = String.valueOf(DevType.KEYBOARD)+kArr[i][0];
+			devArr[k+j][1] = kArr[i][1];
+			temp = devArr[k+j][0]+" "+devArr[k+j][1];
+			str.add(temp);
+		}
+		//System.out.println("j="+j);
+		//System.out.println(devArr[j-1][0]+"\t"+devArr[j-1][1]);
+		//音箱
+		dct = this.sysDevTb.get(DevType.AUDIO);
+		dctDevCount = dct.getDevCount();
+		String[][] aArr = new String[dctDevCount][2];
+		aArr = dct.showDevState();
+		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
+			devArr[k+j][0] = String.valueOf(DevType.AUDIO)+aArr[i][0];
+			devArr[k+j][1] = aArr[i][1];
+			temp = devArr[k+j][0]+" "+devArr[k+j][1];
+			str.add(temp);
+		}
+		//System.out.println("j="+j);
+		//System.out.println(devArr[j-1][0]+"\t"+devArr[j-1][1]);
+		//麦克风
+		dct = this.sysDevTb.get(DevType.MICROPHONE);
+		dctDevCount = dct.getDevCount();
+		String[][] mArr = new String[dctDevCount][2];
+		mArr = dct.showDevState();
+		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
+			devArr[k+j][0] = String.valueOf(DevType.MICROPHONE)+mArr[i][0];
+			devArr[k+j][1] = mArr[i][1];
+			temp = devArr[k+j][0]+" "+devArr[k+j][1];
+			str.add(temp);
+		}
+		//System.out.println("j="+j);
+		//System.out.println(devArr[j-1][0]+"\t"+devArr[j-1][1]);
+		//磁盘
+		dct = this.sysDevTb.get(DevType.DISK);
+		dctDevCount = dct.getDevCount();
+		String[][] dArr = new String[dctDevCount][2];
+		dArr = dct.showDevState();
+		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
+			devArr[k+j][0] = String.valueOf(DevType.DISK)+dArr[i][0];
+			devArr[k+j][1] = dArr[i][1];
+			temp = devArr[k+j][0]+" "+devArr[k+j][1];
+			str.add(temp);
+		}
+		//System.out.println("j="+j);
+		//System.out.println(devArr[j-1][0]+"\t"+devArr[j-1][1]);
+		//for(int i = 0;i<this.devCount;i++) {
+	//		System.out.println(devArr[i][0]+"\t"+devArr[i][1]);
+		//}
+		System.out.println("出去了");
+		return str;
+	}
 }

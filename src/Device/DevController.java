@@ -5,6 +5,7 @@ package Device;
 
 import java.awt.List;
 import java.beans.IntrospectionException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Global.Global;
@@ -55,7 +56,7 @@ public class DevController implements Runnable{
 		System.out.println("device init");
 		HashMap<DevType, DCT> initTable = this.initDevice();
 		System.out.println("sdt init");
-		sdt = new SDT(initTable);
+		sdt = new SDT(initTable,5);
 		System.out.println("signal");
 		register = -100;
 		//this.initINTRIDTable();
@@ -187,6 +188,8 @@ public class DevController implements Runnable{
 		return devID;
 	}
 	public static Boolean wait(DevType devType, int proID) {
+		//String[][] temp = showDeviceInfo();
+		
 		System.out.println("Process"+proID+" waits for device "+devType);
 		HashMap<Integer, Integer> allocate = sdt.allocateFreeDevice(devType, 1, proID);
 		if(allocate.isEmpty()) {
@@ -336,6 +339,13 @@ public class DevController implements Runnable{
 		return entireTable;
 	}
 	
+	public static ArrayList<String> showDeviceInfo() {
+		ArrayList<String> devArr = sdt.showEntireDevState();
+		//for(int i = 0;i<5;i++) {
+		//	System.out.println(devArr[i][0]+"\t"+devArr[i][1]);
+		//}
+		return devArr;
+	}
 //	public static int getRegValue() {
 //		int i;
 //		i = signalReg.getResponseINTRIDReg();

@@ -125,11 +125,18 @@ public class DCT {
 		return devID;
 	}
 	
-	public void showDevState() {
-		System.out.println(this.devType+" state:");
-		System.out.println("DevID\tDevState\tProID");
+	public String[][] showDevState() {
+		String[][]	devArr = new String[this.devCount][2];
+		int devID = 0;
+		DevState devState;
+		//System.out.println(this.devType+"\n设备ID\t设备状态");
 		for(int i = 0;i < this.devCount;i++) {
-			System.out.println(this.deviceArray[i].getDevID()+"\t"+this.deviceArray[i].getDevState()+"\t\t"+this.deviceArray[i].getBelongProID());
+			devID =  this.deviceArray[i].getDevID();
+			devArr[i][0] = String.valueOf(devID);
+			devState = this.deviceArray[i].getDevState();
+			devArr[i][1] = String.valueOf(devState);
+			//System.out.println(devArr[i][0]+"\t"+devArr[i][1]);
 		}
+		return devArr;
 	}
 }
