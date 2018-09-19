@@ -62,6 +62,7 @@ public class Printer implements Runnable {
 				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 				
 			}
+			i = DevController.getRegister();
 			if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
 				DevController.clearRegister(this.belongDevID, this.belongProID);

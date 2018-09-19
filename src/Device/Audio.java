@@ -60,6 +60,7 @@ public class Audio implements Runnable{
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.AUDIOINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			}
+			i = DevController.getRegister();
 			if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
 				DevController.clearRegister(this.belongDevID, this.belongProID);

@@ -59,6 +59,7 @@ public class Keyboard implements Runnable {
 				InterHandler.devINTR(InterType.KEYBOARDINT, this.belongDevID, this.belongProID, SignalType.READ);
 				
 			}
+			i = DevController.getRegister();
 			if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {
 				Global.databus = data+this.belongDevID;
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);

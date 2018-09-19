@@ -61,6 +61,7 @@ public class Microphone implements Runnable {
 				i = DevController.getRegister();
 				InterHandler.devINTR(InterType.MICROPHONEINT, this.belongDevID, this.belongProID, SignalType.READ);
 			}
+			i = DevController.getRegister();
 			if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
 				Global.databus = data+this.belongDevID;

@@ -26,7 +26,7 @@ public class DevController implements Runnable{
 	private Thread devConThread;
 	
 	//private Boolean POWER = true;
-	public static SignalReg signalReg = new SignalReg();
+	//public static SignalReg signalReg = new SignalReg();
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -336,11 +336,11 @@ public class DevController implements Runnable{
 		return entireTable;
 	}
 	
-	public static int getRegValue() {
-		int i;
-		i = signalReg.getResponseINTRIDReg();
-		System.out.println("Reg:"+i);
-		return i;
-	}
+//	public static int getRegValue() {
+//		int i;
+//		i = signalReg.getResponseINTRIDReg();
+//		System.out.println("Reg:"+i);
+//		return i;
+//	}
 	
 }
