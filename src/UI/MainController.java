@@ -302,7 +302,6 @@ public class MainController extends JFrame{
 				        	 if(row != -1) {
 				        		String str = table1.getValueAt(row, 0).toString();
 				        		DevController.delDevice(str);
-				        		
 				        	 }
 				        	 
 				        	 
