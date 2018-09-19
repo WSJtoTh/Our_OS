@@ -167,10 +167,10 @@ public class InterHandler {
 		return DevReProId;
 	}
 	///////////////////// 处理输出信息
-
+/*
 	public static String output() {
 		String Tips = outString;
 		outString = "";// 消息已被取走后就会清空
 		return Tips;
-	}
+	}*/
 }
