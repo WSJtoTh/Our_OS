@@ -5,6 +5,7 @@ package UI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -41,60 +42,6 @@ import timer.*;
 import Process.*;
 
 public class MainController extends JFrame{
-/*	     
-		 public JFrame frame;
-		 
-		 public JLabel systemtimel;	//系统时间
-		 public JTextField systemtimet;//
-		 public JLabel timeslicel;	//时间片
-		 public JPasswordField timeslicet;
-		 public JLabel timerl;//计时器
-		 public  JPasswordField timert;
-		 public JButton loginButton;
-		 
-		 public JLabel processStatusl;//进程执行情况
-		 public JTable table0;
-		 public  JScrollPane scrollPane0;
-		 
-		 public  JLabel promptl;//提示框
-		 public JPasswordField prompt;
-		 
-		 public  JLabel addDevicel;//添加设备
-		 public	JComboBox addDevicet;
-		 
-		 public  JLabel Devicenamel;//设备以及占用的进程
-		 public JLabel ocupyProcessl;
-		 public JTable table1;
-		 public JScrollPane scrollPane1;
-		 public DefaultTableCellRenderer tcr1;
-		 
-		 
-		 public JLabel Deviceidl;//进程ID及状态
-		 public  JLabel statusl;
-		 public JTable table2;
-		 public JScrollPane scrollPane2;
-		 public DefaultTableCellRenderer tcr2;
-	 
-		 public static JFrame os;
-		 public static osUI UI;///////////
-		 
-		 
-		 
-	
-		 public MainController panel1 = new MainController(os); 
-		 
-		 
-		 public MainController(JFrame os) {
-				this.os=os;
-			//	initialize();
-			}
-		 
-		public void newMainController(JFrame os)
-		{	
-			UI=new osUI UI(os);
-			UI.start();
-		}*/
-
 	
 		public static JFrame frame;
 		public static JPanel os;
@@ -114,8 +61,6 @@ public class MainController extends JFrame{
 		public static JLabel processStatusl;
 		public static JTextArea jta;
 		public static JScrollPane jsp;
-		//public static JTable table0;
-		//public static JScrollPane scrollPane0;
 		public static DefaultTableCellRenderer tcr0;
 		public static JLabel promptl;
 		public static JTextField prompt;
@@ -130,8 +75,7 @@ public class MainController extends JFrame{
 		public static JButton okButton;
 		public static JLabel Devicenamel;
 		public static JLabel ocupyProcessl;
-		public static String[] columnNames1 = {"A","B"};
-		//public static String[][] tableValues1 = {{"A1","B1"},{"A2","B2"},{"A3","B3"},{"A4","B4"},{"A5","B5"}};// 定义表格数据数组
+		public static String[] columnNames1 = {"设备名称","占用进程"};
 		public static JTable table1;
 		public static MyTable1 mytable1;
 		public static JScrollPane scrollPane1;
@@ -139,7 +83,6 @@ public class MainController extends JFrame{
 		public static JLabel Deviceidl;
 		public static JLabel statusl;
 		public static String[] columnNames2 = {"进程id","进程状态"};// 定义表格列名数组
-        //public static String[][] tableValues2 = {{"",""}}; // 定义表格数据数组
         public static JTable table2;
         public static MyTable2 mytable2;
         public static JScrollPane scrollPane2;
@@ -350,7 +293,25 @@ public class MainController extends JFrame{
 				 deleteButton.setFont(font3);
 		         deleteButton.setBounds(240, 525, 60, 30);
 		         os.add(deleteButton);
-		         addButton.addActionListener(new ActionListener() {
+		         
+		         deleteButton.addActionListener(new ActionListener() {
+		        	 @Override
+						public void actionPerformed(ActionEvent arg0) {
+		        		 	int row = table1.getSelectedRow();
+		        	 
+				        	 if(row != -1) {
+				        		String str = table1.getValueAt(row, 0).toString();
+				        		DevController.delDevice(str);
+				        		
+				        	 }
+				        	 
+				        	 
+		        	 }
+		     
+		         });
+		         
+		         
+		         addButton.addActionListener(new ActionListener() {//增加设备监听事件
 		        	 
 						
 						@Override
@@ -407,26 +368,17 @@ public class MainController extends JFrame{
 		         os.add(ocupyProcessl);	
 		         
 		       
-		         // String[] columnNames1 = {"A","B"};// 定义表格列名数组
-		         
-		         
-		       //  String[][] tableValues1 = {{"A1","B1"},{"A2","B2"},{"A3","B3"},{"A4","B4"},{"A5","B5"}};// 定义表格数据数组
-		         
-		         //table1 = new JTable(tableValues1,columnNames1);// 创建指定列名和数据的表格
 		         mytable1 = new MyTable1();
 		         table1 = new JTable(mytable1);
 		         scrollPane1 = new JScrollPane(table1);// 创建显示表格的滚动面板
-		         // 将滚动面板添加到边界布局的中间
-		        // getContentPane().add(scrollPane, BorderLayout.CENTER);
 		         table1.setFont(font2);
 		         table1.setRowHeight(20);//设置表格的行高
 		        
 		         tcr1= new DefaultTableCellRenderer(); //内容居中
 		         tcr1.setHorizontalAlignment(JLabel.CENTER);
 		         table1.setDefaultRenderer(Object.class,tcr1);
-		        // table.setBackground(null);
-		         table1.setBounds(320, 520, 300, 200);
-		         os.add(table1);
+		         scrollPane1.setBounds(320, 520, 300, 200);
+		         os.add(scrollPane1);
 		         
 	
 		         /////////////////////// //进程ID及状态
@@ -460,8 +412,8 @@ public class MainController extends JFrame{
 		         tcr2.setHorizontalAlignment(JLabel.CENTER);
 		         table2.setDefaultRenderer(Object.class,tcr2);
 		        // table.setBackground(null);
-		         table2.setBounds(640, 520, 300, 200);
-		         os.add(table2);
+		         scrollPane2.setBounds(640, 520, 300, 200);
+		         os.add(scrollPane2);
 	         
 	     }
 	     
