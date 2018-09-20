@@ -232,7 +232,7 @@ public class MainController extends JFrame{
 		          {  
 		              column = table3.getColumnModel().getColumn(i);  
 		              /*将每一列的默认宽度设置为33*/  
-		              table3.setRowHeight(33);  
+		              table3.setRowHeight(30);  
 		          }
 		    	  os.add(scrollPane3);
 		         
