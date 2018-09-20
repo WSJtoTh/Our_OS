@@ -208,12 +208,12 @@ public class MainController extends JFrame{
 		         timert.setEditable(false);
 		         os.add(timert);
 		         
-		         // 创建登录按钮
+		         /*
 		         loginButton = new JButton("start");
 		         loginButton.setFont(font);
 		         loginButton.setBounds(800, 20, 100, 40);
 		         os.add(loginButton);
-		          
+		          */
 		        ////////////////////内存使用率
 		         memoryUsagel = new JLabel();
 		         memoryUsagel.setFont(font1);
@@ -275,12 +275,7 @@ public class MainController extends JFrame{
 		         dealintrprompt = new JTextField(10);
 		         dealintrprompt.setBounds(640,350,300,40);
 		         os.add(dealintrprompt);
-		         
-		         
-		         
-		         
-		         
-		         
+      
 		        ////////////////////// //添加设备
 		         addDevicel = new JLabel("添加设备");
 		         addDevicel.setFont(font1);
@@ -455,8 +450,6 @@ public class MainController extends JFrame{
 		 
 		 
 		 public static void setMessage() {
-			 
-		
 			 System.out.println("页面获得了ins！！！"+ins.insString);
 			 insStr=ins.insString;
 			 System.out.println("页面收到了ins！！！"+insStr);
