@@ -503,15 +503,15 @@ public class MainController extends JFrame{
 		 public static void setColor() {
 		        try {
 		        	int[][] color=Memory.getUseList();
-		        	for(int i=0;i<6;i++)
+		        	/*for(int i=0;i<6;i++)
 		        		for(int j=0;j<5;j++)
-		        			System.out.println("该数为！！！！！！！！！！！"+color[i][j]);
+		        			System.out.println("该数为！！！！！！！！！！！"+color[i][j]);*/
 		            DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer() {
 			            //重写getTableCellRendererComponent 方法
 			            @Override
 			            public Component getTableCellRendererComponent(JTable table,Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 			            	if(color[row][column]==1) {
-			            		System.out.println("设为红色！！！！！！！！！！！"+row+" "+column);
+			            		//System.out.println("设为红色！！！！！！！！！！！"+row+" "+column);
 		            			setBackground(Color.RED);
 		    		            setForeground(Color.WHITE);
 		            		}
@@ -530,7 +530,7 @@ public class MainController extends JFrame{
 		            //table3.setDefaultRenderer(Object.class, dtcr);
 		            for (int i = 0; i < columnCount; i++) {
 		                table3.getColumn(table3.getColumnName(i)).setCellRenderer(dtcr);
-		                System.out.println("循环列"+i);
+		               // System.out.println("循环列"+i);
 		            }
 		            table3.updateUI();
 
