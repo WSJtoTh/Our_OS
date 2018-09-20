@@ -4,6 +4,7 @@ package UI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -461,12 +462,8 @@ public class MainController extends JFrame{
 			 prompt.setText(insStr);
 			 prompt.setFont(font);
 
-			 //ins.insString="";
-			
-
 			 
 			//收到中断，寄存器
-			
 				interStr=InterruptReg.setIntrString;
 				intrprompt.setText(interStr);
 				intrprompt.setFont(font);
@@ -474,16 +471,10 @@ public class MainController extends JFrame{
 			
 
 			//中断处理
-		
-				
 				dealintrStr=InterService.DealStr;
 				dealintrprompt.setText(dealintrStr);
 				dealintrprompt.setFont(font);
 				InterService.DealStr="";
-			
-
-			
-			
 			 
 		 }
 		 
@@ -502,6 +493,36 @@ public class MainController extends JFrame{
 	    	 usage=Memory.getPageUseRate();
 	    	 memoryUsagel.setText("内存使用率"+usage+"%");
 	     }
+		 
+		 public static void setColor(int[][] color) {
+		        try {
+		            DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer() {
+			            //重写getTableCellRendererComponent 方法
+			            @Override
+			            public Component getTableCellRendererComponent(JTable table,Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+			            	if(color[row][column]==1) {
+		            			setBackground(Color.RED);
+		    		            setForeground(Color.WHITE);
+		            		}
+		            		else {
+		            			setBackground(null);
+		            		}
+			            
+			            
+			            return super.getTableCellRendererComponent(table, value,isSelected, hasFocus, row, column);
+			            }
+		            };
+
+		            int columnCount = table3.getColumnCount();
+		            
+		            for (int i = 0; i < columnCount; i++) {
+		                table3.getColumn(table3.getColumnName(i)).setCellRenderer(dtcr);
+		            }
+
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
 }
 
 
