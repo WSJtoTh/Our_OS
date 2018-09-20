@@ -353,6 +353,10 @@ public class DevController implements Runnable{
 	public static int[] getAvailDevTable() {
 		int[] availTable = new int[5];
 		availTable = sdt.getAvailDevCountSortByType();
+		System.out.println("当前空闲设备数量");
+		for(int i = 0;i < 5; i++) {
+			System.out.println(availTable[i]);
+		}
 		return availTable;
 	}
 	

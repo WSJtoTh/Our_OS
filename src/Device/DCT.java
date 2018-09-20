@@ -49,6 +49,7 @@ public class DCT {
 						this.deviceArray[j] = this.deviceArray[j+1];
 					}
 					this.devCount--;
+					this.availDevCount--;
 					return true;	
 				}
 				else{
