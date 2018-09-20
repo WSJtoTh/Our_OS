@@ -13,9 +13,6 @@ import java.util.*;
  *
  */
 public class SDT {
-	//private DevType devType;
-	//private int devID;
-	
 	
 	private final int MAX_SIZE = 20;
 	private int devCount = 0;	//系统当前的设备总数<=20
@@ -79,7 +76,7 @@ public class SDT {
 	
 	public int getDevCount() {
 		return this.devCount;
-	}//??
+	}
 	
 	public int getDevIDByDevTpyeAndProID(int proID, DevType devType) {
 		if(devType == DevType.PRINTER || devType ==DevType.KEYBOARD || devType == DevType.AUDIO || devType == DevType.DISK || devType == DevType.MICROPHONE) {
@@ -155,17 +152,12 @@ public class SDT {
 		dctDevCount = dct.getDevCount();
 		String[][] pArr = new String[dctDevCount][2];
 		pArr = dct.showDevState();
-		//System.out.println("j="+j);
-		//System.out.println("devCount="+this.devCount);
-		//System.out.println("设备名称\t设备状态");
 		for(int i = 0, k = 0;k < dctDevCount;k++,j++,i++) {
 			devArr[j][0] = String.valueOf(DevType.PRINTER)+":"+pArr[i][0];
 			devArr[j][1] = pArr[i][1];
 			temp = devArr[j][0]+" "+devArr[j][1];
 			str.add(temp);
 		}
-		//System.out.println("j="+j);
-		//System.out.println(devArr[j-1][0]+"\t"+devArr[j-1][1]);
 		//键盘
 		dct = this.sysDevTb.get(DevType.KEYBOARD);
 		dctDevCount = dct.getDevCount();
@@ -177,8 +169,6 @@ public class SDT {
 			temp = devArr[j][0]+" "+devArr[j][1];
 			str.add(temp);
 		}
-		//System.out.println("j="+j);
-		//System.out.println(devArr[j-1][0]+"\t"+devArr[j-1][1]);
 		//音箱
 		dct = this.sysDevTb.get(DevType.AUDIO);
 		dctDevCount = dct.getDevCount();
@@ -190,8 +180,6 @@ public class SDT {
 			temp = devArr[j][0]+" "+devArr[j][1];
 			str.add(temp);
 		}
-		//System.out.println("j="+j);
-		//System.out.println(devArr[j-1][0]+"\t"+devArr[j-1][1]);
 		//麦克风
 		dct = this.sysDevTb.get(DevType.MICROPHONE);
 		dctDevCount = dct.getDevCount();
@@ -203,8 +191,6 @@ public class SDT {
 			temp = devArr[j][0]+" "+devArr[j][1];
 			str.add(temp);
 		}
-		//System.out.println("j="+j);
-		//System.out.println(devArr[j-1][0]+"\t"+devArr[j-1][1]);
 		//磁盘
 		dct = this.sysDevTb.get(DevType.DISK);
 		dctDevCount = dct.getDevCount();
@@ -216,12 +202,7 @@ public class SDT {
 			temp = devArr[j][0]+" "+devArr[j][1];
 			str.add(temp);
 		}
-		//System.out.println("j="+j);
-		//System.out.println(devArr[j-1][0]+"\t"+devArr[j-1][1]);
-		//for(int i = 0;i<this.devCount;i++) {
-	//		System.out.println(devArr[i][0]+"\t"+devArr[i][1]);
-		//}
-		//System.out.println("出去了");
+		
 		return str;
 	}
 }
