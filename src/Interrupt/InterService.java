@@ -10,17 +10,18 @@ import memory.*;
 //中断服务程序
 public class InterService {
 
-	private static InterHandler IntrHandler;
+	//private static InterHandler IntrHandler;
 
 	private static Process PCB;
 
 	private static boolean isResponse;
 	
 	public static String DealStr;
+	public static String recvStr;//给页面的，收到的数据
 
 	private static timer time = new timer();
 
-	private static InterruptReg reg = new InterruptReg();
+	//private static InterruptReg reg = new InterruptReg();
 
 	public InterService() {
 		isResponse = false;
@@ -177,6 +178,7 @@ public class InterService {
 		}
 		System.out.println("处理键盘中断flag"+flag);
 		System.out.println("来自Keyboard的数据" + Global.databus);
+		recvStr="来自KEYBOARD的数据"+Global.databus;
 		System.out.println("处理键盘中断！！发送Signal的devType"+devType+"进程id"+InterHandler.getDevReProId());
 
 		boolean flag1 = DevController.signal(devType,InterHandler.getDevReProId());
@@ -210,6 +212,7 @@ public class InterService {
 		}
 		System.out.println("处理麦克风中断flag"+flag);
 		System.out.println("来自Microphone的数据" + Global.databus);
+		recvStr="来自MICROPHONE的数据"+Global.databus;
 		System.out.println("处理麦克风中断！！发送Signal的devType"+devType+"进程id"+InterHandler.getDevReProId());
 		boolean flag1 = DevController.signal(devType, InterHandler.getDevReProId());
 		if (flag == true  && flag1 == true ) {
@@ -246,6 +249,7 @@ public class InterService {
 		System.out.println("处理磁盘中断flag"+flag);
 		if (signal == SignalType.READ) {
 			System.out.println("来自Disk的数据" + Global.databus);
+			recvStr="来自DISK的数据"+Global.databus;
 		}
 		System.out.println("处理麦克风中断！！发送Signal的devType"+devType+"进程id"+InterHandler.getDevReProId());
 
@@ -282,7 +286,7 @@ public class InterService {
 		}
 		System.out.println("处理音响中断flag"+flag);
 		System.out.println("音响中断给的pid"+PCB.getPid());
-		System.out.println("处理麦克风中断！！发送Signal的devType"+devType+"进程id"+InterHandler.getDevReProId());
+		System.out.println("处理音响中断！！发送Signal的devType"+devType+"进程id"+InterHandler.getDevReProId());
 
 		boolean flag1 = DevController.signal(devType, InterHandler.getDevReProId());
 		if (flag == true  && flag1 == true ) {
