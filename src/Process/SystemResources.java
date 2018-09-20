@@ -102,14 +102,20 @@ public class SystemResources {
 	
 	//某类资源减少一定数量 
 	public static int reqResource(int[] max_list,int[] need_list) {
+		//int res = -1;
 		for(int i = 0;i < Resource_max.length;i++) {
 			if(Resource_max[i] < max_list[i]) {
 				return -1; //代表需要杀死这个进程
 			}
 		}
+		for(int i = 3;i < Resource_max.length;i++) {//判断设备资源请求是否合法
+			if(max_list[i] > 1 ) {
+				return -1; //代表需要杀死这个进程
+			}
+		}
 		for(int i = 0;i < Resource_remain.length;i++) {
 			if(Resource_remain[i] < need_list[i]) {
-				return 0;//代表资源不够
+				return  0;//代表资源不够
 			}
 		}
 		return 1;//代表资源充足
