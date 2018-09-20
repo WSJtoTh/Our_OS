@@ -590,11 +590,17 @@ class MyTable2 extends AbstractTableModel{
 	}
 	@Override
 	public Object getValueAt(int row,int col) {
-		switch(col) {
+		try {
+			switch(col) {
 			case(0):
 				return ProcessMGT.getAllProcess().get(row).split(" ",0)[0];
 			default:
 				return ProcessMGT.getAllProcess().get(row).split(" ",0)[1];
+			}
 		}
+		catch(Exception e) {
+			return "";
+		}
+		
 	}
 }
