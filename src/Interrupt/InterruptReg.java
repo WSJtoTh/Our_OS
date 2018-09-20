@@ -44,7 +44,7 @@ public class InterruptReg {
 				NowInterType = type;
 				return true;
 			} else {
-				setIntrString="中断被屏蔽掉了，有更高优先级中断在";
+				setIntrString="中断被屏蔽掉了，存在更高优先级";
 				System.out.println("中断被屏蔽掉了，有更高优先级中断在");
 				return false;
 			}
