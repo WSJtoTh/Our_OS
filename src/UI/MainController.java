@@ -105,6 +105,7 @@ public class MainController extends JFrame{
 		/*memory*/
 		 public static String usage="";
 	     public static JTable table3;
+	     public static JScrollPane scrollPane3;
 	     public static javax.swing.table.TableCellRenderer renderer;
 	     public static java.awt.Component comp;
 	     public static int[] usageList=new int[30];
@@ -112,14 +113,16 @@ public class MainController extends JFrame{
 		
 		public static void reloadTable1() {
     		table1.validate();
-			table1.updateUI();
+			//table1.updateUI();
+    		table1.addNotify();
     	}
 	
 		
         	
     	public static void reloadTable2() {
     		table2.validate();
-			table2.updateUI();
+			//table2.updateUI();
+    		table2.addNotify();
     	}
 	
 		    public static void init() 
@@ -220,8 +223,9 @@ public class MainController extends JFrame{
 		         memoryUsagel.setBounds(60,150,250,40);
 		         os.add(memoryUsagel);	
 		     
-		          table3 = new JTable(6, 5);  
-		    	  table3.setBounds(20, 190, 280, 200);
+		          table3 = new JTable(6, 5); 
+		          scrollPane3 =new JScrollPane(table3);
+		    	  scrollPane3.setBounds(20, 190, 280, 200);
 		    	  TableColumn column = null;  
 		          int colunms = table3.getColumnCount();  
 		          for(int i = 0; i < colunms; i++)  
@@ -230,7 +234,7 @@ public class MainController extends JFrame{
 		              /*将每一列的默认宽度设置为33*/  
 		              table3.setRowHeight(33);  
 		          }
-		    	  os.add(table3);
+		    	  os.add(scrollPane3);
 		         
 	
 				///////////////////////////进程执行情况
@@ -478,6 +482,7 @@ public class MainController extends JFrame{
 			 String info = ProcessMGT.info;
 			 String info2 = ProcessMGT.info2;
 			 String info3 = InterService.recvStr;
+			 String info4 = DevController.dataRegister;
 			 //System.out.println("页面收到了ins！！！"+insStr);
 			 if(info != "") {
 				 jta.append(info);
@@ -487,10 +492,14 @@ public class MainController extends JFrame{
 			 }
 			 if(info3 != "") {
 				 jta.append(info3);
-			 }		 
+			 }		
+			 if(info4 != "") {
+				 jta.append(info4);
+			 }		
 			 ProcessMGT.info="";
 			 ProcessMGT.info2="";
 			 InterService.recvStr="";
+			 DevController.dataRegister="";
 		 }
 		 
 		 public static void setUsage() {
@@ -533,7 +542,8 @@ public class MainController extends JFrame{
 		                table3.getColumn(table3.getColumnName(i)).setCellRenderer(dtcr);
 		               // System.out.println("循环列"+i);
 		            }
-		            table3.updateUI();
+		            //table3.updateUI();
+		            table3.addNotify();
 
 		        } catch (Exception e) {
 		            e.printStackTrace();
