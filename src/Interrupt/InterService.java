@@ -178,7 +178,7 @@ public class InterService {
 		}
 		System.out.println("处理键盘中断flag"+flag);
 		System.out.println("来自Keyboard的数据" + Global.databus);
-		recvStr="来自KEYBOARD的数据"+Global.databus;
+		recvStr="来自KEYBOARD的数据"+Global.databus+"\n";
 		System.out.println("处理键盘中断！！发送Signal的devType"+devType+"进程id"+InterHandler.getDevReProId());
 
 		boolean flag1 = DevController.signal(devType,InterHandler.getDevReProId());
@@ -212,7 +212,7 @@ public class InterService {
 		}
 		System.out.println("处理麦克风中断flag"+flag);
 		System.out.println("来自Microphone的数据" + Global.databus);
-		recvStr="来自MICROPHONE的数据"+Global.databus;
+		recvStr="来自MICROPHONE的数据"+Global.databus+"\n";
 		System.out.println("处理麦克风中断！！发送Signal的devType"+devType+"进程id"+InterHandler.getDevReProId());
 		boolean flag1 = DevController.signal(devType, InterHandler.getDevReProId());
 		if (flag == true  && flag1 == true ) {
@@ -249,7 +249,7 @@ public class InterService {
 		System.out.println("处理磁盘中断flag"+flag);
 		if (signal == SignalType.READ) {
 			System.out.println("来自Disk的数据" + Global.databus);
-			recvStr="来自DISK的数据"+Global.databus;
+			recvStr="来自DISK的数据"+Global.databus+"\n";
 		}
 		System.out.println("处理麦克风中断！！发送Signal的devType"+devType+"进程id"+InterHandler.getDevReProId());
 
