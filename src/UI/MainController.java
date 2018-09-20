@@ -227,12 +227,13 @@ public class MainController extends JFrame{
 		          scrollPane3 =new JScrollPane(table3);
 		    	  scrollPane3.setBounds(20, 190, 280, 200);
 		    	  TableColumn column = null;  
-		          int colunms = table3.getColumnCount();  
+		          int colunms = table3.getColumnCount(); 
+		          table3.setEnabled(false);
 		          for(int i = 0; i < colunms; i++)  
 		          {  
 		              column = table3.getColumnModel().getColumn(i);  
 		              /*将每一列的默认宽度设置为33*/  
-		              table3.setRowHeight(30);  
+		              table3.setRowHeight(33);  
 		          }
 		    	  os.add(scrollPane3);
 		         
@@ -245,6 +246,7 @@ public class MainController extends JFrame{
 		
 		      
 		        jta = new JTextArea();
+		        jta.setEditable(false);
 		        jsp = new JScrollPane(jta);//加滚动条
 		        jsp.setBounds(320, 190, 300, 200);//设置矩形大小
 		        os.add(jsp);//加入frame
@@ -258,6 +260,7 @@ public class MainController extends JFrame{
 		         os.add(promptl);	        
 		         
 		         prompt = new JTextField(10);
+		         prompt.setEditable(false);
 		         prompt.setBounds(640, 190, 300, 40);
 		         os.add(prompt);
 		         
@@ -267,6 +270,7 @@ public class MainController extends JFrame{
 		         os.add(intrpromptl);
 		         
 		         intrprompt = new JTextField(10);
+		         intrprompt.setEditable(false);
 		       //  intrprompt.setFont(font1);
 		         intrprompt.setBounds(640,270,300,40);
 		         os.add(intrprompt);
@@ -277,6 +281,7 @@ public class MainController extends JFrame{
 		         os.add(dealintrpromptl);
 		         
 		         dealintrprompt = new JTextField(10);
+		         dealintrprompt.setEditable(false);
 		         dealintrprompt.setBounds(640,350,300,40);
 		         os.add(dealintrprompt);
       
