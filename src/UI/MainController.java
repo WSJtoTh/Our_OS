@@ -226,6 +226,7 @@ public class MainController extends JFrame{
 		          table3 = new JTable(6, 5); 
 		          scrollPane3 =new JScrollPane(table3);
 		    	  scrollPane3.setBounds(20, 190, 280, 200);
+		    	  table3.getTableHeader().setVisible(false); 
 		    	  TableColumn column = null;  
 		          int colunms = table3.getColumnCount(); 
 		          table3.setEnabled(false);
@@ -233,7 +234,7 @@ public class MainController extends JFrame{
 		          {  
 		              column = table3.getColumnModel().getColumn(i);  
 		              /*将每一列的默认宽度设置为33*/  
-		              table3.setRowHeight(33);  
+		              table3.setRowHeight(30);  
 		          }
 		    	  os.add(scrollPane3);
 		         
