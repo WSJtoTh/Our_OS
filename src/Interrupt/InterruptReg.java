@@ -53,6 +53,7 @@ public class InterruptReg {
 	}
 
 	public static int getPrior(InterType type) {
+		System.out.println("此时的type！！！！！！"+type);
 		switch (type) {
 		case NEEDPAGE:
 			return 1;// 优先级最高

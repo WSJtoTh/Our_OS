@@ -10,7 +10,7 @@ import memory.*;
 //中断服务程序
 public class InterService {
 
-	//private static InterHandler IntrHandler;
+	private static InterHandler IntrHandler;
 
 	private static Process PCB;
 
@@ -21,7 +21,7 @@ public class InterService {
 
 	private static timer time = new timer();
 
-	//private static InterruptReg reg = new InterruptReg();
+	private static InterruptReg reg = new InterruptReg();
 
 	public InterService() {
 		isResponse = false;

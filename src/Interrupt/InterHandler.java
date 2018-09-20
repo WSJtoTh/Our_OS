@@ -65,7 +65,7 @@ public class InterHandler {
 		}
 		
 			boolean setType = false;
-			setType = InterruptReg.SetInterType(type);
+			setType = InterruptReg.SetInterType(InterType.IOINTR);
 			if (setType == true) {
 				pcb = PCB;
 				rOrw = signal;
@@ -87,7 +87,7 @@ public class InterHandler {
 		}
 		
 		boolean setType = false;
-		setType = InterruptReg.SetInterType(type);
+		setType = InterruptReg.SetInterType(InterType.NEEDPAGE);
 		if (setType == true) {
 			virPage = virtualPage;
 
@@ -108,7 +108,7 @@ public class InterHandler {
 		
 		boolean setType = false;
 		System.out.println(type);
-		setType = InterruptReg.SetInterType(type);
+		setType = InterruptReg.SetInterType(InterType.TIMEOUT);
 		if (setType == true) {
 			System.out.println("时钟中断成功写入中断寄存器！");
 			outString = "时钟中断";
@@ -167,10 +167,10 @@ public class InterHandler {
 		return DevReProId;
 	}
 	///////////////////// 处理输出信息
-/*
+
 	public static String output() {
 		String Tips = outString;
 		outString = "";// 消息已被取走后就会清空
 		return Tips;
-	}*/
+	}
 }
