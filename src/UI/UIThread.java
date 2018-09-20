@@ -12,7 +12,7 @@ public class UIThread extends Thread{
 
 			MainController.setMessage();
 			MainController.setProcessMessage();
-			//MainController.setColor();
+			MainController.setColor();
 			//System.out.println("更新了！！！！！！！！！！！！！！");
 			MainController.setTimer();	
 			MainController.reloadTable1();

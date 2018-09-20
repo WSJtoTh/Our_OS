@@ -108,6 +108,7 @@ public class MainController extends JFrame{
 	     public static javax.swing.table.TableCellRenderer renderer;
 	     public static java.awt.Component comp;
 	     public static int[] usageList=new int[30];
+	    
 		
 		public static void reloadTable1() {
     		table1.validate();
@@ -494,18 +495,26 @@ public class MainController extends JFrame{
 	    	 memoryUsagel.setText("内存使用率"+usage+"%");
 	     }
 		 
-		 public static void setColor(int[][] color) {
+		 
+		
+		 
+		 public static void setColor() {
 		        try {
+		        	int[][] color=Memory.getUseList();
+		        	for(int i=0;i<6;i++)
+		        		for(int j=0;j<5;j++)
+		        			System.out.println("该数为！！！！！！！！！！！"+color[i][j]);
 		            DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer() {
 			            //重写getTableCellRendererComponent 方法
 			            @Override
 			            public Component getTableCellRendererComponent(JTable table,Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 			            	if(color[row][column]==1) {
+			            		System.out.println("设为红色！！！！！！！！！！！"+row+" "+column);
 		            			setBackground(Color.RED);
 		    		            setForeground(Color.WHITE);
 		            		}
 		            		else {
-		            			setBackground(null);
+		            			setBackground(Color.WHITE);
 		            		}
 			            
 			            
