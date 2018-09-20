@@ -228,11 +228,11 @@ public class Memory {
 	public static String getIns(int pid,int pageNo,int offset) {//获得指定指令
 		String str = "";
 		try {
-			for(int i=0;i<pages.length;i++) {
+			/*for(int i=0;i<pages.length;i++) {
 				if(pages[i].getState()!=0) {
 					System.out.println("pid:"+pages[i].getPid()+"\t"+"虚拟页面:"+pages[i].getVirPage()+"\t"+"物理页面："+i);
 				}
-			}
+			}*/
 			//System.out.println("调用物理页的指令列表为："+pages[pageNo].insList+"!!!!");
 			//pages[pageNo].insList=new ArrayList<String>(insNum);
 			
@@ -243,9 +243,9 @@ public class Memory {
 			if(str==null) {
 				System.out.println("该条指令为空！！！！！！");
 			}
-			System.out.println("调用物理页的指令列表为："+pages[pageNo].insList+"!!!!");
-			System.out.println("当前物理进程："+pid+"\t当前物理页面："+pageNo);
-			System.out.println("获得第"+offset+"条指令为："+str+"!!!!!!");
+		//	System.out.println("调用物理页的指令列表为："+pages[pageNo].insList+"!!!!");
+		//	System.out.println("当前物理进程："+pid+"\t当前物理页面："+pageNo);
+		//	System.out.println("获得第"+offset+"条指令为："+str+"!!!!!!");
 		}catch(Exception e){
             e.printStackTrace();
         }
