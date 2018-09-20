@@ -483,11 +483,20 @@ public class MainController extends JFrame{
 		 public static void setProcessMessage() { 
 			 String info = ProcessMGT.info;
 			 String info2 = ProcessMGT.info2;
+			 String info3 = InterService.recvStr;
 			 //System.out.println("页面收到了ins！！！"+insStr);
-			 jta.append(info);
-			 jta.append(info2);
+			 if(info != "") {
+				 jta.append(info);
+			 }
+			 if(info2 != "") {
+				 jta.append(info2);
+			 }
+			 if(info3 != "") {
+				 jta.append(info3);
+			 }		 
 			 ProcessMGT.info="";
 			 ProcessMGT.info2="";
+			 InterService.recvStr="";
 		 }
 		 
 		 public static void setUsage() {
@@ -514,7 +523,9 @@ public class MainController extends JFrame{
 		    		            setForeground(Color.WHITE);
 		            		}
 		            		else {
+		            			//System.out.println("设为白色！！！！！！！！！！！"+row+" "+column);
 		            			setBackground(Color.WHITE);
+		            			setForeground(Color.WHITE);
 		            		}
 			            
 			            
@@ -523,10 +534,12 @@ public class MainController extends JFrame{
 		            };
 
 		            int columnCount = table3.getColumnCount();
-		            
+		            //table3.setDefaultRenderer(Object.class, dtcr);
 		            for (int i = 0; i < columnCount; i++) {
 		                table3.getColumn(table3.getColumnName(i)).setCellRenderer(dtcr);
+		                System.out.println("循环列"+i);
 		            }
+		            table3.updateUI();
 
 		        } catch (Exception e) {
 		            e.printStackTrace();
