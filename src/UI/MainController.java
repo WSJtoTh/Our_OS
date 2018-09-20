@@ -446,6 +446,7 @@ public class MainController extends JFrame{
 			 
 			 timert.setText(rrCountStr);
 			 timert.setFont(font);
+			 System.out.println("time输出完毕！！！！！！！！！！");
 		 }
 		 
 		 
