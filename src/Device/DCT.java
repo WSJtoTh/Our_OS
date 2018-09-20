@@ -3,6 +3,7 @@
  */
 package Device;
 
+import java.io.FileNotFoundException;
 import java.sql.Blob;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
@@ -64,22 +65,34 @@ public class DCT {
 	
 	public HashMap<Integer, Integer> allocateFreeDevice(int needCount, int belongProID) {	//获取空闲设备的ID号
 		HashMap<Integer, Integer> allocateMap = new HashMap<>();
-		if(this.availDevCount >= needCount) {
-			for(int i = 0;i < this.devCount; i++) {
-				if(this.deviceArray[i].getDevState() == DevState.FREE) {//分配空闲设备
-					this.deviceArray[i].setDevSate(DevState.BUSY);
-					this.deviceArray[i].setBelongProID(belongProID);
-					allocateMap.put(belongProID, this.deviceArray[i].getDevID());
-					this.availDevCount--;
-					System.out.println("success to allocate the device:"+this.deviceArray[i].getDevID());
-				}
+		Boolean flag = true;
+		for(int i = 0;i < this.devCount;i++) {
+			if(this.deviceArray[i].getDevState() == DevState.BUSY && this.deviceArray[i].getBelongProID() == belongProID) {
+				flag = false;
+				System.out.println("The process has been allocated this kind of device before");
+			}
+		}
+		if(flag) {
+			if(this.availDevCount >= needCount) {
+				for(int i = 0;i < this.devCount; i++) {
+					
+					if(this.deviceArray[i].getDevState() == DevState.FREE) {//分配空闲设备
+						this.deviceArray[i].setDevSate(DevState.BUSY);
+						this.deviceArray[i].setBelongProID(belongProID);
+						allocateMap.put(belongProID, this.deviceArray[i].getDevID());
+						this.availDevCount--;
+						System.out.println("success to allocate the device:"+this.deviceArray[i].getDevID());
+						break;
+					}
+				}	
+				//return allocateMap;
+			}
+			else {
+				System.out.println(this.devType+"has no enough devices");
+				//return allocateMap;
 			}	
-			//return allocateMap;
 		}
-		else {
-			System.out.println(this.devType+"has no enough devices");
-			//return allocateMap;
-		}
+		
 		return allocateMap;
 	}
 	
