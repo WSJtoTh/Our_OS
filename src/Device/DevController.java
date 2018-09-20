@@ -21,6 +21,7 @@ import pro.ins;
 public class DevController implements Runnable{
 
 	public static SDT sdt;
+	public static String dataRegister;
 	private static int register;
 	private final static int IDRange = 20;
 	private static HashMap<Integer, DevIDState> devIDTable;
@@ -57,6 +58,7 @@ public class DevController implements Runnable{
 		sdt = new SDT(initTable,5);
 		System.out.println("signal");
 		register = -100;
+		dataRegister = "";
 		
 	}
 	

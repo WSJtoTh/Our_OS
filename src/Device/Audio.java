@@ -44,6 +44,7 @@ public class Audio implements Runnable{
 		try {
 			System.out.println("Audio"+this.belongDevID+" receive data from CPU to print:");
 			System.out.println(Global.databus);
+			DevController.dataRegister = Global.databus;
 			Thread.sleep(this.runTime*1000);
 			System.out.println("Audio"+this.belongDevID+"finished");
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);

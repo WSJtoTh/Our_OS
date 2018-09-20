@@ -50,6 +50,7 @@ public class Disk implements Runnable{
 			case WRITE:
 				System.out.println("Disk"+this.belongDevID+"receive data from CPU to disk:");
 				System.out.println(Global.databus);
+				DevController.dataRegister = Global.databus;
 				Thread.sleep(this.runTime*1000);
 				System.out.println("调中断之前输出一下进程号："+this.belongProID);
 				InterHandler.devINTR(InterType.DISKINT, this.belongDevID, this.belongProID, SignalType.WRITE);
