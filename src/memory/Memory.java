@@ -3,17 +3,11 @@ package memory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.security.KeyStore.PrivateKeyEntry;
-import java.util.ArrayList;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-
 import Process.Process;
-import UI.MainController;
 
 
 public class Memory {
-	static Page[] pages=new Page[30];
+	static Page[] pages=new Page[30];//物理页面
 	static int pageUse;//已使用数据页数
 	static int insNum;//指令条数
 	static int pageNum;//初始数据页数
@@ -28,7 +22,7 @@ public class Memory {
 	
 	public Memory() {}
 	
-	public  static int[][] getUseList() {
+	public  static int[][] getUseList() { //获取对应前端界面物理页使用情况的二维数组
 		for(int i=0;i<pages.length;i++) {
 			if(pages[i].getState()==1) {
 				useList[i/5][i%5]=1;
@@ -48,11 +42,7 @@ public class Memory {
 			for(int i=0;i<pages.length;i++) {
 				pages[i]=new Page();
 			}
-			/*for(int j=0;j<pages.length;j++) {
-		         for(int i=0;i<30;i++) {
-		        	 pages[j].insList=new ArrayList<String>();
-		         }
-			}*/
+			
 			System.out.println("内存页面初始化成功！");
 		}catch(Exception e){
             e.printStackTrace();
@@ -79,8 +69,8 @@ public class Memory {
 		        	 	for(int i=0;i<str.length();i++) {
 		        	 		sourceList[i]=c[i]-48;
 		            	}	
-		        	 }
-	          }
+		         }
+	         }
 	         System.out.println("成功读取程序txt！"+file.getName());
 	            br.close();    
 	        }catch(Exception e){
@@ -109,7 +99,6 @@ public class Memory {
 	         }
 	         
 	         while((s=br.readLine())!=null ){
-	        	 //System.out.println("我打印的！！！！"+lines);
 	        	 lines++;
 		         if(lines==3) {
 		        	 	String str=s.replaceAll("[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。，、？|-]", "");
@@ -135,23 +124,17 @@ public class Memory {
 		        	 	}
 		         } 
 		         if(lines>4) {
-		        	 	//pages[insPage].insList=new ArrayList<String>(insNum);
-		        	 	//System.out.println("lines:"+lines);
-		        		//System.out.println("s:"+s);
 		        		//System.out.println("当前页面insPage:"+insPage+"已成功加入指令！！！！");
 		        	 	pages[insPage].insList.add(s);
 		        		//System.out.println("成功加入"+s);
-		        		//System.out.println(s);
 		         }
 		     }
 	         System.out.println("数据页初始分配成功！");
-	        // System.out.print("当前pid："+pid+"\t当前物理页面:"+insPage+"\t指令列表："+pages[insPage].insList);
 		     br.close();    
 	        }catch(Exception e){
 	            e.printStackTrace();
 	        }
-		 
-}	
+	}	
 	
 	public static boolean isFree() {//判断进程是否可创建
 		try {
@@ -174,7 +157,7 @@ public class Memory {
 	}
 	
 	
-	public static boolean seekPage(int pageNO,int pid) {
+	public static boolean seekPage(int pageNO,int pid) {//查找逻辑页是否已在内存
 		try {
 			for(int i=0;i<pages.length;i++) {
 				if(pages[i].getPid()==pid && pages[i].getVirPage()==pageNO) {
@@ -197,7 +180,7 @@ public class Memory {
 		return false;
 	}
 	
-	public static boolean setPCB(Process m) {//set PCB
+	public static boolean setPCB(Process m) {//set PCB属性
 		try {
 			m.setActivemm(insPage);//代码物理页号
 			m.setLimit(insNum);//指令条数
@@ -218,7 +201,6 @@ public class Memory {
 				pages[i].setTime(0);
 				pageUse--;
 				pages[i].insList.clear();
-				//System.out.println("释放后inslist:"+pages[i].insList.size());
 				System.out.println("释放该内存页面:"+i);
 			}
 		}
@@ -228,22 +210,10 @@ public class Memory {
 	public static String getIns(int pid,int pageNo,int offset) {//获得指定指令
 		String str = "";
 		try {
-			/*for(int i=0;i<pages.length;i++) {
-				if(pages[i].getState()!=0) {
-					System.out.println("pid:"+pages[i].getPid()+"\t"+"虚拟页面:"+pages[i].getVirPage()+"\t"+"物理页面："+i);
-				}
-			}*/
-			//System.out.println("调用物理页的指令列表为："+pages[pageNo].insList+"!!!!");
-			//pages[pageNo].insList=new ArrayList<String>(insNum);
-			
-			/*if(pages[pageNo].insList.size()==0) {
-				System.out.println("指令为空\t"+"物理页面为："+pageNo);
-			}*/
 			str=(String) pages[pageNo].insList.get(offset);
 			if(str==null) {
 				System.out.println("该条指令为空！！！！！！");
 			}
-		//	System.out.println("调用物理页的指令列表为："+pages[pageNo].insList+"!!!!");
 		//	System.out.println("当前物理进程："+pid+"\t当前物理页面："+pageNo);
 		//	System.out.println("获得第"+offset+"条指令为："+str+"!!!!!!");
 		}catch(Exception e){
