@@ -5,14 +5,19 @@ package Device;
 
 /**
  * @author 45044
- * �豸����������ÿ���豸�ĸ�������
+ * 
  *
  */
+
+/*
+ * 
+ * 存储每个设备的详细信息
+ */
 public class DevTb {
-	private DevType devType;
-	private int devID;
-	private DevState devState;
-	private int belongProID;
+	private DevType devType;//设备类型
+	private int devID;//设备ID
+	private DevState devState;//设备状态
+	private int belongProID;//所属进程ID
 	
 	public DevTb(DevType devType, DevState devState, int devID) {
 		// TODO Auto-generated constructor stub

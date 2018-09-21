@@ -14,9 +14,9 @@ import java.util.*;
  */
 public class SDT {
 	
-	private final int MAX_SIZE = 20;
+	private final int MAX_SIZE = 20;//系统允许的最大设备数量
 	private int devCount = 0;	//系统当前的设备总数<=20
-	private HashMap<DevType, DCT> sysDevTb;
+	private HashMap<DevType, DCT> sysDevTb;//系统设备
 	
 	public SDT(HashMap<DevType, DCT> sysDevTb, int devCount) {//初始化一个系统设备表
 		// TODO Auto-generated constructor stub
@@ -24,8 +24,8 @@ public class SDT {
 		this.devCount = devCount;
 	}
 	
+	//向系统中添加一个设备
 	public Boolean addDeviceIntoSystem(DevTb devTb) {
-		//DCT work = new DCT(devType);
 		DCT dct = sysDevTb.get(devTb.geDevType());	//获取添加设备类型的设备控制表
 		if(this.devCount < MAX_SIZE && dct.addDev(devTb)) {
 			this.devCount++;
@@ -38,6 +38,7 @@ public class SDT {
 		
 	}
 	
+	//从系统中删除一个设备
 	public Boolean deleteDeviceFromSystem(int devID, DevType devType) {
 		DCT dct = sysDevTb.get(devType);	//获取删除设备类型的设备控制表
 		if(dct.delDev(devID)) {
@@ -45,10 +46,10 @@ public class SDT {
 			this.devCount--;
 			return true;
 		}
-		//System.out.println("");
 		return false;
 	}
 	
+	//分配空闲设备
 	public  HashMap<Integer, Integer> allocateFreeDevice(DevType devType, int needCount, int belongProID) {//获取空闲设备
 		//int availCount = 0;
 		DCT dct = this.sysDevTb.get(devType);
@@ -62,6 +63,7 @@ public class SDT {
 		return allocateMap;
 	}
 	
+	//释放被占用设备
 	public Boolean freeBusyDevice(DevType devType, int devID) {
 		DCT dct = this.sysDevTb.get(devType);
 		if(dct.freeBusyDevice(devID)) {
@@ -78,6 +80,7 @@ public class SDT {
 		return this.devCount;
 	}
 	
+	//根据进程ID和设备类型来获取设备ID
 	public int getDevIDByDevTpyeAndProID(int proID, DevType devType) {
 		if(devType == DevType.PRINTER || devType ==DevType.KEYBOARD || devType == DevType.AUDIO || devType == DevType.DISK || devType == DevType.MICROPHONE) {
 			DCT dct = this.sysDevTb.get(devType);
@@ -94,6 +97,7 @@ public class SDT {
 		
 	}
 	
+	//获取当前系统各类空闲设备的数量
 	public int[] getAvailDevCountSortByType() {
 		int[] availDev = new int[5];
 		int i = 0;
@@ -114,6 +118,7 @@ public class SDT {
 		return availDev;
 	}
 	
+	//获取当前系统各类设备的总数
 	public int[] getEntireDevCount() {
 		int[]	entireDev = new int[5];
 		int i = 0;
@@ -137,6 +142,7 @@ public class SDT {
 		return entireDev;
 	}
 	
+	//展示整个系统中设备的状态
 	public ArrayList<String> showEntireDevState() {
 		DCT dct;
 		int dctDevCount = 0;

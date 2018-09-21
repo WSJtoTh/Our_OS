@@ -15,10 +15,10 @@ import pro.ins;
  *
  */
 public class DCT {
-	private final int MAX_SIZE = 10;
-	private DevType devType;
-	private int devCount;
-	private int availDevCount;
+	private final int MAX_SIZE = 10;	//本类设备的最大数量
+	private DevType devType;	//设备类型
+	private int devCount;	//本类设备总数
+	private int availDevCount;	//本类设备可用数量
 	private DevTb[] deviceArray;	//存储当前种类设备的ID号
 	public DCT(DevType devType) {
 		// TODO Auto-generated constructor stub
@@ -28,6 +28,7 @@ public class DCT {
 		this.deviceArray = new DevTb[MAX_SIZE];
 	}
 	
+	//增加设备
 	public Boolean addDev(DevTb devTb) {	//挂载设备
 		if(this.devCount >= MAX_SIZE) {		//判断挂载设备是否超过最大数量
 			System.out.println("The"+this.devType+"table is full(max count is"+MAX_SIZE+")");
@@ -42,6 +43,7 @@ public class DCT {
 		}
 	}
 	
+	//删除设备
 	public Boolean delDev(int devID) {
 		for(int i = 0;i < this.devCount;i++) {
 			if(this.deviceArray[i].getDevID() == devID) {
@@ -63,10 +65,11 @@ public class DCT {
 		return false;//设备列表中
 	}
 	
+	//分配设备
 	public HashMap<Integer, Integer> allocateFreeDevice(int needCount, int belongProID) {	//获取空闲设备的ID号
 		HashMap<Integer, Integer> allocateMap = new HashMap<>();
 		Boolean flag = true;
-		for(int i = 0;i < this.devCount;i++) {
+		for(int i = 0;i < this.devCount;i++) {//保证一个进程每种设备类型只被分配了一个设备
 			if(this.deviceArray[i].getDevState() == DevState.BUSY && this.deviceArray[i].getBelongProID() == belongProID) {
 				flag = false;
 				System.out.println("The process has been allocated this kind of device before");
@@ -85,17 +88,16 @@ public class DCT {
 						break;
 					}
 				}	
-				//return allocateMap;
 			}
 			else {
 				System.out.println(this.devType+"has no enough devices");
-				//return allocateMap;
 			}	
 		}
 		
 		return allocateMap;
 	}
 	
+	//释放设备
 	public Boolean freeBusyDevice(int devID) {
 		for(int i = 0;i < this.devCount; i++) {
 			if(this.deviceArray[i].getDevID()== devID) {//分配空闲设备
@@ -123,7 +125,7 @@ public class DCT {
 	public int getAvailDevCount() {
 		return this.availDevCount;
 	}
-	//???
+	
 	/*
 	 * 获取被ProID占用的设备的ID
 	 */

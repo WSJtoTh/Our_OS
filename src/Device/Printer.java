@@ -23,9 +23,9 @@ public class Printer implements Runnable {
 	private int runTime;
 	private Thread thread;
 	private int belongDevID;//线程所属的设备
-	private int belongProID;
-	private int tryCount;
-	private final int MAXCOUNT = 50;
+	private int belongProID;//线程所属的进程
+	private int tryCount;//尝试发送中断的次数
+	private final int MAXCOUNT = 50;//最大发送中断的
 	public Printer(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
@@ -39,32 +39,29 @@ public class Printer implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		//InterHandler interHandler = new InterHandler();
 		System.out.println(this.belongDevID+"is running.It will run for"+this.runTime+"seconds");
 		System.out.println("Occupied by process"+this.belongProID);
 		try {
 			System.out.println("Printer"+this.belongDevID+"receive data from CPU to print:");
 			System.out.println(Global.databus);
-			DevController.dataRegister = Global.databus+"\n";
+			DevController.dataRegister = Global.databus+"\n";//送给UI从CPU收到的
 			Thread.sleep(this.runTime*1000);
 			System.out.println("Prnter"+this.belongDevID+"finished");
 			System.out.println("调中断之前输出一下进程号："+this.belongProID);
 			InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
 			int i = DevController.getRegister();
-			while(i != this.belongDevID && this.tryCount < this.MAXCOUNT) {
+			while(i != this.belongDevID && this.tryCount < this.MAXCOUNT) {//通过寄存器的值判断CPU是否响应了我的中断
 				System.out.println("当前response寄存器内的值："+i);
 				this.tryCount++;
 				i = DevController.getRegister();
-				//System.out.println("Printer"+this.belongDevID+"INTR wasn't accept by CPU");
-				Thread.sleep(this.runTime*100);
+				Thread.sleep(this.runTime*100);//等待随机时间片重发中断请求
 				i = DevController.getRegister();
 				System.out.println("Printer"+this.belongDevID+"resend INTR");
-				//System.out.println("调中断之前输出一下进程号："+this.belongProID);
-				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);
+				InterHandler.devINTR(InterType.PRINTERINT, this.belongDevID, this.belongProID, SignalType.WRITE);//发送中断请求
 				
 			}
 			i = DevController.getRegister();
-			if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {
+			if(this.tryCount < this.MAXCOUNT || i == this.belongDevID) {//CPU响应中断后对设备进行善后处理
 				System.out.println("CPU accept Disk"+this.belongDevID+"'s INTR after try:"+this.tryCount);
 				InterService.setisResponse(true);
 				DevController.clearRegister(this.belongDevID, this.belongProID);

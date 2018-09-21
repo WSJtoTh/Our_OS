@@ -23,10 +23,10 @@ public class Microphone implements Runnable {
 	private int runTime;
 	private Thread thread;
 	private int belongDevID;//线程所属的设备
-	private int belongProID;
-	private String data;
-	private int tryCount;
-	private final int MAXCOUNT = 50;
+	private int belongProID;//线程所属的进程
+	private int tryCount;//尝试发送中断的次数
+	private final int MAXCOUNT = 50;//最大发送中断的
+	private String data;//存放从CPU接受的数据
 	public Microphone(int devID, int proID) {
 		// TODO Auto-generated constructor stub
 		this.belongDevID = devID;
