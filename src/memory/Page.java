@@ -14,23 +14,23 @@ public class Page {
 		public long getTime() {
 			return this.time;
 		}
-		public void setTime(long time) {
+		public void setTime(long time) {//分配时间
 			this.time=time;
 		}
 		public int getState() {
 			return this.state;
 		}
-		public void setState(int state) {
+		public void setState(int state) {//页面状态
 			this.state=state;
 		}
 		
-		public int getVirPage() {
+		public int getVirPage() {//虚拟页面号
 			return this.virPage;
 		}
 		public void setVirPage(int virPage) {
 			this.virPage=virPage;
 		}
-		public int getPid() {
+		public int getPid() {//进程pid
 			return this.pid;
 		}
 		public void setPid(int pid) {

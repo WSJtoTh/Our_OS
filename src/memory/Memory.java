@@ -12,8 +12,8 @@ public class Memory {
 	static int insNum;//指令条数
 	static int pageNum;//初始数据页数
 	static int insPage;//代码段对应物理页号
-	private static int[] sourceList=new int[8];
-	static  int[][] useList=new int[6][5];
+	private static int[] sourceList=new int[8];//资源数组
+	static  int[][] useList=new int[6][5];//页面使用二维数组
 	
 	public static String getPageUseRate() {//获取内存使用率(实时刷新)
 		return  String.valueOf((double)pageUse/30.0*100.00).format("%.2f",(double)pageUse/30.0*100);
